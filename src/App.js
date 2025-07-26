@@ -432,9 +432,11 @@ function App() {
             
             <p 
               ref={taglineRef}
-              className="text-gradient text-2xl lg:text-4xl xl:text-5xl font-bold mb-8"
+              className="text-2xl lg:text-4xl xl:text-5xl font-bold mb-8"
             >
-              Igniting Minds, Shaping Futures, Building Community
+              <span className="text-gradient">Igniting Minds</span>{', '}
+              <span className="text-gradient-secondary">Shaping Futures</span>{', '}
+              <span className="text-gradient-blue">Building Community</span>
             </p>
             
             <p 
@@ -468,7 +470,7 @@ function App() {
           </div>
 
           {/* Statistics */}
-          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-20">
             {forumStats.map((stat, index) => (
               <div key={index} className="text-center group card-modern">
                 <div className="flex justify-center mb-4">
@@ -476,7 +478,7 @@ function App() {
                     <stat.icon className="text-white" size={28} />
                   </div>
                 </div>
-                <div className="text-3xl font-bold text-gradient mb-2">{stat.value}</div>
+                <div className="text-3xl font-bold text-white mb-2">{stat.value}</div>
                 <div className="text-sm text-white/70">{stat.label}</div>
               </div>
             ))}
@@ -502,7 +504,7 @@ function App() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
             {/* Vision Card */}
-            <div className="card-modern p-8 group hover:scale-105 transition-all duration-500">
+            <div className="card-modern p-8 group hover:border-white/30 hover:shadow-lg hover:bg-white/10 transition-all duration-500">
               <div className="flex items-center mb-8">
                 <div className="p-4 bg-gradient-primary rounded-2xl mr-6 shadow-glow group-hover:shadow-glow-lg transition-all duration-300">
                   <Sparkles className="text-white" size={40} />
@@ -514,14 +516,10 @@ function App() {
                 ignite thoughtful discourse, illuminate shared experiences, and inspire personal and 
                 collective growth through authentic dialogue and critical thinking.
               </p>
-              <div className="flex items-center text-secondary-400 font-semibold">
-                <Eye className="mr-2" size={20} />
-                Inspiring Future Leaders
-              </div>
             </div>
 
             {/* Mission Card */}
-            <div className="card-modern p-8 group hover:scale-105 transition-all duration-500">
+            <div className="card-modern p-8 group hover:border-white/30 hover:shadow-lg hover:bg-white/10 transition-all duration-500">
               <div className="flex items-center mb-8">
                 <div className="p-4 bg-gradient-secondary rounded-2xl mr-6 shadow-glow group-hover:shadow-glow-lg transition-all duration-300">
                   <Award className="text-white" size={40} />
@@ -579,7 +577,7 @@ function App() {
                   gradient: "bg-gradient-dark"
                 }
               ].map((value, index) => (
-                <div key={index} className="card-modern text-center group hover:scale-105 transition-all duration-500">
+                <div key={index} className="card-modern text-center group hover:border-white/30 hover:shadow-lg hover:bg-white/10 transition-all duration-500">
                   <div className={`inline-flex p-6 ${value.gradient} rounded-2xl mb-6 shadow-glow group-hover:shadow-glow-lg transition-all duration-300`}>
                     <value.icon className="text-white" size={48} />
                   </div>
@@ -817,8 +815,8 @@ function App() {
                 gradient: "bg-gradient-dark"
               }
             ].map((guideline, index) => (
-              <div key={index} className="card-modern text-center group hover:scale-105 transition-all duration-500">
-                <div className={`inline-flex p-6 ${guideline.gradient} rounded-3xl mb-8 group-hover:scale-110 transition-transform duration-300 shadow-glow`}>
+              <div key={index} className="card-modern text-center group hover:border-white/30 hover:shadow-lg hover:bg-white/10 transition-all duration-500">
+                <div className={`inline-flex p-6 ${guideline.gradient} rounded-3xl mb-8 group-hover:shadow-glow-lg transition-all duration-300 shadow-glow`}>
                   <guideline.icon className="text-white" size={48} />
                 </div>
                 <h3 className="text-2xl font-bold text-gradient mb-4">{guideline.title}</h3>
@@ -936,7 +934,7 @@ function App() {
               </p>
               <p className="text-sm text-white/70 flex items-center font-medium">
                 <AlertCircle size={14} className="mr-2 text-primary-400" />
-                <span>Currently at <span className="text-primary-400">stemoctobermagazine.org</span> • Moving to <span className="text-secondary-400">octforum.us</span> soon</span>
+                <span>Currently at <span className="text-primary-400">stemoctobermagazine.org</span> • Moving to <span className="text-secondary-400">stemoct.forum</span> soon</span>
               </p>
             </div>
             <div className="flex items-center space-x-4 text-white/70 text-sm">
