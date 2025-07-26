@@ -25,7 +25,8 @@ import {
   User,
   ChevronDown,
   Menu,
-  X
+  X,
+  AlertCircle
 } from 'lucide-react';
 
 // Register GSAP plugins
@@ -450,7 +451,7 @@ function App() {
             
             <p 
               ref={introRef}
-              className="text-xl lg:text-2xl text-gradient-light-pink-start max-w-4xl mx-auto leading-relaxed mb-8 font-light"
+              className="text-xl lg:text-2xl text-white max-w-4xl mx-auto leading-relaxed mb-8 font-light"
             >
               A sophisticated intellectual sanctuary where curiosity meets discourse, 
               empowering the next generation of critical thinkers and changemakers through 
@@ -499,7 +500,7 @@ function App() {
             <h2 className="text-6xl lg:text-7xl font-bold bg-gradient-blue bg-clip-text text-transparent mb-8 text-reveal">
               Our Vision & Mission
             </h2>
-            <p className="text-2xl text-gradient-light-pink-start max-w-4xl mx-auto leading-relaxed">
+            <p className="text-2xl text-white max-w-4xl mx-auto leading-relaxed">
               Fostering intellectual growth through thoughtful discourse and authentic student voices
             </p>
           </div>
@@ -513,7 +514,7 @@ function App() {
                 </div>
                 <h3 className="text-4xl font-bold text-gradient-purple-end">Vision</h3>
               </div>
-              <p className="text-text-light text-xl leading-relaxed mb-6">
+              <p className="text-white text-xl leading-relaxed mb-6">
                 To foster a vibrant intellectual community where the voices of STEM High School students 
                 ignite thoughtful discourse, illuminate shared experiences, and inspire personal and 
                 collective growth through authentic dialogue and critical thinking.
@@ -552,7 +553,7 @@ function App() {
                 ].map((item, index) => (
                   <div key={index} className="flex items-start group/item">
                     <item.icon className={`mr-4 mt-1 ${item.color} flex-shrink-0 group-hover/item:scale-110 transition-transform duration-300`} size={24} />
-                    <p className="text-text-light text-lg leading-relaxed">{item.text}</p>
+                    <p className="text-white text-lg leading-relaxed">{item.text}</p>
                   </div>
                 ))}
               </div>
@@ -588,7 +589,7 @@ function App() {
                     <value.icon className="text-text-light" size={48} />
                   </div>
                   <h4 className="text-2xl font-bold bg-gradient-blue bg-clip-text text-transparent mb-4">{value.title}</h4>
-                  <p className="text-gradient-light-pink-start text-lg leading-relaxed">{value.description}</p>
+                  <p className="text-white text-lg leading-relaxed">{value.description}</p>
                 </div>
               ))}
             </div>
@@ -603,7 +604,7 @@ function App() {
             <h2 className="text-6xl lg:text-7xl font-bold bg-gradient-purple bg-clip-text text-transparent mb-8 text-reveal">
               Latest Insights & Perspectives
             </h2>
-            <p className="text-2xl text-gradient-light-pink-start max-w-4xl mx-auto leading-relaxed">
+            <p className="text-2xl text-white max-w-4xl mx-auto leading-relaxed">
               Thought-provoking articles that challenge perspectives and inspire meaningful dialogue
             </p>
           </div>
@@ -626,10 +627,10 @@ function App() {
                   <h3 className="text-3xl lg:text-4xl font-bold bg-gradient-blue bg-clip-text text-transparent mb-6 group-hover:text-gradient-light-pink-end transition-colors duration-300">
                     {featuredArticles[0].title}
                   </h3>
-                  <p className="text-gradient-light-pink-start text-lg leading-relaxed mb-6">
+                  <p className="text-white text-lg leading-relaxed mb-6">
                     {featuredArticles[0].excerpt}
                   </p>
-                  <div className="flex items-center justify-between text-gradient-blue-start text-sm">
+                  <div className="flex items-center justify-between text-white text-sm">
                     <div className="flex items-center space-x-6">
                       <div className="flex items-center">
                         <User className="mr-2 text-gradient-light-pink-end" size={16} />
@@ -649,18 +650,18 @@ function App() {
                 <div className="lg:col-span-1 flex items-center">
                   <div className="w-full">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center text-gray-400">
-                        <Eye className="mr-2" size={16} />
+                      <div className="flex items-center text-white">
+                        <Eye className="mr-2 text-gradient-light-pink-end" size={16} />
                         {getViewCount(featuredArticles[0])} views
                       </div>
                       <div 
-                        className={`flex items-center ${isArticleLiked(featuredArticles[0].id) ? 'text-pink-500' : 'text-gray-400'} cursor-pointer hover:text-pink-400 transition-colors`}
+                        className={`flex items-center ${isArticleLiked(featuredArticles[0].id) ? 'text-pink-500' : 'text-white'} cursor-pointer hover:text-pink-400 transition-colors`}
                         onClick={(e) => {
                           e.preventDefault();
                           handleArticleLike(featuredArticles[0].id);
                         }}
                       >
-                        <Heart className="mr-2" size={16} fill={isArticleLiked(featuredArticles[0].id) ? "currentColor" : "none"} />
+                        <Heart className="mr-2 text-gradient-light-pink-end" size={16} fill={isArticleLiked(featuredArticles[0].id) ? "currentColor" : "none"} />
                         {getLikeCount(featuredArticles[0])} likes
                       </div>
                     </div>
@@ -701,29 +702,29 @@ function App() {
                     {article.title}
                   </h3>
                   
-                  <p className="text-gradient-light-pink-start text-base leading-relaxed mb-6 line-clamp-4">
+                  <p className="text-white text-base leading-relaxed mb-6 line-clamp-4">
                     {article.excerpt}
                   </p>
                 </div>
 
                 <div className="mt-auto">
-                  <div className="flex items-center justify-between text-gray-500 text-sm mb-4">
+                  <div className="flex items-center justify-between text-white text-sm mb-4">
                     <div className="flex items-center">
-                      <User className="mr-1" size={14} />
+                      <User className="mr-1 text-gradient-light-pink-end" size={14} />
                       <span className="mr-4">{article.author}</span>
-                      <Calendar className="mr-1" size={14} />
+                      <Calendar className="mr-1 text-gradient-light-pink-end" size={14} />
                       <span>{article.date}</span>
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between text-gray-500 text-sm mb-4">
+                  <div className="flex items-center justify-between text-white text-sm mb-4">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center">
-                        <Eye className="mr-1" size={14} />
+                        <Eye className="mr-1 text-gradient-blue-start" size={14} />
                         {getViewCount(article)}
                       </div>
                       <div 
-                        className={`flex items-center ${isArticleLiked(article.id) ? 'text-pink-500' : 'text-gray-500'} cursor-pointer hover:text-pink-400 transition-colors`}
+                        className={`flex items-center ${isArticleLiked(article.id) ? 'text-pink-500' : 'text-white'} cursor-pointer hover:text-pink-400 transition-colors`}
                         onClick={(e) => {
                           e.preventDefault();
                           handleArticleLike(article.id);
@@ -737,7 +738,7 @@ function App() {
                         {getLikeCount(article)}
                       </div>
                       <div className="flex items-center">
-                        <BookOpen className="mr-1" size={14} />
+                        <BookOpen className="mr-1 text-gradient-blue-start" size={14} />
                         {article.readTime}
                       </div>
                     </div>
@@ -778,7 +779,7 @@ function App() {
             <h2 className="text-6xl lg:text-7xl font-extrabold bg-gradient-blue bg-clip-text text-transparent mb-8 text-reveal">
               <span>Share</span> <span>Your</span> <span>Voice</span>
             </h2>
-            <p className="text-2xl text-gradient-light-pink-start max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-2xl text-white max-w-4xl mx-auto leading-relaxed mb-8">
               We invite all STEM High School students to share their unique perspectives and insights. 
               Your voice is what makes our forum thrive, fostering deeper understanding and richer discussions.
             </p>
@@ -815,7 +816,7 @@ function App() {
                   <guideline.icon className="text-text-light" size={48} />
                 </div>
                 <h3 className="text-2xl font-bold bg-gradient-blue bg-clip-text text-transparent mb-4">{guideline.title}</h3>
-                <p className="text-gradient-light-pink-start text-lg leading-relaxed">{guideline.description}</p>
+                <p className="text-white text-lg leading-relaxed">{guideline.description}</p>
               </div>
             ))}
           </div>
@@ -845,7 +846,7 @@ function App() {
 
           {/* Call to Action */}
           <div className="text-center">
-            <p className="text-2xl text-gradient-light-pink-start mb-12 max-w-3xl mx-auto">
+            <p className="text-2xl text-white mb-12 max-w-3xl mx-auto">
               Ready to contribute an article that sparks thought and conversation?
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -877,7 +878,7 @@ function App() {
                 <span className="text-text-light">October</span>{' '}
                 <span className="bg-gradient-blue bg-clip-text text-transparent">Forum</span>
               </h3>
-              <p className="text-gradient-light-pink-start text-lg leading-relaxed mb-6 max-w-lg">
+              <p className="text-white text-lg leading-relaxed mb-6 max-w-lg">
                 Empowering the next generation of critical thinkers through thoughtful discourse 
                 and authentic student voices.
               </p>
@@ -903,7 +904,7 @@ function App() {
             {/* Contact Info */}
             <div>
               <h4 className="text-xl font-bold bg-gradient-purple bg-clip-text text-transparent mb-6">Get in Touch</h4>
-              <div className="space-y-3 text-gradient-light-pink-start">
+              <div className="space-y-3 text-white">
                 <p>contribute@stemoctoberforum.org</p>
                 <p>STEM High School for Boys</p>
                 <p>6th of October City</p>
@@ -913,10 +914,16 @@ function App() {
           </div>
 
           <div className="pt-8 border-t border-gradient-purple-end/20 flex flex-col md:flex-row items-center justify-between">
-            <p className="text-gradient-blue-start text-sm mb-4 md:mb-0">
-              &copy; 2025 STEM October Forum. All rights reserved. A Publication of STEM High School for Boys - 6th of October.
-            </p>
-            <div className="flex items-center space-x-4 text-gradient-light-pink-start text-sm">
+            <div className="flex flex-col">
+              <p className="text-gradient-blue-start text-sm mb-2">
+                &copy; 2025 STEM October Forum. All rights reserved. A Publication of STEM High School for Boys - 6th of October.
+              </p>
+              <p className="text-sm text-white flex items-center font-medium">
+                <AlertCircle size={14} className="mr-2 text-gradient-light-pink-end" />
+                <span>Currently at <span className="text-gradient-light-pink-end">stemoctobermagazine.org</span> • Moving to <span className="text-gradient-blue-start">octforum.new</span> soon</span>
+              </p>
+            </div>
+            <div className="flex items-center space-x-4 text-white text-sm">
               <span>Made with</span>
               <Heart className="text-gradient-light-pink-end" size={16} />
               <span>by students, for students</span>
