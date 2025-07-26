@@ -1,3 +1,5 @@
+
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -76,9 +78,14 @@ module.exports = {
         'gradient-primary': 'linear-gradient(135deg, #FFE5F1 0%, #F042FF 50%, #7226FF 100%)',
         'gradient-secondary': 'linear-gradient(135deg, #B7F5F5 0%, #FFE5F1 50%, #F042FF 100%)',
         'gradient-dark': 'linear-gradient(135deg, #7226FF 0%, #160078 50%, #010030 100%)',
-        'gradient-surface': 'linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)',
+        'gradient-forme': 'linear-gradient(289deg, #faf7f8 15%, #F042FF 100%)',
         'gradient-card': 'linear-gradient(135deg, rgba(255, 229, 241, 0.05) 0%, rgba(240, 66, 255, 0.05) 100%)',
         'gradient-hero': 'linear-gradient(135deg, #010030 0%, #160078 25%, #7226FF 50%, #F042FF 75%, #FFE5F1 100%)',
+        'gradient-reverse-flow': 'linear-gradient(37deg, #010030 0%, #160078 25%, #7226FF 50%, #F042FF 75%, #FFE5F1 100%)',
+        'gradient-surface': 'linear-gradient(131deg, #010030 0%, #160078 25%, #7226FF 50%, #F042FF 75%, #FFE5F1 100%)',
+        'gradient-smooth-flow': 'linear-gradient(41deg, #010030 0%, #160078 25%, #7226FF 50%, #F042FF 75%, #FFE5F1 100%)',
+        'gradient-contribute-to-footer': 'linear-gradient(90deg, #010031 0%, #09004a 25%, #1a0471 50%, #170079 75%, #270792 100%)',
+        'gradient-icon-consistent': 'linear-gradient(135deg, #7226FF 0%, #F042FF 50%, #FFE5F1 100%)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
