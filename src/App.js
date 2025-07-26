@@ -509,9 +509,9 @@ function App() {
                 <div className="p-4 bg-gradient-icon-consistent rounded-2xl mr-6 shadow-glow group-hover:shadow-glow-lg transition-all duration-300">
                   <Sparkles className="text-white" size={40} />
                 </div>
-                <h3 className="text-4xl font-bold text-gradient-secondary">Vision</h3>
+                <h3 className="text-4xl font-bold text-white">Vision</h3>
               </div>
-              <p className="text-primary-100 text-lg leading-relaxed mb-6">
+              <p className="text-white text-lg leading-relaxed mb-6">
                 To foster a vibrant intellectual community where the voices of STEM High School students
                 ignite thoughtful discourse, illuminate shared experiences, and inspire personal and
                 collective growth through authentic dialogue and critical thinking.
@@ -524,7 +524,7 @@ function App() {
                 <div className="p-4 bg-gradient-icon-consistent rounded-2xl mr-6 shadow-glow group-hover:shadow-glow-lg transition-all duration-300">
                   <Award className="text-white" size={40} />
                 </div>
-                <h3 className="text-4xl font-bold text-gradient-secondary">Mission</h3>
+                <h3 className="text-4xl font-bold text-white">Mission</h3>
               </div>
               <div className="space-y-6">
                 {[
@@ -697,7 +697,7 @@ function App() {
                     )}
                   </div>
 
-                  <h3 className="text-2xl font-bold text-gradient mb-4 group-hover:text-white transition-all duration-300 line-clamp-3">
+                  <h3 className="text-2xl font-bold text-white  mb-4 group-hover:text-white transition-all duration-300 line-clamp-3">
                     {article.title}
                   </h3>
 
@@ -780,7 +780,7 @@ function App() {
 
         <div className="animate-on-scroll max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-20">
-            <h2 className="text-5xl lg:text-6xl font-black text-gradient mb-8">
+            <h2 className="text-5xl lg:text-6xl font-black text-white mb-8">
               <span>Share</span> <span>Your</span> <span>Voice</span>
             </h2>
             <p className="text-xl text-white/80 max-w-4xl mx-auto leading-relaxed mb-8">
@@ -800,13 +800,13 @@ function App() {
                 icon: Lightbulb,
                 title: "Spark Philosophical Discussion",
                 description: "Present thought-provoking ideas that challenge conventional thinking and encourage deep reflection",
-                gradient: "bg-gradient-primary"
+                gradient: "bg-gradient-dark"
               },
               {
                 icon: Users,
                 title: "Focus on Ideas, Not Individuals",
                 description: "Keep discussions respectful, constructive, and centered on concepts rather than personal attacks",
-                gradient: "bg-gradient-secondary"
+                gradient: "bg-gradient-dark"
               },
               {
                 icon: Feather,
@@ -819,7 +819,7 @@ function App() {
                 <div className={`inline-flex p-6 ${guideline.gradient} rounded-3xl mb-8 group-hover:shadow-glow-lg transition-all duration-300 shadow-glow`}>
                   <guideline.icon className="text-white" size={48} />
                 </div>
-                <h3 className="text-2xl font-bold text-gradient mb-4">{guideline.title}</h3>
+                <h3 className="text-2xl font-bold text-white   mb-4">{guideline.title}</h3>
                 <p className="text-white/80 leading-relaxed">{guideline.description}</p>
               </div>
             ))}
@@ -827,7 +827,7 @@ function App() {
 
           {/* Article Categories We're Looking For */}
           <div className="mb-20">
-            <h3 className="text-4xl font-bold text-center text-gradient mb-12">Topics We're Exploring</h3>
+            <h3 className="text-4xl font-bold text-center text-white mb-12">Topics We're Exploring</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { name: "Philosophy & Ethics", icon: Brain, count: 12 },
@@ -841,7 +841,7 @@ function App() {
               ].map((category, index) => (
                 <div key={index} className="card-modern text-center group hover:scale-105 transition-all duration-300">
                   <category.icon className="text-primary-400 mx-auto mb-3 group-hover:text-secondary-400 transition-colors duration-300" size={32} />
-                  <h4 className="text-lg font-semibold text-gradient mb-1">{category.name}</h4>
+                  <h4 className="text-lg font-semibold text-white mb-1">{category.name}</h4>
                   <p className="text-sm text-white/60">{category.count} articles</p>
                 </div>
               ))}
