@@ -444,7 +444,7 @@ function App() {
             
             <p 
               ref={taglineRef}
-              className="text-2xl lg:text-4xl xl:text-5xl bg-gradient-pink bg-clip-text text-transparent font-bold mb-6"
+              className="bg-gradient-blue text-transparent bg-clip-text text-2xl lg:text-4xl xl:text-5xlont-bold mb-6"
             >
               Igniting Minds, Shaping Futures, Building Community
             </p>
