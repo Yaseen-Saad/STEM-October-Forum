@@ -159,6 +159,30 @@ function App() {
     { label: "Discussion Topics", value: "156", icon: MessageCircle }
   ];
 
+  // Function to initialize scroll observers for animation
+  const initScrollAnimations = () => {
+    // Create an Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+    // Observe all elements with animate-on-scroll class
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+      
+      // Set stagger indexes for child items
+      el.querySelectorAll('.stagger-item').forEach((item, index) => {
+        item.style.setProperty('--item-index', index);
+      });
+    });
+
+    return observer;
+  };
+
   useEffect(() => {
     // Timer for live clock
     const timer = setInterval(() => {
@@ -176,6 +200,9 @@ function App() {
     if (savedLikes) {
       setArticleLikes(JSON.parse(savedLikes));
     }
+
+    // Initialize scroll animations
+    const scrollObserver = initScrollAnimations();
 
     // Simple fade-in animations
     const tl = gsap.timeline();
@@ -205,64 +232,21 @@ function App() {
       "-=0.5"
     );
 
-    // Simple scroll-triggered animations
-    gsap.utils.toArray('.animate-section').forEach((section) => {
-      gsap.fromTo(section, 
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            toggleActions: "play none none none"
-          }
-        }
-      );
-    });
+    // Animation for on-scroll elements is now handled by Intersection Observer
 
-    // Simple card animations
-    gsap.utils.toArray('.stagger-item').forEach((item, index) => {
-      gsap.fromTo(item,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: index * 0.1,
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 90%",
-            toggleActions: "play none none none"
-          }
-        }
-      );
-    });
+    // Card animations are now handled by CSS and Intersection Observer
 
-    // Text animations
-    gsap.utils.toArray('.text-reveal').forEach((text) => {
-      gsap.fromTo(text,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: text,
-            start: "top 85%",
-            toggleActions: "play none none none"
-          }
-        }
-      );
+    // Text animations are now handled by CSS and Intersection Observer
+    document.querySelectorAll('.text-reveal').forEach(text => {
+      text.classList.add('stagger-item');
     });
 
     return () => {
       clearInterval(timer);
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (scrollObserver) {
+        scrollObserver.disconnect();
+      }
     };
   }, []);
 
@@ -952,7 +936,7 @@ function App() {
               </p>
               <p className="text-sm text-white/70 flex items-center font-medium">
                 <AlertCircle size={14} className="mr-2 text-primary-400" />
-                <span>Currently at <span className="text-primary-400">stemoctobermagazine.org</span> • Moving to <span className="text-secondary-400">octforum.new</span> soon</span>
+                <span>Currently at <span className="text-primary-400">stemoctobermagazine.org</span> • Moving to <span className="text-secondary-400">octforum.us</span> soon</span>
               </p>
             </div>
             <div className="flex items-center space-x-4 text-white/70 text-sm">
