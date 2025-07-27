@@ -864,14 +864,14 @@ function App() {
             <h3 className="text-4xl font-bold text-center text-white mb-12">Topics We're Exploring</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { name: "Philosophy & Ethics", icon: Brain, count: 12 },
-                { name: "Student Life", icon: Users, count: 8 },
-                { name: "Technology & AI", icon: Microscope, count: 15 },
-                { name: "Environment", icon: Globe, count: 6 },
-                { name: "Social Issues", icon: MessageCircle, count: 9 },
-                { name: "Mental Health", icon: Heart, count: 7 },
-                { name: "Innovation", icon: Rocket, count: 11 },
-                { name: "Leadership", icon: Award, count: 5 }
+                { name: "Philosophy & Ethics", icon: Brain, count: 0 },
+                { name: "Student Life", icon: Users, count: 0 },
+                // { name: "Technology & AI", icon: Microscope, count: 15 },
+                { name: "Environment", icon: Globe, count: 0 },
+                { name: "Social Issues", icon: MessageCircle, count: 0 },
+                { name: "Mental Health", icon: Heart, count: 0 },
+                // { name: "Innovation", icon: Rocket, count: 11 },
+                { name: "Leadership", icon: Award, count: 1 }
               ].map((category, index) => (
                 <div key={index} className="card-modern text-center group hover:scale-105 transition-all duration-300">
                   <category.icon className="text-primary-400 mx-auto mb-3 group-hover:text-secondary-400 transition-colors duration-300" size={32} />
