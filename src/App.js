@@ -49,6 +49,10 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Newsletter state
+  const [email, setEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState(''); // '', 'loading', 'success', 'error'
+
   // Articles data
   const featuredArticles = [
     {
@@ -101,7 +105,7 @@ function App() {
     if (loading || Object.keys(articleStats).length === 0) {
       return "12.4k"; // Fallback value
     }
-    
+
     const totalViews = Object.values(articleStats).reduce((sum, stats) => sum + (stats.views || 0), 0);
     return formatViewCount(totalViews);
   };
@@ -111,12 +115,12 @@ function App() {
     if (loading || Object.keys(articleStats).length === 0) {
       return "0"; // Fallback value
     }
-    
+
     // Use totals from backend if available
     if (articleStats._totals) {
       return articleStats._totals.comments.toString();
     }
-    
+
     const totalComments = Object.values(articleStats).reduce((sum, stats) => sum + (stats.comments || 0), 0);
     return totalComments.toString();
   };
@@ -126,12 +130,12 @@ function App() {
     if (loading || Object.keys(articleStats).length === 0) {
       return "6"; // Fallback value
     }
-    
+
     // Use totals from backend if available
     if (articleStats._totals) {
       return articleStats._totals.articles.toString();
     }
-    
+
     // Count the articles from stats (excluding _totals)
     const articleCount = Object.keys(articleStats).filter(key => key !== '_totals').length;
     return articleCount.toString();
@@ -183,7 +187,7 @@ function App() {
         loadArticleStats();
       }
     };
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // Initialize scroll animations
@@ -265,9 +269,9 @@ function App() {
       const userId = getUserId();
       const currentLikeStatus = isArticleLiked(articleId);
       const action = currentLikeStatus ? 'unlike' : 'like';
-      
+
       const result = await toggleArticleLike(articleId, userId, action);
-      
+
       // Update local state
       setArticleStats(prev => ({
         ...prev,
@@ -282,9 +286,44 @@ function App() {
       const userLikes = JSON.parse(savedLikes);
       userLikes[articleId] = !currentLikeStatus;
       localStorage.setItem('userLikes', JSON.stringify(userLikes));
-      
+
     } catch (error) {
       console.error('Failed to toggle like:', error);
+    }
+  };
+
+  // Function to handle newsletter subscription
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+
+    try {
+      setNewsletterStatus('loading');
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/api/newsletter/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          source: 'homepage',
+          articleId: null
+        }),
+      });
+
+      if (response.ok) {
+        setNewsletterStatus('success');
+        setEmail('');
+        setTimeout(() => setNewsletterStatus(''), 3000); // Clear status after 3 seconds
+      } else {
+        setNewsletterStatus('error');
+        setTimeout(() => setNewsletterStatus(''), 3000);
+      }
+    } catch (error) {
+      console.error('Failed to subscribe to newsletter:', error);
+      setNewsletterStatus('error');
+      setTimeout(() => setNewsletterStatus(''), 3000);
     }
   };
 
@@ -365,7 +404,7 @@ function App() {
               Contribute
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full"></span>
             </button>
-            <button className="btn-primary text-sm">
+            <button onClick={() => scrollToSection('newsletter')} className="btn-primary text-sm">
               Join Community
             </button>
           </nav>
@@ -386,7 +425,7 @@ function App() {
               <button onClick={() => scrollToSection('about')} className="text-left text-white hover:text-primary-400 transition-colors py-2">About</button>
               <button onClick={() => scrollToSection('articles')} className="text-left text-white hover:text-primary-400 transition-colors py-2">Articles</button>
               <button onClick={() => scrollToSection('contribute')} className="text-left text-white hover:text-primary-400 transition-colors py-2">Contribute</button>
-              <button className="btn-primary text-sm self-start">Join Community</button>
+              <button onClick={() => scrollToSection('newsletter')} className="btn-primary text-sm">Join Community</button>
             </div>
           </div>
         )}
@@ -857,16 +896,67 @@ function App() {
                 <span>Submit Your Article</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </a>
-              <button className="btn-secondary text-xl px-12 py-4 flex items-center space-x-3 group">
-                <MessageCircle size={24} />
-                <span>Join Discussion</span>
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </button>
             </div>
+          </div>
+        </div>
+            {/* Newsletter Signup Section */}
+      <section id="newsletter" className="py-16 px-8 lg:px-16 from-primary-900/30 to-secondary-900/30">
+        <div className="max-w-4xl mx-auto text-center">
+          <div id='subscribe' className="glass rounded-2xl p-8 border border-white/10">
+            <h3 className="text-3xl font-bold text-gradient mb-6">Stay Updated</h3>
+            <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto">
+              Get the latest insights on leadership, education, and personal development delivered to your inbox.
+            </p>
+
+            {newsletterStatus === 'success' ? (
+              <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-6 text-center max-w-md mx-auto">
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Star className="text-green-400" size={32} />
+                </div>
+                <p className="text-green-400 font-semibold text-lg">Thank you for subscribing!</p>
+                <p className="text-green-300 text-sm mt-2">You'll receive our latest articles in your inbox.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto space-y-4">
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-primary-400 transition-colors duration-300 text-lg"
+                    required
+                    disabled={newsletterStatus === 'loading'}
+                  />
+                </div>
+
+                {newsletterStatus === 'error' && (
+                  <p className="text-red-400 text-sm">Failed to subscribe. Please try again.</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={newsletterStatus === 'loading' || !email.trim()}
+                  className="w-full bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold py-4 px-8 rounded-xl text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                >
+                  {newsletterStatus === 'loading' ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                      Subscribing...
+                    </>
+                  ) : (
+                    'Subscribe to Newsletter'
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>
 
+      </section>
+
+  
       {/* Enhanced Footer */}
       <footer className="py-16 px-8 lg:px-16 bg-gradient-contribute-to-footer">
         <div className="max-w-7xl mx-auto">
@@ -914,9 +1004,9 @@ function App() {
             <div>
               <h4 className="text-xl font-bold text-gradient-secondary mb-6">Get in Touch</h4>
               <div className="space-y-3 text-white/70">
-                <p>contribute@stemoctoberforum.org</p>
+                <p>stemoctoberforum@gmail.com</p>
                 <p>STEM High School for Boys</p>
-                <p>6th of October City</p>
+                <p>6th of October,</p>
                 <p>Giza, Egypt</p>
               </div>
             </div>

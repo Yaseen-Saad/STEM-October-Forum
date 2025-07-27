@@ -102,6 +102,33 @@ const commentSchema = new mongoose.Schema({
 
 const Comment = mongoose.model('Comment', commentSchema);
 
+// Newsletter Schema
+const newsletterSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true
+  },
+  source: {
+    type: String,
+    default: 'unknown'
+  },
+  articleId: {
+    type: Number,
+    required: false
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  }
+}, {
+  timestamps: true
+});
+
+const Newsletter = mongoose.model('Newsletter', newsletterSchema);
+
 // Initialize articles with base data
 const initializeArticles = async () => {
   const articlesData = [
@@ -416,6 +443,82 @@ app.post('/api/articles/:id/comments', ensureDbConnection, async (req, res) => {
     res.status(201).json(comment);
   } catch (error) {
     console.error('Error adding comment:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Newsletter subscription endpoint
+app.post('/api/newsletter/subscribe', ensureDbConnection, async (req, res) => {
+  try {
+    const { email, source, articleId } = req.body;
+
+    if (!email || !email.trim()) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    // Check if email already exists
+    const existingSubscription = await Newsletter.findOne({ 
+      email: email.trim().toLowerCase() 
+    });
+
+    if (existingSubscription) {
+      if (existingSubscription.isActive) {
+        return res.status(409).json({ error: 'Email already subscribed' });
+      } else {
+        // Reactivate subscription
+        existingSubscription.isActive = true;
+        existingSubscription.source = source || 'resubscribe';
+        existingSubscription.articleId = articleId;
+        await existingSubscription.save();
+        return res.status(200).json({ 
+          message: 'Successfully resubscribed to newsletter',
+          subscription: existingSubscription 
+        });
+      }
+    }
+
+    // Create new subscription
+    const subscription = new Newsletter({
+      email: email.trim().toLowerCase(),
+      source: source || 'unknown',
+      articleId: articleId || null
+    });
+
+    await subscription.save();
+    res.status(201).json({ 
+      message: 'Successfully subscribed to newsletter',
+      subscription: subscription 
+    });
+  } catch (error) {
+    console.error('Error subscribing to newsletter:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Get newsletter subscriptions (admin endpoint)
+app.get('/api/newsletter/subscriptions', ensureDbConnection, async (req, res) => {
+  try {
+    const { active } = req.query;
+    const filter = active !== undefined ? { isActive: active === 'true' } : {};
+    
+    const subscriptions = await Newsletter.find(filter)
+      .sort({ createdAt: -1 })
+      .select('-__v');
+    
+    res.json({ 
+      subscriptions,
+      count: subscriptions.length,
+      totalActive: await Newsletter.countDocuments({ isActive: true }),
+      totalInactive: await Newsletter.countDocuments({ isActive: false })
+    });
+  } catch (error) {
+    console.error('Error fetching newsletter subscriptions:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

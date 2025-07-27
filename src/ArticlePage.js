@@ -10,7 +10,9 @@ import {
   Share2,
   Facebook,
   Twitter,
-  Linkedin
+  AlertCircle,
+  Linkedin,
+  Instagram
 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { getArticleStats, incrementArticleView, toggleArticleLike } from './api';
@@ -53,6 +55,10 @@ function ArticlePage() {
   const [newComment, setNewComment] = useState('');
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [showCommentForm, setShowCommentForm] = useState(false);
+
+  // State for newsletter signup
+  const [email, setEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState(''); // '', 'loading', 'success', 'error'
 
   // Load article stats from MongoDB and handle view counting
   useEffect(() => {
@@ -159,7 +165,7 @@ function ArticlePage() {
         setComments(prev => [comment, ...prev]);
         setNewComment('');
         setShowCommentForm(false);
-        
+
         // Refresh article stats to get updated comment count
         try {
           const stats = await getArticleStats(articleId);
@@ -173,6 +179,41 @@ function ArticlePage() {
       }
     } catch (error) {
       console.error('Failed to add comment:', error);
+    }
+  };
+
+  // Function to handle newsletter subscription
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+
+    try {
+      setNewsletterStatus('loading');
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/api/newsletter/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          source: 'article-page',
+          articleId: articleId
+        }),
+      });
+
+      if (response.ok) {
+        setNewsletterStatus('success');
+        setEmail('');
+        setTimeout(() => setNewsletterStatus(''), 3000); // Clear status after 3 seconds
+      } else {
+        setNewsletterStatus('error');
+        setTimeout(() => setNewsletterStatus(''), 3000);
+      }
+    } catch (error) {
+      console.error('Failed to subscribe to newsletter:', error);
+      setNewsletterStatus('error');
+      setTimeout(() => setNewsletterStatus(''), 3000);
     }
   };
 
@@ -272,23 +313,23 @@ function ArticlePage() {
 
           <div className="bg-gradient-to-r from-secondary-900/30 to-accent-900/30 rounded-2xl p-8 border border-white/10 my-8">
             <h3 className="text-xl font-bold text-white mb-6">My Well-being Toolkit:</h3>
-            
+
             <div className="space-y-6">
               <div>
                 <h4 className="text-lg font-semibold text-primary-400 mb-2">Time Blocking</h4>
                 <p className="text-white/90">Instead of studying until tasks were "perfect," I allocated specific time blocks for each subject. When time was up, I moved on.</p>
               </div>
-              
+
               <div>
                 <h4 className="text-lg font-semibold text-secondary-400 mb-2">Non-negotiable Self-care</h4>
                 <p className="text-white/90">I scheduled sleep, meals, and exercise like any other important appointment. These became non-negotiable commitments to myself.</p>
               </div>
-              
+
               <div>
                 <h4 className="text-lg font-semibold text-accent-400 mb-2">Progress Over Perfection</h4>
                 <p className="text-white/90">I learned to celebrate small wins and view mistakes as learning opportunities rather than failures.</p>
               </div>
-              
+
               <div>
                 <h4 className="text-lg font-semibold text-primary-500 mb-2">Community Support</h4>
                 <p className="text-white/90">I built a support network of friends who understood the importance of balance and could offer perspective during stressful times.</p>
@@ -594,16 +635,46 @@ function ArticlePage() {
             <p className="text-white/70 text-sm mb-4">
               Get the latest insights on leadership, education, and personal development delivered to your inbox.
             </p>
-            <div className="space-y-3">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400 transition-colors duration-300"
-              />
-              <button className="w-full bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
-                Subscribe
-              </button>
-            </div>
+
+            {newsletterStatus === 'success' ? (
+              <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 text-center">
+                <p className="text-green-400 font-semibold">Thank you for subscribing!</p>
+                <p className="text-green-300 text-sm mt-1">You'll receive our latest articles in your inbox.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletterSubmit} className="space-y-3">
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400 transition-colors duration-300"
+                    required
+                    disabled={newsletterStatus === 'loading'}
+                  />
+                </div>
+
+                {newsletterStatus === 'error' && (
+                  <p className="text-red-400 text-sm">Failed to subscribe. Please try again.</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={newsletterStatus === 'loading' || !email.trim()}
+                  className="w-full bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                >
+                  {newsletterStatus === 'loading' ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Subscribing...
+                    </>
+                  ) : (
+                    'Subscribe'
+                  )}
+                </button>
+              </form>
+            )}
           </div>
 
           <div className="glass rounded-2xl p-8 border border-white/10">
@@ -720,6 +791,79 @@ function ArticlePage() {
           </div>
         </div>
       </section>
+      {/* Enhanced Footer */}
+      <footer className="py-16 px-8 lg:px-16 bg-gradient-contribute-to-footer">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            {/* Brand Section */}
+            <div className="md:col-span-2">
+              <h3 className="text-3xl font-bold mb-4 flex items-center">
+                <div className="p-2 bg-gradient-icon-consistent rounded-lg mr-3 shadow-glow">
+                  <BookOpen className="text-white" size={24} />
+                </div>
+                <span className="text-gradient">STEM</span>{' '}
+                <span className="text-white">October</span>{' '}
+                <span className="text-gradient-secondary">Forum</span>
+              </h3>
+              <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-lg">
+                Empowering the next generation of critical thinkers through thoughtful discourse
+                and authentic student voices.
+              </p>
+              <div className="flex space-x-4">
+                <div className="p-2 glass rounded-lg hover:bg-white/20 transition-all duration-300 cursor-pointer group">
+                  <Facebook className="text-secondary-400 group-hover:text-primary-400 transition-colors" size={20} />
+                </div>
+                <div className="p-2 glass rounded-lg hover:bg-white/20 transition-all duration-300 cursor-pointer group">
+                  <Instagram className="text-secondary-400 group-hover:text-primary-400 transition-colors" size={20} />
+                </div>
+                <div className="p-2 glass rounded-lg hover:bg-white/20 transition-all duration-300 cursor-pointer group">
+                  <Linkedin className="text-secondary-400 group-hover:text-primary-400 transition-colors" size={20} />
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-xl font-bold text-gradient mb-6">Quick Links</h4>
+              <div className="space-y-3">
+                {['About Us', 'Latest Articles', 'Submit Article', 'Guidelines', 'Contact'].map((link, index) => (
+                  <button key={index} className="block text-white/70 hover:text-primary-400 transition-colors duration-200">
+                    {link}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact Info */}
+            <div>
+              <h4 className="text-xl font-bold text-gradient-secondary mb-6">Get in Touch</h4>
+              <div className="space-y-3 text-white/70">
+                <p>stemoctoberforum@gmail.com</p>
+                <p>STEM High School for Boys</p>
+                <p>6th of October,</p>
+                <p>Giza, Egypt</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between">
+            <div className="flex flex-col">
+              <p className="text-white/60 text-sm mb-2">
+                &copy; 2025 STEM October Forum. All rights reserved. A Publication of STEM High School for Boys - 6th of October.
+              </p>
+              <p className="text-sm text-white/70 flex items-center font-medium">
+                <AlertCircle size={14} className="mr-2 text-primary-400" />
+                <span>Currently at <span className="text-primary-400">stemoctobermagazine.org</span> • Moving to <span className="text-secondary-400">stemoct.forum</span> soon</span>
+              </p>
+            </div>
+            <div className="flex items-center space-x-4 text-white/70 text-sm">
+              <span>Made with</span>
+              <Heart className="text-primary-400" size={16} />
+              <span>by students, for students</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
