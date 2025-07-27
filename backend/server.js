@@ -317,6 +317,25 @@ app.post('/api/articles/:id/comments', async (req, res) => {
   }
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ 
+    error: 'Internal server error',
+    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ 
+    error: 'Not found',
+    path: req.path,
+    method: req.method,
+    message: 'The requested endpoint does not exist'
+  });
+});
+
 // Initialize database connection and data
 const initializeApp = async () => {
   await connectDB();
