@@ -9,6 +9,28 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
+// Get all articles
+export async function getAllArticles() {
+  try {
+    const response = await fetch(`${API_URL}/articles`);
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+    throw error;
+  }
+}
+
+// Get single article
+export async function getArticle(articleId) {
+  try {
+    const response = await fetch(`${API_URL}/articles/${articleId}`);
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Error fetching article:', error);
+    throw error;
+  }
+}
+
 // Get article stats
 export async function getArticleStats(articleId) {
   try {
@@ -62,7 +84,7 @@ export async function getAllArticlesStats() {
 }
 
 // Health check
-export async function checkHealth() {
+export async function healthCheck() {
   try {
     const response = await fetch(`${API_URL}/health`);
     return await handleResponse(response);

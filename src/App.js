@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { getAllArticlesStats, toggleArticleLike } from './api';
+import { getAllArticlesStats, toggleArticleLike, getAllArticles } from './api';
 import { getUserId, formatViewCount } from './utils/session';
 import {
   Lightbulb,
@@ -53,35 +53,9 @@ function App() {
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState(''); // '', 'loading', 'success', 'error'
 
-  // Articles data
-  const featuredArticles = [
-    {
-      id: 1,
-      title: "The Allure of the Crown: When Leadership Becomes a Misunderstood Pursuit",
-      excerpt: "This philosophical exploration delves into the complex psychology behind leadership aspirations, examining how personal insecurities, societal expectations, and the desire for validation can transform genuine leadership into a performative pursuit of power.",
-      author: "The Editorial Team",
-      date: "July 25, 2025",
-      readTime: "8 min read",
-      category: "Philosophy",
-      views: "0",
-      likes: "0",
-      featured: true,
-      color: "accent-purple"
-    },
-    // {
-    //   id: 2,
-    //   title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
-    //   excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
-    //   author: "Ahmed Hassan",
-    //   date: "July 22, 2025",
-    //   readTime: "6 min read",
-    //   category: "Student Life",
-    //   views: "0",
-    //   likes: "0",
-    //   featured: false,
-    //   color: "primary-blue"
-    // }
-  ];
+  // Articles data - now fetched from API
+  const [featuredArticles, setFeaturedArticles] = useState([]);
+  const [articlesLoading, setArticlesLoading] = useState(true);
 
   // Function to load article stats from MongoDB
   const loadArticleStats = async () => {
@@ -97,6 +71,35 @@ function App() {
       setArticleStats({});
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Function to load articles from backend
+  const loadArticles = async () => {
+    try {
+      setArticlesLoading(true);
+      const articles = await getAllArticles();
+      setFeaturedArticles(articles);
+    } catch (err) {
+      console.error('Failed to load articles:', err);
+      // Fallback to default article if API fails
+      setFeaturedArticles([
+        {
+          id: 1,
+          title: "Why Does Hisoka Morow Love Power So Much?",
+          excerpt: "In any community, especially our own at STEM High School for Boys – 6th of October, leadership is a powerful force. This philosophical exploration delves into the complex psychology behind leadership aspirations, examining how personal insecurities, societal expectations, and the desire for validation can transform genuine leadership into a performative pursuit of power.",
+          author: "Yaseen Mohamed-Abdelal",
+          date: "July 27, 2025",
+          readTime: "15 min read",
+          category: "Leadership", 
+          views: "0",
+          likes: "0",
+          featured: true,
+          color: "accent-purple"
+        }
+      ]);
+    } finally {
+      setArticlesLoading(false);
     }
   };
 
@@ -127,8 +130,13 @@ function App() {
 
   // Function to get dynamic article count
   const getArticleCount = () => {
+    // Use the actual articles array length when available
+    if (featuredArticles.length > 0) {
+      return featuredArticles.length.toString();
+    }
+
     if (loading || Object.keys(articleStats).length === 0) {
-      return "6"; // Fallback value
+      return "0";
     }
 
     // Use totals from backend if available
@@ -141,7 +149,7 @@ function App() {
     return articleCount.toString();
   };
 
-  const forumStats = [
+  const getForumStats = () => [
     { label: "Articles", value: getArticleCount(), icon: BookOpen },
     { label: "Contributors", value: "5", icon: Users },
     { label: "Views", value: calculateTotalViews(), icon: Eye },
@@ -180,11 +188,15 @@ function App() {
 
     // Load article stats from MongoDB
     loadArticleStats();
+    
+    // Load articles from backend
+    loadArticles();
 
     // Add page visibility listener to refresh stats when user returns
     const handleVisibilityChange = () => {
       if (!document.hidden) {
         loadArticleStats();
+        loadArticles();
       }
     };
 
@@ -505,7 +517,7 @@ function App() {
 
           {/* Statistics */}
           <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-20">
-            {forumStats.map((stat, index) => (
+            {getForumStats().map((stat, index) => (
               <div key={index} className="text-center group card-modern">
                 <div className="flex justify-center mb-4">
                   <div className="p-3 bg-gradient-icon-consistent rounded-xl shadow-glow">
@@ -652,71 +664,94 @@ function App() {
               </div>
               Featured Spotlight
             </h3>
-            <div className="card-modern p-8 group cursor-pointer hover:scale-[1.02] transition-all duration-500">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2">
-                  <div className="flex items-center mb-4">
-                    <span className="px-4 py-2 bg-gradient-primary text-white text-sm font-semibold rounded-full mr-4 shadow-glow">
-                      {featuredArticles[0].category}
-                    </span>
-                    <span className="text-secondary-400 text-sm font-medium">Featured Article</span>
-                  </div>
-                  <h3 className="text-3xl lg:text-4xl font-bold text-gradient mb-6 group-hover:text-primary-400 transition-colors duration-300">
-                    {featuredArticles[0].title}
-                  </h3>
-                  <p className="text-white/90 text-lg leading-relaxed mb-6">
-                    {featuredArticles[0].excerpt}
-                  </p>
-                  <div className="flex items-center justify-between text-white/70 text-sm">
-                    <div className="flex items-center space-x-6">
-                      <div className="flex items-center">
-                        <User className="mr-2 text-primary-400" size={16} />
-                        {featuredArticles[0].author}
-                      </div>
-                      <div className="flex items-center">
-                        <Calendar className="mr-2 text-secondary-400" size={16} />
-                        {featuredArticles[0].date}
-                      </div>
-                      <div className="flex items-center">
-                        <BookOpen className="mr-2 text-accent-400" size={16} />
-                        {featuredArticles[0].readTime}
-                      </div>
+            {articlesLoading ? (
+              <div className="card-modern p-8 animate-pulse">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-2">
+                    <div className="flex items-center mb-4">
+                      <div className="px-4 py-2 bg-gray-600 text-sm font-semibold rounded-full mr-4 w-20 h-8"></div>
+                      <div className="text-secondary-400 text-sm font-medium w-24 h-4 bg-gray-600 rounded"></div>
                     </div>
-                  </div>
-                </div>
-                <div className="lg:col-span-1 flex items-center">
-                  <div className="w-full">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center text-white/70">
-                        <Eye className="mr-2 text-primary-400" size={16} />
-                        {getViewCount(featuredArticles[0])} views
-                      </div>
-                      <div
-                        className={`flex items-center ${isArticleLiked(featuredArticles[0].id) ? 'text-primary-500' : 'text-white/70'} cursor-pointer hover:text-primary-400 transition-colors`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleArticleLike(featuredArticles[0].id);
-                        }}
-                      >
-                        <Heart className="mr-2" size={16} fill={isArticleLiked(featuredArticles[0].id) ? "currentColor" : "none"} />
-                        {getLikeCount(featuredArticles[0])} likes
-                      </div>
-                      <div className="flex items-center text-white/70">
-                        <MessageCircle className="mr-2 text-accent-400" size={16} />
-                        {getCommentCount(featuredArticles[0])} comments
-                      </div>
+                    <div className="text-3xl lg:text-4xl font-bold mb-6 w-3/4 h-12 bg-gray-600 rounded"></div>
+                    <div className="text-lg leading-relaxed mb-6 space-y-2">
+                      <div className="w-full h-4 bg-gray-600 rounded"></div>
+                      <div className="w-5/6 h-4 bg-gray-600 rounded"></div>
+                      <div className="w-4/5 h-4 bg-gray-600 rounded"></div>
                     </div>
-                    <a
-                      href={`/article/${featuredArticles[0].id}`}
-                      className="w-full btn-primary text-lg py-4 flex items-center justify-center group/btn"
-                    >
-                      Read Full Article
-                      <ArrowRight className="ml-3 group-hover/btn:translate-x-1 transition-transform" size={20} />
-                    </a>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : featuredArticles.length > 0 ? (
+              <div className="card-modern p-8 group cursor-pointer hover:scale-[1.02] transition-all duration-500">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-2">
+                    <div className="flex items-center mb-4">
+                      <span className="px-4 py-2 bg-gradient-primary text-white text-sm font-semibold rounded-full mr-4 shadow-glow">
+                        {featuredArticles[0].category}
+                      </span>
+                      <span className="text-secondary-400 text-sm font-medium">Featured Article</span>
+                    </div>
+                    <h3 className="text-3xl lg:text-4xl font-bold text-gradient mb-6 group-hover:text-primary-400 transition-colors duration-300">
+                      {featuredArticles[0].title}
+                    </h3>
+                    <p className="text-white/90 text-lg leading-relaxed mb-6">
+                      {featuredArticles[0].excerpt}
+                    </p>
+                    <div className="flex items-center justify-between text-white/70 text-sm">
+                      <div className="flex items-center space-x-6">
+                        <div className="flex items-center">
+                          <User className="mr-2 text-primary-400" size={16} />
+                          {featuredArticles[0].author}
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="mr-2 text-secondary-400" size={16} />
+                          {featuredArticles[0].date}
+                        </div>
+                        <div className="flex items-center">
+                          <BookOpen className="mr-2 text-accent-400" size={16} />
+                          {featuredArticles[0].readTime}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="lg:col-span-1 flex items-center">
+                    <div className="w-full">
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center text-white/70">
+                          <Eye className="mr-2 text-primary-400" size={16} />
+                          {getViewCount(featuredArticles[0])} views
+                        </div>
+                        <div
+                          className={`flex items-center ${isArticleLiked(featuredArticles[0].id) ? 'text-primary-500' : 'text-white/70'} cursor-pointer hover:text-primary-400 transition-colors`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleArticleLike(featuredArticles[0].id);
+                          }}
+                        >
+                          <Heart className="mr-2" size={16} fill={isArticleLiked(featuredArticles[0].id) ? "currentColor" : "none"} />
+                          {getLikeCount(featuredArticles[0])} likes
+                        </div>
+                        <div className="flex items-center text-white/70">
+                          <MessageCircle className="mr-2 text-accent-400" size={16} />
+                          {getCommentCount(featuredArticles[0])} comments
+                        </div>
+                      </div>
+                      <a
+                        href={`/article/${featuredArticles[0].id}`}
+                        className="w-full btn-primary text-lg py-4 flex items-center justify-center group/btn"
+                      >
+                        Read Full Article
+                        <ArrowRight className="ml-3 group-hover/btn:translate-x-1 transition-transform" size={20} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="card-modern p-8 text-center">
+                <p className="text-white/70">No articles available at the moment.</p>
+              </div>
+            )}
           </div>
 
           {/* Articles Grid */}

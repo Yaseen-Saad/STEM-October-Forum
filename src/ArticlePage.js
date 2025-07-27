@@ -18,7 +18,7 @@ import {
   Home
 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
-import { getArticleStats, incrementArticleView, toggleArticleLike } from './api';
+import { getArticleStats, incrementArticleView, toggleArticleLike, getArticle } from './api';
 import { getSessionId, getUserId, hasViewedInSession, markAsViewedInSession, formatViewCount } from './utils/session';
 
 function ArticlePage() {
@@ -29,29 +29,10 @@ function ArticlePage() {
   const isValidId = !isNaN(parsedId) && parsedId > 0 && parsedId.toString() === id;
   const articleId = isValidId ? parsedId : null;
 
-  // Articles data - this would typically come from a database or API
-  const articles = {
-    1: {
-      title: "Why Does Hisoka Morow Love Power So Much?",
-      author: "Yaseen Mohamed-Abdelal",
-      date: "July 27, 2025",
-      readTime: "15 min read",
-      category: "Leadership",
-      image: "https://pm1.aminoapps.com/7274/9e178fdd43ec8a8e4d690b7500e153fa708f9d88r1-571-472v2_hq.jpg"
-    },
-    // 2: {
-    //   title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
-    //   author: "Yaseen Mohamed-Abdelal", 
-    //   date: "July 22, 2025",
-    //   readTime: "6 min read",
-    //   category: "Student Life",
-    //   excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
-    //   image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
-    // }
-  };
-
-  const currentArticle = articleId ? articles[articleId] : null;
-  const articleExists = articleId !== null && currentArticle !== undefined;
+  // Article data - now fetched from API
+  const [currentArticle, setCurrentArticle] = useState(null);
+  const [articleExists, setArticleExists] = useState(false);
+  const [articleLoading, setArticleLoading] = useState(true);
 
   // State for view and like counts from MongoDB
   const [viewCount, setViewCount] = useState(0);
@@ -70,15 +51,34 @@ function ArticlePage() {
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState(''); // '', 'loading', 'success', 'error'
 
-  // Load article stats from MongoDB and handle view counting
+  // Load article and stats from backend
   useEffect(() => {
-    // Only load data if article exists
-    if (!articleExists) {
-      setLoading(false);
-      return;
-    }
-
     const loadArticleData = async () => {
+      // First load article data to check if it exists
+      if (!articleId) {
+        setArticleExists(false);
+        setArticleLoading(false);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setArticleLoading(true);
+        const articleData = await getArticle(articleId);
+        setCurrentArticle(articleData);
+        setArticleExists(true);
+      } catch (err) {
+        console.error('Failed to load article:', err);
+        setCurrentArticle(null);
+        setArticleExists(false);
+        setArticleLoading(false);
+        setLoading(false);
+        return;
+      } finally {
+        setArticleLoading(false);
+      }
+
+      // If article exists, load stats and comments
       try {
         setLoading(true);
 
@@ -114,7 +114,7 @@ function ArticlePage() {
 
     loadArticleData();
     loadComments();
-  }, [articleId, articleExists]);
+  }, [articleId]);
 
   // Function to handle article like/unlike using MongoDB
   const handleLikeArticle = async () => {

@@ -169,6 +169,85 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Get all articles data
+app.get('/api/articles', (req, res) => {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const articlesPath = path.join(__dirname, 'data', 'articles.json');
+    
+    if (fs.existsSync(articlesPath)) {
+      const articlesData = JSON.parse(fs.readFileSync(articlesPath, 'utf8'));
+      res.json(articlesData);
+    } else {
+      // Fallback data if file doesn't exist
+      res.json([
+        {
+          id: 1,
+          title: "Why Does Hisoka Morow Love Power So Much?",
+          excerpt: "In any community, especially our own at STEM High School for Boys – 6th of October, leadership is a powerful force. This philosophical exploration delves into the complex psychology behind leadership aspirations, examining how personal insecurities, societal expectations, and the desire for validation can transform genuine leadership into a performative pursuit of power.",
+          author: "Yaseen Mohamed-Abdelal",
+          date: "July 27, 2025",
+          readTime: "15 min read",
+          category: "Leadership", 
+          image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop&crop=faces",
+          featured: true,
+          views: 0,
+          likes: 0,
+          color: "accent-purple"
+        }
+      ]);
+    }
+  } catch (error) {
+    console.error('Error reading articles:', error);
+    res.status(500).json({ error: 'Failed to load articles' });
+  }
+});
+
+// Get single article data
+app.get('/api/articles/:id', (req, res) => {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const articlesPath = path.join(__dirname, 'data', 'articles.json');
+    const articleId = parseInt(req.params.id);
+    
+    if (fs.existsSync(articlesPath)) {
+      const articlesData = JSON.parse(fs.readFileSync(articlesPath, 'utf8'));
+      const article = articlesData.find(a => a.id === articleId);
+      
+      if (article) {
+        res.json(article);
+      } else {
+        res.status(404).json({ error: 'Article not found' });
+      }
+    } else {
+      // Fallback for article 1
+      if (articleId === 1) {
+        res.json({
+          id: 1,
+          title: "Why Does Hisoka Morow Love Power So Much?",
+          excerpt: "In any community, especially our own at STEM High School for Boys – 6th of October, leadership is a powerful force. This philosophical exploration delves into the complex psychology behind leadership aspirations, examining how personal insecurities, societal expectations, and the desire for validation can transform genuine leadership into a performative pursuit of power.",
+          author: "Yaseen Mohamed-Abdelal",
+          date: "July 27, 2025",
+          readTime: "15 min read",
+          category: "Leadership", 
+          image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop&crop=faces",
+          featured: true,
+          views: 0,
+          likes: 0,
+          color: "accent-purple"
+        });
+      } else {
+        res.status(404).json({ error: 'Article not found' });
+      }
+    }
+  } catch (error) {
+    console.error('Error reading article:', error);
+    res.status(500).json({ error: 'Failed to load article' });
+  }
+});
+
 // Middleware to ensure database is connected
 const ensureDbConnection = async (req, res, next) => {
   try {
