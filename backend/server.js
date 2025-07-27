@@ -307,14 +307,21 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
-// Start server
-const startServer = async () => {
+// Initialize database connection and data
+const initializeApp = async () => {
   await connectDB();
   await initializeArticles();
-  
+};
+
+// Initialize the app
+initializeApp().catch(console.error);
+
+// For local development
+if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
-};
+}
 
-startServer();
+// Export for Vercel
+module.exports = app;
