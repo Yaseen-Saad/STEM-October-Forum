@@ -4,10 +4,7 @@ require('dotenv').config();
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/stem-forum', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect('mongodb+srv://admindatabase:KU2v7fmJRsWEjrGY@cluster0.swr83xe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
@@ -26,20 +23,9 @@ const articleSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  likes: {
-    type: Number,
-    default: 0
-  },
-  likedBy: [{
-    userId: String,
-    timestamp: {
-      type: Date,
-      default: Date.now
-    }
-  }],
-  viewedBy: [{
-    userId: String,
-    timestamp: {
+  likes: [{
+    userId: String, // This could be IP address or user ID
+    likedAt: {
       type: Date,
       default: Date.now
     }

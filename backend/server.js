@@ -70,15 +70,7 @@ const articleSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     }
-  }],
-  baseViews: {
-    type: Number,
-    default: 0
-  },
-  baseLikes: {
-    type: Number,
-    default: 0
-  }
+  }]
 }, {
   timestamps: true
 });
@@ -113,12 +105,12 @@ const Comment = mongoose.model('Comment', commentSchema);
 // Initialize articles with base data
 const initializeArticles = async () => {
   const articlesData = [
-    { articleId: 1, baseViews: 2400, baseLikes: 127 },
-    { articleId: 2, baseViews: 3100, baseLikes: 203 },
-    { articleId: 3, baseViews: 1800, baseLikes: 156 },
-    { articleId: 4, baseViews: 2700, baseLikes: 189 },
-    { articleId: 5, baseViews: 4200, baseLikes: 312 },
-    { articleId: 6, baseViews: 1900, baseLikes: 143 }
+    { articleId: 1 },
+    { articleId: 2 },
+    { articleId: 3 },
+    { articleId: 4 },
+    { articleId: 5 },
+    { articleId: 6 }
   ];
 
   for (const articleData of articlesData) {
@@ -188,15 +180,13 @@ app.get('/api/article/:id/stats', ensureDbConnection, async (req, res) => {
     if (!article) {
       // Initialize article if it doesn't exist
       article = new Article({ 
-        articleId,
-        baseViews: 0,
-        baseLikes: 0
+        articleId
       });
       await article.save();
     }
 
-    const totalViews = article.baseViews + article.views;
-    const totalLikes = article.baseLikes + article.likes.length;
+    const totalViews = article.views;
+    const totalLikes = article.likes.length;
 
     res.json({
       views: totalViews,
@@ -223,9 +213,7 @@ app.post('/api/article/:id/view', ensureDbConnection, async (req, res) => {
     
     if (!article) {
       article = new Article({ 
-        articleId,
-        baseViews: 0,
-        baseLikes: 0
+        articleId
       });
     }
 
@@ -234,7 +222,7 @@ app.post('/api/article/:id/view', ensureDbConnection, async (req, res) => {
     article.views += 1;
     await article.save();
 
-    const totalViews = article.baseViews + article.views;
+    const totalViews = article.views;
 
     res.json({
       views: totalViews,
@@ -274,9 +262,7 @@ app.post('/api/article/:id/like', async (req, res) => {
     
     if (!article) {
       article = new Article({ 
-        articleId,
-        baseViews: 0,
-        baseLikes: 0
+        articleId
       });
     }
 
@@ -292,7 +278,7 @@ app.post('/api/article/:id/like', async (req, res) => {
 
     await article.save();
 
-    const totalLikes = article.baseLikes + article.likes.length;
+    const totalLikes = article.likes.length;
 
     res.json({
       likes: totalLikes,
@@ -318,16 +304,9 @@ app.get('/api/articles/stats', async (req, res) => {
     }
     
     if (!isDbConnected) {
-      // Return fallback static data when database is not available
-      console.log('Database not connected, returning fallback data');
-      return res.json({
-        1: { views: 2400, likes: 127 },
-        2: { views: 3100, likes: 203 },
-        3: { views: 1800, likes: 156 },
-        4: { views: 2700, likes: 189 },
-        5: { views: 4200, likes: 312 },
-        6: { views: 1900, likes: 143 }
-      });
+      // Return empty stats when database is not available
+      console.log('Database not connected, returning empty stats');
+      return res.json({});
     }
     
     const articles = await Article.find({});
@@ -335,23 +314,16 @@ app.get('/api/articles/stats', async (req, res) => {
 
     articles.forEach(article => {
       stats[article.articleId] = {
-        views: article.baseViews + article.views,
-        likes: article.baseLikes + article.likes.length
+        views: article.views,
+        likes: article.likes.length
       };
     });
 
     res.json(stats);
   } catch (error) {
     console.error('Error fetching articles stats:', error);
-    // Return fallback data on error
-    res.json({
-      1: { views: 2400, likes: 127 },
-      2: { views: 3100, likes: 203 },
-      3: { views: 1800, likes: 156 },
-      4: { views: 2700, likes: 189 },
-      5: { views: 4200, likes: 312 },
-      6: { views: 1900, likes: 143 }
-    });
+    // Return empty stats on error
+    res.json({});
   }
 });
 
