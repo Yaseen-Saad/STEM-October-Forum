@@ -28,41 +28,6 @@ function ArticlePage() {
       date: "July 25, 2025",
       readTime: "8 min read",
       category: "Philosophy"
-    },
-    2: {
-      title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
-      author: "Ahmed Hassan",
-      date: "July 22, 2025",
-      readTime: "6 min read",
-      category: "Student Life"
-    },
-    3: {
-      title: "The Ethics of Artificial Intelligence in Education: Promise and Peril",
-      author: "Omar Mansour",
-      date: "July 20, 2025",
-      readTime: "10 min read",
-      category: "Technology"
-    },
-    4: {
-      title: "The Philosophy of Failure: Redefining Success in Academic Environments",
-      author: "Yasmin El-Rashid",
-      date: "July 18, 2025",
-      readTime: "7 min read",
-      category: "Philosophy"
-    },
-    5: {
-      title: "Climate Change and Young Activism: The Power of Student Voices",
-      author: "Nour Abdallah",
-      date: "July 15, 2025",
-      readTime: "9 min read",
-      category: "Environment"
-    },
-    6: {
-      title: "The Digital Divide: Technology Access and Educational Equity",
-      author: "Karim Mahmoud",
-      date: "July 12, 2025",
-      readTime: "8 min read",
-      category: "Social Issues"
     }
   };
 
