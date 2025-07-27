@@ -59,8 +59,8 @@ function App() {
       date: "July 25, 2025",
       readTime: "8 min read",
       category: "Philosophy",
-      views: "2.4k",
-      likes: "127",
+      views: "0",
+      likes: "0",
       featured: true,
       color: "accent-purple"
     },
@@ -72,8 +72,8 @@ function App() {
       date: "July 22, 2025",
       readTime: "6 min read",
       category: "Student Life",
-      views: "3.1k",
-      likes: "203",
+      views: "0",
+      likes: "0",
       featured: true,
       color: "accent-teal"
     },
@@ -85,8 +85,8 @@ function App() {
       date: "July 20, 2025",
       readTime: "10 min read",
       category: "Technology",
-      views: "1.8k",
-      likes: "156",
+      views: "0",
+      likes: "0",
       featured: false,
       color: "accent-orange"
     },
@@ -98,8 +98,8 @@ function App() {
       date: "July 18, 2025",
       readTime: "7 min read",
       category: "Philosophy",
-      views: "2.7k",
-      likes: "189",
+      views: "0",
+      likes: "0",
       featured: false,
       color: "accent-purple"
     },
@@ -111,8 +111,8 @@ function App() {
       date: "July 15, 2025",
       readTime: "9 min read",
       category: "Environment",
-      views: "4.2k",
-      likes: "312",
+      views: "0",
+      likes: "0",
       featured: false,
       color: "accent-teal"
     },
@@ -124,8 +124,8 @@ function App() {
       date: "July 12, 2025",
       readTime: "8 min read",
       category: "Social Issues",
-      views: "1.9k",
-      likes: "143",
+      views: "0",
+      likes: "0",
       featured: false,
       color: "accent-orange"
     }
@@ -159,10 +159,10 @@ function App() {
   };
 
   const forumStats = [
-    { label: "Articles Published", value: "47", icon: BookOpen },
-    { label: "Student Contributors", value: "23", icon: Users },
-    { label: "Monthly Readers", value: calculateTotalViews(), icon: Eye },
-    { label: "Discussion Topics", value: "156", icon: MessageCircle }
+    { label: "Articles", value: "1", icon: BookOpen },
+    { label: "Contributors", value: "5", icon: Users },
+    { label: "Views", value: calculateTotalViews(), icon: Eye },
+    { label: "Discussions", value: "1", icon: MessageCircle }
   ];
 
   // Function to initialize scroll observers for animation

@@ -69,6 +69,31 @@ const articleSchema = new mongoose.Schema({
 
 const Article = mongoose.model('Article', articleSchema);
 
+// Comment Schema
+const commentSchema = new mongoose.Schema({
+  articleId: {
+    type: Number,
+    required: true
+  },
+  content: {
+    type: String,
+    required: true,
+    maxlength: 1000
+  },
+  author: {
+    type: String,
+    required: true
+  },
+  userId: {
+    type: String,
+    required: true
+  }
+}, {
+  timestamps: true
+});
+
+const Comment = mongoose.model('Comment', commentSchema);
+
 // Initialize articles with base data
 const initializeArticles = async () => {
   const articlesData = [
@@ -223,6 +248,51 @@ app.get('/api/articles/stats', async (req, res) => {
     res.json(stats);
   } catch (error) {
     console.error('Error fetching articles stats:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Get comments for an article
+app.get('/api/articles/:id/comments', async (req, res) => {
+  try {
+    const articleId = parseInt(req.params.id);
+    const comments = await Comment.find({ articleId })
+      .sort({ createdAt: -1 }); // Most recent first
+
+    res.json(comments);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Add a comment to an article
+app.post('/api/articles/:id/comments', async (req, res) => {
+  try {
+    const articleId = parseInt(req.params.id);
+    const { content, author, userId } = req.body;
+
+    // Validate input
+    if (!content || !content.trim()) {
+      return res.status(400).json({ error: 'Comment content is required' });
+    }
+
+    if (content.length > 1000) {
+      return res.status(400).json({ error: 'Comment is too long' });
+    }
+
+    // Create new comment
+    const comment = new Comment({
+      articleId,
+      content: content.trim(),
+      author: author || `User ${userId.slice(0, 8)}`,
+      userId
+    });
+
+    await comment.save();
+    res.status(201).json(comment);
+  } catch (error) {
+    console.error('Error adding comment:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
