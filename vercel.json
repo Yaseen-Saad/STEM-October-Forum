@@ -22,7 +22,7 @@
     },
     {
       "src": "/api/(.*)",
-      "dest": "https://your-backend-url.vercel.app/api/$1"
+      "dest": "https://stem-october-forum-backend.vercel.app/api/$1"
     },
     {
       "src": "/(.*)",
@@ -32,10 +32,10 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://your-backend-url.vercel.app/api/$1"
+      "destination": "https://stem-october-forum-backend.vercel.app/api/$1"
     }
   ],
   "env": {
-    "REACT_APP_API_URL": "https://your-backend-url.vercel.app"
+    "REACT_APP_API_URL": "https://stem-october-forum-backend.vercel.app"
   }
 }

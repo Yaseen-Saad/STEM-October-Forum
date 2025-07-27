@@ -275,13 +275,13 @@ function ArticlePage() {
                     {loading ? "..." : formatViewCount(viewCount)} views
                   </span>
                 </div>
-                <div 
+                <div
                   className={`flex items-center cursor-pointer transition-all duration-300 ${isLiked ? 'text-primary-500' : 'text-white/70 hover:text-primary-400'}`}
                   onClick={handleLikeArticle}
                 >
-                  <Heart 
-                    className="mr-2" 
-                    size={20} 
+                  <Heart
+                    className="mr-2"
+                    size={20}
                     fill={isLiked ? "currentColor" : "none"}
                   />
                   <span className="font-semibold">
@@ -315,236 +315,162 @@ function ArticlePage() {
 
       {/* Article Content */}
       <main className="px-8 lg:px-16 pb-24 relative z-10">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12">
-          {/* Main Content */}
-          <article className="lg:col-span-8">
-            <div className="prose prose-lg prose-invert max-w-none">
-              {/* Hero Image */}
-              <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                  src={currentArticle.image} 
-                  alt={currentArticle.title}
-                  className="w-full h-64 lg:h-80 object-cover"
-                />
-              </div>
-
-              {/* Content */}
-              <div className="space-y-8 text-white/90 leading-relaxed">
-                <p className="text-xl font-medium text-white leading-relaxed">
-                  {currentArticle.excerpt}
-                </p>
-                
-                <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
-                
-                <p className="text-lg">
-                  In the tapestry of human ambition, the pursuit of leadership positions has been both glorified and scrutinized. Within educational institutions especially, the race for student leadership roles often reveals deeper psychological and social dynamics that extend beyond the simple desire to serve.
-                </p>
-                
-                <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                  Understanding the Pursuit of Leadership
-                </h2>
-                
-                <p className="text-lg">
-                  The crown—whether literal or metaphorical—has long symbolized authority, respect, and influence. In academic environments, student leadership positions like student council president, club leader, or team captain represent microcosmic versions of these societal power structures. These roles offer students the opportunity to develop crucial skills: organization, communication, delegation, and decision-making.
-                </p>
-                
-                <p className="text-lg">
-                  However, beneath this surface-level understanding lies a complex web of motivations. For some students, leadership positions represent a genuine desire to contribute positively to their community. For others, these positions become vehicles for personal validation, resume enhancement, or social status elevation.
-                </p>
-                
-                <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                  The Psychology Behind Leadership Aspirations
-                </h2>
-                
-                <p className="text-lg">
-                  Research in educational psychology suggests that leadership aspirations often correlate with identity formation during adolescence and young adulthood. As students navigate the complex process of self-definition, leadership roles can provide external validation and a sense of purpose. The recognition from peers and authority figures satisfies fundamental human needs for belonging and esteem.
-                </p>
-                
-                <p className="text-lg">
-                  This psychological dimension explains why rejection from leadership positions can feel deeply personal—it's not merely a practical disappointment but can be perceived as a rejection of one's core identity and capabilities.
-                </p>
-                
-                <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
-                  <div className="border-l-4 border-primary-400 pl-6">
-                    <p className="text-xl italic text-white mb-4">
-                      "The true test of leadership is not found in the acquisition of titles, but in the impact one makes regardless of position. Leadership is a service, not a status symbol."
-                    </p>
-                    <cite className="text-primary-400 font-semibold">— Dr. Maya Richards, Educational Psychologist</cite>
-                  </div>
-                </div>
-                
-                <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                  When the Pursuit Becomes Problematic
-                </h2>
-                
-                <p className="text-lg">
-                  Leadership aspirations become concerning when the focus shifts entirely to the acquisition of the position rather than the responsibilities it entails. Signs of this shift include:
-                </p>
-                
-                <div className="bg-gradient-to-r from-accent-900/30 to-primary-900/30 rounded-2xl p-8 border border-white/10 my-8">
-                  <ul className="space-y-4 text-white">
-                    <li className="flex items-start">
-                      <span className="w-2 h-2 bg-accent-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                      Viewing leadership positions primarily as resume credentials rather than opportunities for community impact
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-2 h-2 bg-primary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                      Experiencing disproportionate emotional distress when not selected for roles
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-2 h-2 bg-secondary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                      Pursuing positions in areas where one lacks genuine interest or expertise
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-2 h-2 bg-accent-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                      Measuring self-worth predominantly through acquired titles and positions
-                    </li>
-                  </ul>
-                </div>
-                
-                <p className="text-lg">
-                  This misalignment between motivation and purpose often results in ineffective leadership and personal frustration. Leaders driven purely by status may find the actual work unfulfilling, while their constituents experience the disconnect between promise and performance.
-                </p>
-                
-                <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                  Reframing Our Understanding of Leadership
-                </h2>
-                
-                <p className="text-lg">
-                  Authentic leadership transcends titles and positions. It manifests in daily actions, ethical choices, and genuine interactions. Educational institutions have a responsibility to promote this broader understanding of leadership—one that values impact over recognition and service over status.
-                </p>
-                
-                <p className="text-lg">
-                  Students would benefit from opportunities to develop leadership skills outside the confines of traditional positions. Collaborative projects, community service initiatives, and peer mentoring programs can foster leadership qualities without the competitive element that often accompanies formal leadership roles.
-                </p>
-                
-                <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                  Conclusion: Beyond the Crown
-                </h2>
-                
-                <p className="text-lg">
-                  The allure of the crown—of leadership positions and titles—is understandable in our achievement-oriented society. However, true leadership transcends these external markers. As students and educators, we must work to cultivate an environment where leadership is recognized in its many forms, where contribution is valued over position, and where service becomes its own reward.
-                </p>
-                
-                <p className="text-lg mb-12">
-                  By shifting our focus from acquiring leadership titles to developing leadership qualities, we create space for more authentic expressions of leadership to emerge—ones that benefit both the individual and the community they serve.
-                </p>
-                
-                <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4">
-                      <User className="text-white" size={24} />
-                    </div>
-                    <div>
-                      <p className="font-bold text-white text-lg">{currentArticle.author}</p>
-                      <p className="text-white/70">Educational Leadership Researcher</p>
-                    </div>
-                  </div>
-                  <p className="text-white/90 italic">
-                    "Through years of research in educational psychology, I've seen how authentic leadership development transforms not just individuals, but entire communities."
-                  </p>
-                </div>
-              </div>
+        {/* Main Content */}
+        <article className="lg:col-span-8">
+          <div className="prose prose-lg prose-invert max-w-none">
+            {/* Hero Image */}
+            <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl">
+              <img
+                src={currentArticle.image}
+                alt={currentArticle.title}
+                className="w-full h-64 lg:h-80 object-cover"
+              />
             </div>
-          </article>
 
-          {/* Sidebar */}
-          <aside className="lg:col-span-4">
-            <div className="sticky top-8 space-y-8">
-              {/* Article Navigation */}
-              <div className="glass rounded-2xl p-6 border border-white/10">
-                <h3 className="text-xl font-bold text-gradient mb-4">Article Navigation</h3>
-                <ul className="space-y-3 text-sm">
-                  <li>
-                    <a href="#introduction" className="text-white/70 hover:text-primary-400 transition-colors duration-300 flex items-center">
-                      <span className="w-1.5 h-1.5 bg-primary-400 rounded-full mr-3"></span>
-                      Introduction
-                    </a>
+            {/* Content */}
+            <div className="space-y-8 text-white/90 leading-relaxed">
+              <p className="text-xl font-medium text-white leading-relaxed">
+                {currentArticle.excerpt}
+              </p>
+
+              <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
+
+              <p className="text-lg">
+                In the tapestry of human ambition, the pursuit of leadership positions has been both glorified and scrutinized. Within educational institutions especially, the race for student leadership roles often reveals deeper psychological and social dynamics that extend beyond the simple desire to serve.
+              </p>
+
+              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+                Understanding the Pursuit of Leadership
+              </h2>
+
+              <p className="text-lg">
+                The crown—whether literal or metaphorical—has long symbolized authority, respect, and influence. In academic environments, student leadership positions like student council president, club leader, or team captain represent microcosmic versions of these societal power structures. These roles offer students the opportunity to develop crucial skills: organization, communication, delegation, and decision-making.
+              </p>
+
+              <p className="text-lg">
+                However, beneath this surface-level understanding lies a complex web of motivations. For some students, leadership positions represent a genuine desire to contribute positively to their community. For others, these positions become vehicles for personal validation, resume enhancement, or social status elevation.
+              </p>
+
+              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+                The Psychology Behind Leadership Aspirations
+              </h2>
+
+              <p className="text-lg">
+                Research in educational psychology suggests that leadership aspirations often correlate with identity formation during adolescence and young adulthood. As students navigate the complex process of self-definition, leadership roles can provide external validation and a sense of purpose. The recognition from peers and authority figures satisfies fundamental human needs for belonging and esteem.
+              </p>
+
+              <p className="text-lg">
+                This psychological dimension explains why rejection from leadership positions can feel deeply personal—it's not merely a practical disappointment but can be perceived as a rejection of one's core identity and capabilities.
+              </p>
+
+              <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+                <div className="border-l-4 border-primary-400 pl-6">
+                  <p className="text-xl italic text-white mb-4">
+                    "The true test of leadership is not found in the acquisition of titles, but in the impact one makes regardless of position. Leadership is a service, not a status symbol."
+                  </p>
+                  <cite className="text-primary-400 font-semibold">— Dr. Maya Richards, Educational Psychologist</cite>
+                </div>
+              </div>
+
+              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+                When the Pursuit Becomes Problematic
+              </h2>
+
+              <p className="text-lg">
+                Leadership aspirations become concerning when the focus shifts entirely to the acquisition of the position rather than the responsibilities it entails. Signs of this shift include:
+              </p>
+
+              <div className="bg-gradient-to-r from-accent-900/30 to-primary-900/30 rounded-2xl p-8 border border-white/10 my-8">
+                <ul className="space-y-4 text-white">
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-accent-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                    Viewing leadership positions primarily as resume credentials rather than opportunities for community impact
                   </li>
-                  <li>
-                    <a href="#understanding" className="text-white/70 hover:text-primary-400 transition-colors duration-300 flex items-center">
-                      <span className="w-1.5 h-1.5 bg-secondary-400 rounded-full mr-3"></span>
-                      Understanding Leadership Pursuit
-                    </a>
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-primary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                    Experiencing disproportionate emotional distress when not selected for roles
                   </li>
-                  <li>
-                    <a href="#psychology" className="text-white/70 hover:text-primary-400 transition-colors duration-300 flex items-center">
-                      <span className="w-1.5 h-1.5 bg-accent-400 rounded-full mr-3"></span>
-                      Psychology Behind Aspirations
-                    </a>
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-secondary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                    Pursuing positions in areas where one lacks genuine interest or expertise
                   </li>
-                  <li>
-                    <a href="#problematic" className="text-white/70 hover:text-primary-400 transition-colors duration-300 flex items-center">
-                      <span className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-3"></span>
-                      When Pursuit Becomes Problematic
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#reframing" className="text-white/70 hover:text-primary-400 transition-colors duration-300 flex items-center">
-                      <span className="w-1.5 h-1.5 bg-secondary-500 rounded-full mr-3"></span>
-                      Reframing Leadership
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#conclusion" className="text-white/70 hover:text-primary-400 transition-colors duration-300 flex items-center">
-                      <span className="w-1.5 h-1.5 bg-accent-500 rounded-full mr-3"></span>
-                      Conclusion
-                    </a>
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-accent-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                    Measuring self-worth predominantly through acquired titles and positions
                   </li>
                 </ul>
               </div>
 
-              {/* Related Articles */}
-              <div className="glass rounded-2xl p-6 border border-white/10">
-                <h3 className="text-xl font-bold text-gradient mb-6">Related Articles</h3>
-                <div className="space-y-4">
-                  {[
-                    { title: "Building Authentic Leadership Skills", category: "Education", readTime: "6 min read" },
-                    { title: "The Psychology of Academic Achievement", category: "Psychology", readTime: "8 min read" },
-                    { title: "Student Mental Health in Competitive Environments", category: "Wellness", readTime: "7 min read" }
-                  ].map((article, index) => (
-                    <div key={index} className="group cursor-pointer">
-                      <div className="p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 border border-white/10">
-                        <span className="text-xs text-primary-400 font-semibold">{article.category}</span>
-                        <h4 className="text-white font-semibold text-sm mt-1 group-hover:text-primary-400 transition-colors duration-300">
-                          {article.title}
-                        </h4>
-                        <p className="text-white/60 text-xs mt-2">{article.readTime}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <p className="text-lg">
+                This misalignment between motivation and purpose often results in ineffective leadership and personal frustration. Leaders driven purely by status may find the actual work unfulfilling, while their constituents experience the disconnect between promise and performance.
+              </p>
 
-              {/* Newsletter Signup */}
-              <div className="glass rounded-2xl p-6 border border-white/10">
-                <h3 className="text-xl font-bold text-gradient mb-4">Stay Updated</h3>
-                <p className="text-white/70 text-sm mb-4">
-                  Get the latest insights on leadership, education, and personal development delivered to your inbox.
-                </p>
-                <div className="space-y-3">
-                  <input 
-                    type="email" 
-                    placeholder="Enter your email"
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400 transition-colors duration-300"
-                  />
-                  <button className="w-full bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
-                    Subscribe
-                  </button>
+              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+                Reframing Our Understanding of Leadership
+              </h2>
+
+              <p className="text-lg">
+                Authentic leadership transcends titles and positions. It manifests in daily actions, ethical choices, and genuine interactions. Educational institutions have a responsibility to promote this broader understanding of leadership—one that values impact over recognition and service over status.
+              </p>
+
+              <p className="text-lg">
+                Students would benefit from opportunities to develop leadership skills outside the confines of traditional positions. Collaborative projects, community service initiatives, and peer mentoring programs can foster leadership qualities without the competitive element that often accompanies formal leadership roles.
+              </p>
+
+              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+                Conclusion: Beyond the Crown
+              </h2>
+
+              <p className="text-lg">
+                The allure of the crown—of leadership positions and titles—is understandable in our achievement-oriented society. However, true leadership transcends these external markers. As students and educators, we must work to cultivate an environment where leadership is recognized in its many forms, where contribution is valued over position, and where service becomes its own reward.
+              </p>
+
+              <p className="text-lg mb-12">
+                By shifting our focus from acquiring leadership titles to developing leadership qualities, we create space for more authentic expressions of leadership to emerge—ones that benefit both the individual and the community they serve.
+              </p>
+
+              <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4">
+                    <User className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <p className="font-bold text-white text-lg">{currentArticle.author}</p>
+                    <p className="text-white/70">Educational Leadership Researcher</p>
+                  </div>
                 </div>
+                <p className="text-white/90 italic">
+                  "Through years of research in educational psychology, I've seen how authentic leadership development transforms not just individuals, but entire communities."
+                </p>
               </div>
             </div>
-          </aside>
-        </div>
-          
+          </div>        </article>
       </main>
 
       {/* Footer/Comments Section */}
       <section className="bg-gradient-to-t from-black/50 to-transparent px-8 lg:px-16 py-16 relative z-10">
         <div className="max-w-6xl mx-auto">
+          {/* Newsletter Signup */}
+          <div className="glass rounded-2xl p-6 border mb-4 border-white/10">
+            <h3 className="text-xl font-bold text-gradient mb-4">Stay Updated</h3>
+            <p className="text-white/70 text-sm mb-4">
+              Get the latest insights on leadership, education, and personal development delivered to your inbox.
+            </p>
+            <div className="space-y-3">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400 transition-colors duration-300"
+              />
+              <button className="w-full bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
+                Subscribe
+              </button>
+            </div>
+          </div>
+
           <div className="glass rounded-2xl p-8 border border-white/10">
             <h3 className="text-2xl font-bold text-gradient mb-6">Join the Discussion</h3>
-            
+
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-6">
                 <div className="flex items-center">
@@ -556,8 +482,8 @@ function ArticlePage() {
                   <span className="text-white font-semibold">{loading ? "..." : likeCount} Likes</span>
                 </div>
               </div>
-              
-              <button 
+
+              <button
                 onClick={() => setShowCommentForm(!showCommentForm)}
                 className="bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300"
               >
@@ -596,7 +522,7 @@ function ArticlePage() {
                 </div>
               </form>
             )}
-            
+
             {/* Comments List */}
             {commentsLoading ? (
               <div className="text-center py-8">
