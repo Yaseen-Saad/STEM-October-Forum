@@ -7,28 +7,6 @@
       "config": { "distDir": "build" }
     }
   ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/manifest.json"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "https://stem-october-forum-backend.vercel.app/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
