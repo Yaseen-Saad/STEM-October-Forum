@@ -12,7 +12,8 @@ import {
   Twitter,
   AlertCircle,
   Linkedin,
-  Instagram
+  Instagram,
+  Feather
 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { getArticleStats, incrementArticleView, toggleArticleLike } from './api';
@@ -25,20 +26,22 @@ function ArticlePage() {
   // Articles data - this would typically come from a database or API
   const articles = {
     1: {
-      title: "The Allure of the Crown: When Leadership Becomes a Misunderstood Pursuit",
-      author: "The Editorial Team",
-      date: "July 25, 2025",
-      readTime: "8 min read",
-      category: "Philosophy"
+      title: "Why Does Hisoka Morow Love Power So Much?",
+      author: "Yaseen Mohamed-Abdelal",
+      date: "July 27, 2025",
+      readTime: "15 min read",
+      category: "Leadership",
+      image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop&crop=faces"
     },
-    2: {
-      title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
-      author: "Ahmed Hassan",
-      date: "July 22, 2025",
-      readTime: "6 min read",
-      category: "Student Life",
-      excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student."
-    }
+    // 2: {
+    //   title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
+    //   author: "Yaseen Mohamed-Abdelal",
+    //   date: "July 22, 2025",
+    //   readTime: "6 min read",
+    //   category: "Student Life",
+    //   excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
+    //   image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+    // }
   };
 
   const currentArticle = articles[articleId] || articles[1];
@@ -222,6 +225,7 @@ function ArticlePage() {
     if (articleId === 2) {
       return (
         <div className="space-y-8 text-white/90 leading-relaxed">
+
           <p className="text-xl font-medium text-white leading-relaxed">
             {currentArticle.excerpt}
           </p>
@@ -229,7 +233,7 @@ function ArticlePage() {
           <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
 
           <p className="text-lg">
-            As I sit in my dorm room at 2 AM, surrounded by textbooks, empty coffee cups, and the soft glow of my laptop screen, I can't help but reflect on the journey that brought me here. Like many students, I entered university with grand ambitions and an unwavering determination to excel in every aspect of my academic life. What I didn't anticipate was how this pursuit of excellence would challenge not just my intellectual capacity, but my entire well-being.
+            As I sit in my dorm room at <em className="text-accent-400">2 AM</em>, surrounded by textbooks, empty coffee cups, and the soft glow of my laptop screen, I can't help but reflect on the journey that brought me here. Like many students, I entered university with <strong className="text-primary-400">grand ambitions</strong> and an <u className="decoration-secondary-400 decoration-2">unwavering determination</u> to excel in every aspect of my academic life. What I didn't anticipate was how this pursuit of excellence would challenge not just my <em>intellectual capacity</em>, but my <span className="font-bold text-white">entire well-being</span>.
           </p>
 
           <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
@@ -237,11 +241,11 @@ function ArticlePage() {
           </h2>
 
           <p className="text-lg">
-            The pressure to excel academically comes from multiple sources: parents who have sacrificed for our education, professors who set high standards, peers who seem to effortlessly navigate complex concepts, and perhaps most critically, ourselves. We set benchmarks that often seem impossible to reach, yet we pursue them relentlessly.
+            The pressure to excel academically comes from <strong className="text-white">multiple sources</strong>: parents who have <em className="text-primary-400">sacrificed for our education</em>, professors who set <u className="decoration-accent-400 decoration-2">high standards</u>, peers who seem to <span className="font-medium text-secondary-400">effortlessly navigate complex concepts</span>, and perhaps most critically, <strong className="text-gradient">ourselves</strong>. We set benchmarks that often seem <em>impossible to reach</em>, yet we pursue them <u className="decoration-white decoration-2">relentlessly</u>.
           </p>
 
           <p className="text-lg">
-            In my first year, I believed that success meant achieving perfect grades, participating in every extracurricular activity, maintaining an active social life, and still finding time for personal interests. The reality hit hard when I realized that this was not just challenging—it was unsustainable.
+            In my first year, I believed that success meant achieving <strong className="text-primary-400">perfect grades</strong>, participating in <em className="text-accent-400">every extracurricular activity</em>, maintaining an <u className="decoration-secondary-400 decoration-2">active social life</u>, and still finding time for personal interests. The reality hit hard when I realized that this was not just <span className="font-bold text-white">challenging</span>—it was <em className="text-red-400 font-semibold">unsustainable</em>.
           </p>
 
           <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
@@ -258,11 +262,11 @@ function ArticlePage() {
           </h2>
 
           <p className="text-lg">
-            The symptoms crept in gradually. First, it was just occasional fatigue—easily dismissed as the natural result of late-night studying. Then came the headaches, the difficulty concentrating during lectures I was once passionate about, and the growing sense of anxiety that accompanied every assignment deadline.
+            The symptoms crept in <em className="text-accent-400">gradually</em>. First, it was just <u className="decoration-primary-400 decoration-2">occasional fatigue</u>—easily dismissed as the natural result of late-night studying. Then came the <strong className="text-white">headaches</strong>, the <em>difficulty concentrating</em> during lectures I was once passionate about, and the <span className="font-bold text-red-400">growing sense of anxiety</span> that accompanied every assignment deadline.
           </p>
 
           <p className="text-lg">
-            Sleep became a luxury I convinced myself I couldn't afford. Meals turned into hurried affairs, often consisting of whatever was quickest to grab between classes. Exercise, which had once been a source of joy and stress relief, disappeared entirely from my routine. I was achieving my academic goals, but at what cost?
+            <strong className="text-primary-400">Sleep</strong> became a luxury I convinced myself I couldn't afford. <em className="text-secondary-400">Meals</em> turned into hurried affairs, often consisting of whatever was quickest to grab between classes. <u className="decoration-accent-400 decoration-2">Exercise</u>, which had once been a source of joy and stress relief, <span className="font-bold text-red-400">disappeared entirely</span> from my routine. I was achieving my academic goals, but <em className="text-white font-medium">at what cost?</em>
           </p>
 
           <div className="bg-gradient-to-r from-accent-900/30 to-primary-900/30 rounded-2xl p-8 border border-white/10 my-8">
@@ -296,11 +300,11 @@ function ArticlePage() {
           </h2>
 
           <p className="text-lg">
-            The turning point came during midterm season of my second year. After pulling three consecutive all-nighters, I found myself crying in the library—not from sadness, but from sheer exhaustion and the realization that I had lost sight of why I was pursuing education in the first place.
+            The turning point came during <strong className="text-accent-400">midterm season</strong> of my second year. After pulling <em className="text-red-400">three consecutive all-nighters</em>, I found myself <u className="decoration-primary-400 decoration-2">crying in the library</u>—not from sadness, but from <span className="font-bold text-white">sheer exhaustion</span> and the realization that I had <em className="text-secondary-400">lost sight of why I was pursuing education</em> in the first place.
           </p>
 
           <p className="text-lg">
-            That moment of vulnerability led me to seek help from the student counseling center. Speaking with a counselor helped me understand that my worth as a person wasn't tied to my GPA, and that sustainable success required a fundamental shift in how I approached my academic life.
+            That moment of <strong className="text-primary-400">vulnerability</strong> led me to seek help from the student counseling center. Speaking with a counselor helped me understand that my <em className="text-accent-400">worth as a person</em> wasn't tied to my GPA, and that <u className="decoration-secondary-400 decoration-2">sustainable success</u> required a <span className="font-bold text-gradient">fundamental shift</span> in how I approached my academic life.
           </p>
 
           <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
@@ -308,7 +312,7 @@ function ArticlePage() {
           </h2>
 
           <p className="text-lg">
-            Recovery wasn't instant, but implementing these strategies gradually transformed my academic experience:
+            <strong className="text-primary-400">Recovery</strong> wasn't instant, but implementing these strategies gradually <em className="text-accent-400">transformed</em> my academic experience:
           </p>
 
           <div className="bg-gradient-to-r from-secondary-900/30 to-accent-900/30 rounded-2xl p-8 border border-white/10 my-8">
@@ -342,11 +346,11 @@ function ArticlePage() {
           </h2>
 
           <p className="text-lg">
-            Today, I define success differently. It's not just about the grades on my transcript—though I still strive for academic excellence. Success is waking up feeling rested, approaching challenges with curiosity rather than dread, maintaining meaningful relationships, and feeling confident that I'm developing both intellectually and personally.
+            Today, I define success <em className="text-primary-400">differently</em>. It's not just about the <u className="decoration-secondary-400 decoration-2">grades on my transcript</u>—though I still strive for academic excellence. Success is <strong className="text-white">waking up feeling rested</strong>, approaching challenges with <em className="text-accent-400">curiosity rather than dread</em>, maintaining <span className="font-bold text-gradient">meaningful relationships</span>, and feeling confident that I'm developing both <u className="decoration-primary-400 decoration-2">intellectually and personally</u>.
           </p>
 
           <p className="text-lg">
-            My GPA might not be the perfect 4.0 I once obsessed over, but my learning is deeper, my relationships are stronger, and my mental health is substantially better. I've discovered that when I take care of my well-being, my academic performance actually improves because I can think more clearly and approach problems with greater creativity.
+            My GPA might not be the <em className="text-red-400">perfect 4.0</em> I once obsessed over, but my learning is <strong className="text-primary-400">deeper</strong>, my relationships are <u className="decoration-secondary-400 decoration-2">stronger</u>, and my mental health is <span className="font-bold text-green-400">substantially better</span>. I've discovered that when I take care of my well-being, my academic performance <em className="text-accent-400">actually improves</em> because I can think more clearly and approach problems with <strong className="text-white">greater creativity</strong>.
           </p>
 
           <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
@@ -354,11 +358,11 @@ function ArticlePage() {
           </h2>
 
           <p className="text-lg">
-            If you're reading this while feeling overwhelmed by academic pressure, please know that you're not alone. The culture of academic perfectionism affects countless students, and recognizing this struggle is the first step toward creating positive change.
+            If you're reading this while feeling <em className="text-red-400">overwhelmed by academic pressure</em>, please know that <strong className="text-primary-400">you're not alone</strong>. The culture of academic perfectionism affects <u className="decoration-accent-400 decoration-2">countless students</u>, and recognizing this struggle is the <span className="font-bold text-white">first step toward creating positive change</span>.
           </p>
 
           <p className="text-lg mb-12">
-            Excellence and well-being are not mutually exclusive. In fact, they complement each other in ways that make both more achievable and sustainable. Your education is important, but you—your health, happiness, and humanity—are irreplaceable.
+            <strong className="text-gradient">Excellence and well-being</strong> are <em className="text-accent-400">not mutually exclusive</em>. In fact, they <u className="decoration-primary-400 decoration-2">complement each other</u> in ways that make both more achievable and sustainable. Your education is important, but <span className="font-bold text-white">you</span>—your <em className="text-secondary-400">health</em>, <strong className="text-primary-400">happiness</strong>, and <u className="decoration-accent-400 decoration-2">humanity</u>—are <span className="font-bold text-gradient text-xl">irreplaceable</span>.
           </p>
 
           <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
@@ -379,60 +383,149 @@ function ArticlePage() {
       );
     }
 
-    // Default content for article 1 (Leadership article)
     return (
       <div className="space-y-8 text-white/90 leading-relaxed">
-        <p className="text-xl font-medium text-white leading-relaxed">
-          In the tapestry of human ambition, the pursuit of leadership positions has been both glorified and scrutinized. Within educational institutions especially, the race for student leadership roles often reveals deeper psychological and social dynamics that extend beyond the simple desire to serve.
-        </p>
-
         <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
+        <p className="text-lg">
+          In any community, especially our own at <em>STEM High School for Boys – 6th of October </em>, leadership is a powerful force. We see students aspiring to lead
+          everywhere – in non-profit teams, in clubs, on student councils, or even in
+          capstone teams, whether to make a real impact, stand out. Some are drawn
+          to the <em className="text-primary-400">idea</em> of leadership, seeking its <em className="text-primary-400">aura</em> without necessarily embracing its
+          responsibilities, others see it as a strategic step for boosting college
+          applications. Yet, beneath these varied aspirations,  a critical question
+          remains unasked: <em>
+            <u className="decoration-secondary-400 decoration-2">How do we truly understand and value leadership? What hidden needs does it sometimes
+              fill within us?  How does one's perception of themselves and others shift when they gain influence, seemingly
+              convinced they are now at the center of the universe? </u></em> </p>
+
+        <h2 className="text-3xl font-bold mt-12 mb-6">
+          The CHARACTER:        </h2>
 
         <p className="text-lg">
-          In the tapestry of human ambition, the pursuit of leadership positions has been both glorified and scrutinized. Within educational institutions especially, the race for student leadership roles often reveals deeper psychological and social dynamics that extend beyond the simple desire to serve.
-        </p>
+          For this discussion, we'll explore these
+          dynamics through the lens of <strong>Hisoka Morow</strong>—a
+          fictional character from HunterxHunter, chosen
+          to embody certain qualities and behaviors
+          associated with leadership.        </p>
 
-        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-          Understanding the Pursuit of Leadership
+
+        <h2 className="text-3xl font-bold mt-12 mb-6">
+          The MASK:
         </h2>
 
         <p className="text-lg">
-          The crown—whether literal or metaphorical—has long symbolized authority, respect, and influence. In academic environments, student leadership positions like student council president, club leader, or team captain represent microcosmic versions of these societal power structures. These roles offer students the opportunity to develop crucial skills: organization, communication, delegation, and decision-making.
+          Hisoka, at first, was simply another student among his peers—talkative, witty, but all
+          in all, just an ordinary guy, yet deep down; beneath that charm, there’s more.
+          Deep inside, Hisoka was uncertain of himself.
+          They might feel good, but never truly the best; smart, but never the smartest. Gifted, but never truly
+          exceptional. They felt like they were always
+          one step behind
+          the people who naturally stood out,
+          and that feeling kept eating him from the inside out.
         </p>
-
         <p className="text-lg">
-          However, beneath this surface-level understanding lies a complex web of motivations. For some students, leadership positions represent a genuine desire to contribute positively to their community. For others, these positions become vehicles for personal validation, resume enhancement, or social status elevation.
+          Hisoka, despite his achievements, constantly feels overlooked or not quite <em>enough</em> in academic discussions. They might crave recognition, not for the joy of contribution, but to silence that nagging doubt. So, when a leadership opportunity arises–perhaps a club presidency or a project lead–they see it as their golden ticket, believing the title itself will finally make them feel secure and respected.
         </p>
-
-        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-          The Psychology Behind Leadership Aspirations
-        </h2>
-
         <p className="text-lg">
-          Research in educational psychology suggests that leadership aspirations often correlate with identity formation during adolescence and young adulthood. As students navigate the complex process of self-definition, leadership roles can provide external validation and a sense of purpose. The recognition from peers and authority figures satisfies fundamental human needs for belonging and esteem.
-        </p>
-
-        <p className="text-lg">
-          This psychological dimension explains why rejection from leadership positions can feel deeply personal—it's not merely a practical disappointment but can be perceived as a rejection of one's core identity and capabilities.
+          For them, leadership becomes more than just a role; it's a <strong className="text-red-400">mask</strong>. It's a way to hide his insecurities, to compensate for perceived weaknesses, and to project an illusion of competence. They truly believe that if others see them as powerful, they will finally feel secure.
+          <em> <u className="decoration-secondary-400 decoration-2"> But does this external power, this title, ever truly fill that internal void?</u></em>
         </p>
 
         <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
           <div className="border-l-4 border-primary-400 pl-6">
-            <p className="text-xl italic text-white mb-4">
-              "The true test of leadership is not found in the acquisition of titles, but in the impact one makes regardless of position. Leadership is a service, not a status symbol."
-            </p>
-            <cite className="text-primary-400 font-semibold">— Dr. Maya Richards, Educational Psychologist</cite>
+            <p className="text-xl italic text-white">
+              “This approach treats leadership as a facade, a means to cover internal doubts rather  than a genuine commitment to service.”             </p>
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-          When the Pursuit Becomes Problematic
+        <h2 className="text-3xl font-bold mt-12 mb-6">
+          The LEADERBOARD:
         </h2>
 
         <p className="text-lg">
-          Leadership aspirations become concerning when the focus shifts entirely to the acquisition of the position rather than the responsibilities it entails. Signs of this shift include:
+          Hisoka views school life as a grand,
+          competitive <strong className="text-red-400">leaderboard</strong>. Every club, every
+          committee, every position wasn't just an
+          opportunity to serve, but a rank to be climbed, a
+          score to be displayed. He saw the entire student
+          body as a hierarchy where a title signifies
+          success. For them, leadership isn't about the
+          work; it's about the <em>win</em>, about having the
+          highest score. They might see the President of
+          the Student Council not as a facilitator of
+          student voice, but as the player with the most
+          points. They <em>believe</em> that being at the top of this
+          perceived leaderboard is the ultimate measure
+          of worth.        </p>
+
+        <p className="text-lg">
+          This mentality shifted his entire
+          worldview. The moment he stepped into a
+          leadership position, it was as if something
+          inside him switched. The way he spoke
+          changed. The way he looked at people shifted.
+          Those who were once his equals were now
+          beneath him, and he made sure they felt it. One
+          day, when asked if he was attending an event,
+          Hisoka smiled and declared, "I am going, but
+          not like you. I will go as an upper hand, as a
+          leader." His tone made it clear—he saw us as
+          beneath him now. This wasn’t about attending
+          an event; it was about proving that he was
+          different, that he was somehow above the rest of
+          us on the "board."
+
         </p>
 
+        <p className="text-lg">
+          Another time, when friends needed
+          information about an upcoming school
+          initiative that Hisoka, now in the "leadership
+          circle," had access to, he smirked and said, "This
+          info is for the leaders only. You guys don’t really
+          need to know, and if you need, you will know
+          with the rest of the people." It wasn’t just about
+          withholding information—it was the way he
+          said it, as if those without a title weren't worth
+          his consideration. For Hisoka, control over
+          information was another badge on his personal
+          leaderboard, a demonstration of his elevated
+          status, as if you need to have a higher score in
+          his virtual leaderboard to access such
+          information.
+        </p>
+        <p className="text-lg">
+          These were not isolated incidents.
+          Hisoka’s conversations became self-centered,
+          only engaging if the topic involved his personal
+          achievements, his leadership role, or his
+          "importance." If the discussion didn't revolve
+          around his perceived successes, he was
+          disinterested. His ego inflated, not from
+          genuine growth or contribution, but from the
+          mere acquisition of a title. The leadership
+          position, in his mind, had boosted his rank,
+          solidifying an illusion of superiority. The same
+          people he used to hang out with now felt like
+          extras in a story where he was the main
+          character. He wasn’t exactly chasing power for
+          its own sake, but once he got it, he treated
+          people differently—only respecting those who
+          could potentially benefit his own climb up the
+          metaphorical leaderboard. <em> <u className="decoration-secondary-400 decoration-2">But will Hisoka
+            finally reach the top of his leaderboard?</u></em>
+        </p>
+
+        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+          <div className="border-l-4 border-primary-400 pl-6">
+            <p className="text-xl italic text-white">
+              “This approach mirrors a ‘leaderboard’ mentality, where the goal is to climb
+              the ranks and gain status, much like in an app or
+              game, rather than to genuinely contribute.” </p>          </div>
+        </div>
+
+
+        {/* 
         <div className="bg-gradient-to-r from-accent-900/30 to-primary-900/30 rounded-2xl p-8 border border-white/10 my-8">
           <ul className="space-y-4 text-white">
             <li className="flex items-start">
@@ -452,35 +545,142 @@ function ArticlePage() {
               Measuring self-worth predominantly through acquired titles and positions
             </li>
           </ul>
+        </div> */}
+
+
+
+        <h2 className="text-3xl font-bold mt-12 mb-6">
+          The SPOTLIGHT:         </h2>
+
+        <p className="text-lg">
+          Hisoka was always drawn to the loudest
+          applause, the brightest lights. Even as a regular
+          student, he found ways to make sure his voice
+          was heard, his ideas acknowledged, often
+          dominating group discussions or volunteering
+          for public presentations. They thrived on the
+          attention, the fleeting moments when all eyes
+          were on them. But it was never truly about the
+          project; it was about the audience. When a
+          leadership role became available, like leading
+          the school's summer camp, Hisoka didn't see it
+          as a chance to organize a great event for his
+          peers. He saw it as the ultimate stage. He
+          imagined himself at the flag and all the
+          sophomores circling around him asking him
+          for help, he saw it as the chance to put him
+          inside the <strong className="text-red-400">spotlight</strong>.        </p>
+
+        <p className="text-lg">
+          For them, leadership wasn't about
+          guiding; it was about <strong>being seen</strong>, about being
+          admired, about having all eyes on them. The
+          title was merely the spotlight operator, ensuring
+          they were always illuminated. They would
+          volunteer for tasks that offered maximum
+          visibility, even if they weren't the most
+          impactful or necessary. During meetings, they
+          would steer conversations back to their
+          contributions, ensuring their name was
+          associated with every success. If someone else
+          received praise, they would subtly interject with
+          their own role in the achievement, diverting the
+          attention back to themself. This constant need
+          for validation, for the glow of the spotlight, meant that the true purpose of leadership—serving others—was overshadowed
+          by their insatiable hunger for personal
+          recognition. <em><u className="decoration-secondary-400 decoration-2">But can true leadership ever
+            flourish when its primary motivation is the
+            applause of the crowd?  </u></em>       </p>
+        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+          <div className="border-l-4 border-primary-400 pl-6">
+            <p className="text-xl italic text-white">
+              “This perspective views leadership as a stage for personal acclaim, where the desire for attention eclipses the actual work of guiding and serving.” </p>          </div>
         </div>
 
+        <h2 className="text-3xl font-bold mt-12 mb-6">
+          The MINISTER:</h2>
+
+        <p className="text-lg">There was a time when a group project was spiraling out of control, and Hisoka, though not the actual leader, quickly stepped in. But his "help" wasn't collaborative. He didn't ask for ideas; he dictated tasks. He didn't facilitate discussion; he issued commands. If someone suggested an alternative, he would dismiss it with a dismissive wave or a sharp retort, asserting his way as the only way. He believed that only through his strict guidance could chaos be averted.</p>
         <p className="text-lg">
-          This misalignment between motivation and purpose often results in ineffective leadership and personal frustration. Leaders driven purely by status may find the actual work unfulfilling, while their constituents experience the disconnect between promise and performance.
+          When he finally gained an official
+          leadership position, this tendency intensified.
+          For Hisoka, leadership wasn't about empowering a team; it was about
+          <strong> exerting absolute control, like being the <strong className="text-red-400">minister</strong> ,</strong>
+          about ensuring that every piece moved exactly
+          as he commanded. He micro-managed every
+          detail, insisted on approving every decision, and
+          grew visibly agitated if anyone deviated from
+          his precise instructions. He viewed delegation
+          not as trust, but as a necessary evil to be
+          managed with an iron fist. He would withhold
+          information he deemed "unnecessary" for
+          others to know, or change plans at the last
+          minute without consultation, all to maintain his
+          grip on every aspect of the project. He believed
+          that if he could control everything, he could
+          control his own anxieties and the unpredictable
+          nature of the world around him. But in doing so,
+          he stifled creativity, eroded trust, and
+          ultimately, alienated those he was supposed to
+          lead. But does his approach of controlling
+          everyone and everything actually expand the
+          impact or just limit it more?
         </p>
+        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+          <div className="border-l-4 border-primary-400 pl-6">
+            <p className="text-xl italic text-white">
+              “This mentality transforms leadership into a tool for dominance, prioritizing rigid control over collaboration and empowerment, ultimately hindering true progress.”
+            </p>
+          </div>
+        </div>
 
-        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-          Reframing Our Understanding of Leadership
-        </h2>
 
+
+
+        <h2 className="text-3xl font-bold mt-12 mb-6">
+          Leadership as an Outcast's Pursuit
+          :</h2>
         <p className="text-lg">
-          Authentic leadership transcends titles and positions. It manifests in daily actions, ethical choices, and genuine interactions. Educational institutions have a responsibility to promote this broader understanding of leadership—one that values impact over recognition and service over status.
+          But here's the fundamental flaw, the specific "bug" in Hisoka's understanding that mocks the
+          actual meaning of leadership: even after securing his leadership position, <em><u className="decoration-secondary-400 decoration-2">did he feel truly fulfilled? Did
+            he finally feel like he had proven himself? Or did he just keep chasing more, because deep down, the
+            insecurity never left, the leaderboard always had another higher rank to achieve, the spotlight could
+            always shine brighter, and there was always something more to control?</u></em>
         </p>
-
         <p className="text-lg">
-          Students would benefit from opportunities to develop leadership skills outside the confines of traditional positions. Collaborative projects, community service initiatives, and peer mentoring programs can foster leadership qualities without the competitive element that often accompanies formal leadership roles.
+          This is the heartbreaking truth: <strong>leadership, when seen as a mask for insecurity, a game for
+            status, a stage for personal glory, or a means of absolute control, inevitably makes the "leader" an
+            <strong className="text-red-400"> outcast</strong></strong>. Hisoka, in his relentless pursuit of titles, validation, attention, and dominance, distanced
+          himself from genuine connection. He alienated those who once cared for him, transforming
+          friendships into transactional relationships based on perceived utility. His focus on self-importance,
+          his need for control, and his hunger for the spotlight made him incapable of truly listening,
+          empathizing, or collaborating—the very cornerstones of effective leadership. He became isolated on his
+          self-constructed pedestal, respected (if at all) for his position, but not for his character or his true
+          impact
         </p>
-
-        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-          Conclusion: Beyond the Crown
-        </h2>
-
         <p className="text-lg">
-          The allure of the crown—of leadership positions and titles—is understandable in our achievement-oriented society. However, true leadership transcends these external markers. As students and educators, we must work to cultivate an environment where leadership is recognized in its many forms, where contribution is valued over position, and where service becomes its own reward.
+          True leaders don’t need titles to feel worthy. They don’t need to prove their value by stepping on
+          others or holding information. They don't see their peers as competitors or rungs on a ladder. Instead,
+          they lead because they want to help, to empower others, to contribute to something larger than
+          themselves. They understand that leadership isn't a solitary ascent to the top of an "apps leadership
+          board," nor is it a personal performance or a means to dominate. It is a shared journey where genuine
+          connection, service, and collaboration create lasting impact. When leadership becomes about
+          self-gratification —whether to hide insecurities, climb a social ladder, bask in the spotligh </p>
+        <p className="text-lg">
+          So, the question for us, and for characters like Hisoka, remains:
+
         </p>
 
-        <p className="text-lg mb-12">
-          By shifting our focus from acquiring leadership titles to developing leadership qualities, we create space for more authentic expressions of leadership to emerge—ones that benefit both the individual and the community they serve.
-        </p>
+
+
+        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+          <div className="border-l-4 border-primary-400 pl-6">
+            <p className="text-xl italic text-white">
+              Does one lead because they are truly capable and committed to a cause, or do they lead
+              because, without the title, they feel like they are not enough?            </p>
+          </div>
+        </div>
+
 
         <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
           <div className="flex items-center mb-4">
@@ -489,11 +689,11 @@ function ArticlePage() {
             </div>
             <div>
               <p className="font-bold text-white text-lg">{currentArticle.author}</p>
-              <p className="text-white/70">Educational Leadership Researcher</p>
+              <p className="text-white/70">Senior at STEM High School for Boys - 6th of October </p>
             </div>
           </div>
           <p className="text-white/90 italic">
-            "Through years of research in educational psychology, I've seen how authentic leadership development transforms not just individuals, but entire communities."
+            "Through my years at the school, I've seen how leadership transforms not just individuals, but entire communities."
           </p>
         </div>
       </div>
@@ -501,7 +701,7 @@ function ArticlePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero text-white relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-article text-white relative overflow-x-hidden">
       {/* Modern Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
         <div className="absolute top-20 right-20 w-96 h-96 bg-primary-500 opacity-20 blur-3xl rounded-full animate-float"></div>
@@ -611,19 +811,63 @@ function ArticlePage() {
       <main className="px-8 lg:px-16 pb-24 relative z-10">
         {/* Main Content */}
         <article className="lg:col-span-8">
+          {/* Editorial Letter */}
+          <div className="glass rounded-2xl p-8 border border-white/10 mt-8 mb-8 bg-gradient-to-br from-primary-900/20 to-secondary-900/20">
+            <div className="flex items-center mb-6">
+              <div className="w-16 h-16 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4 shadow-glow">
+                <Feather className="text-white" size={28} />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-gradient">Letter from the Editorial Team</h3>
+                <p className="text-white/70">STEM October Forum</p>
+              </div>
+            </div>
+
+            <div className="space-y-4 text-white/90 leading-relaxed">
+              <p className="text-lg">
+                <strong className="text-white">Dear Readers,</strong>
+              </p>
+
+              <p>
+                Welcome to the very first article of the <span className="font-bold text-primary-400">STEM October Forum !</span>
+              </p>
+              <p>
+                Here at <em>STEM High School for Boys - 6th of October</em>, we're surrounded by opinions, ideas and thoughts. We truly do believe that every voice is worth hearing, and that words have an amazing ability to mold ideas, transform perspectives, and spark growth. That's why the <em>STEM October Forum</em> is more than a collection of essays. It's a place where you can speak your minds freely, debate thoughtfully, and help build a stronger, more thoughtful community. Our hope for these essays is to get us all talking to find new insights here in our community.
+              </p>
+
+              <p>
+                To keep our discussions respectful and constructive, we will use cartoon, anime, video game, or movie characters to represent certain qualities or traits. We are attempting to promote self-reflection and a positive forum for thinking and growth, not judge people. This Forum is about growing up and heavy thinking, not public criticism.
+              </p>
+              <p>
+                Beyond the mere sharing of ideas, we're dedicated to encourage deeper thinking, boost awareness, and help all students grow in maturity. We wholeheartedly believe that real development takes place when we engage other perspectives, question the world we inhabit, and develop the wisdom to think logically. By exploring multiple points of view, debating matters of significance, and reflecting on the bigger picture, we seek to help shape students who are not just knowledgeable but also thoughtful and open-minded.
+              </p>
+              <p>
+                his Forum truly is for all of us. So, <em>read, reflect, contribute, discuss, debate, respect, learn, and most of all—enjoy!</em></p>
+
+              <div className="border-t border-white/20 pt-4 mt-6">
+                <p className="text-white font-semibold">Warmly,</p>
+                <p className="text-white/90 font-semibold">The Editorial Team,</p>
+                <p className="text-white/70 text-sm">STEM October Forum.</p>
+              </div>
+            </div>
+          </div>
           <div className="prose prose-lg prose-invert max-w-none">
+
             {/* Hero Image */}
-            <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="mb-12 rounded-2xl overflow-hidden shadow-2xl max-w-md mx-auto border border-white/10">
               <img
-                src={currentArticle.image}
+                src={currentArticle.image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"}
                 alt={currentArticle.title}
-                className="w-full h-64 lg:h-80 object-cover"
+                className="w-full aspect-square object-cover hover:scale-105 transition-transform duration-500"
               />
             </div>
 
+
             {/* Content */}
             {renderArticleContent()}
-          </div>        </article>
+
+          </div>
+        </article>
       </main>
 
       {/* Footer/Comments Section */}
