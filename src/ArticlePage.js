@@ -87,6 +87,12 @@ function ArticlePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // State for comments
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+  const [commentsLoading, setCommentsLoading] = useState(false);
+  const [showCommentForm, setShowCommentForm] = useState(false);
+
   // Load article stats from MongoDB and handle view counting
   useEffect(() => {
     const loadArticleData = async () => {
@@ -124,6 +130,7 @@ function ArticlePage() {
     };
 
     loadArticleData();
+    loadComments();
   }, [articleId]);
 
   // Function to handle article like/unlike using MongoDB
@@ -146,6 +153,56 @@ function ArticlePage() {
 
     } catch (error) {
       console.error('Failed to toggle like:', error);
+    }
+  };
+
+  // Function to load comments
+  const loadComments = async () => {
+    try {
+      setCommentsLoading(true);
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/api/articles/${articleId}/comments`);
+      if (response.ok) {
+        const commentsData = await response.json();
+        setComments(commentsData);
+      }
+    } catch (error) {
+      console.error('Failed to load comments:', error);
+    } finally {
+      setCommentsLoading(false);
+    }
+  };
+
+  // Function to add a new comment
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+    if (!newComment.trim()) return;
+
+    try {
+      const userId = getUserId();
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/api/articles/${articleId}/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: newComment,
+          userId: userId,
+          author: `User ${userId.slice(0, 8)}` // Simple author name
+        }),
+      });
+
+      if (response.ok) {
+        const comment = await response.json();
+        setComments(prev => [comment, ...prev]);
+        setNewComment('');
+        setShowCommentForm(false);
+      } else {
+        console.error('Failed to post comment:', response.status);
+      }
+    } catch (error) {
+      console.error('Failed to add comment:', error);
     }
   };
 
@@ -231,9 +288,9 @@ function ArticlePage() {
                     {loading ? "..." : likeCount} likes
                   </span>
                 </div>
-                <div className="flex items-center text-white/70">
+                <div className="flex items-center">
                   <MessageCircle className="mr-2 text-accent-400" size={20} />
-                  <span className="font-semibold">34 comments</span>
+                  <span className="font-semibold">{comments.length} comments</span>
                 </div>
               </div>
 
@@ -254,7 +311,9 @@ function ArticlePage() {
             </div>
           </div>
         </div>
-      </header>      {/* Article Content */}
+      </header>
+
+      {/* Article Content */}
       <main className="px-8 lg:px-16 pb-24 relative z-10">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12">
           {/* Main Content */}
@@ -489,7 +548,7 @@ function ArticlePage() {
               <div className="flex items-center space-x-6">
                 <div className="flex items-center">
                   <MessageCircle className="mr-2 text-accent-400" size={20} />
-                  <span className="text-white font-semibold">34 Comments</span>
+                  <span className="text-white font-semibold">{comments.length} Comments</span>
                 </div>
                 <div className="flex items-center">
                   <Heart className="mr-2 text-primary-400" size={20} />
@@ -497,26 +556,101 @@ function ArticlePage() {
                 </div>
               </div>
               
-              <div className="flex space-x-3">
-                <button className="p-3 glass rounded-lg hover:bg-white/20 transition-all duration-300 group">
-                  <Facebook className="text-primary-400 group-hover:text-white transition-colors" size={20} />
-                </button>
-                <button className="p-3 glass rounded-lg hover:bg-white/20 transition-all duration-300 group">
-                  <Twitter className="text-secondary-400 group-hover:text-white transition-colors" size={20} />
-                </button>
-                <button className="p-3 glass rounded-lg hover:bg-white/20 transition-all duration-300 group">
-                  <Linkedin className="text-accent-400 group-hover:text-white transition-colors" size={20} />
-                </button>
-                <button className="p-3 glass rounded-lg hover:bg-white/20 transition-all duration-300 group">
-                  <Share2 className="text-white/70 group-hover:text-white transition-colors" size={20} />
-                </button>
-              </div>
+              <button 
+                onClick={() => setShowCommentForm(!showCommentForm)}
+                className="bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300"
+              >
+                {showCommentForm ? 'Cancel' : 'Add Comment'}
+              </button>
             </div>
+
+            {/* Comment Form */}
+            {showCommentForm && (
+              <form onSubmit={handleAddComment} className="mb-8 p-6 bg-white/5 rounded-xl border border-white/10">
+                <textarea
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="Share your thoughts about this article..."
+                  className="w-full h-32 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400 transition-colors duration-300 resize-none"
+                  required
+                />
+                <div className="flex justify-end mt-3 space-x-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowCommentForm(false);
+                      setNewComment('');
+                    }}
+                    className="px-4 py-2 text-white/70 hover:text-white transition-colors duration-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={!newComment.trim()}
+                    className="px-6 py-2 bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Post Comment
+                  </button>
+                </div>
+              </form>
+            )}
             
-            <div className="text-white/70 text-center py-12">
-              <MessageCircle className="mx-auto mb-4 text-white/30" size={48} />
-              <p className="text-lg">Comments and discussions coming soon!</p>
-              <p className="text-sm mt-2">We're building an amazing community discussion platform.</p>
+            {/* Comments List */}
+            {commentsLoading ? (
+              <div className="text-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-400 mx-auto"></div>
+                <p className="text-white/70 mt-2">Loading comments...</p>
+              </div>
+            ) : comments.length > 0 ? (
+              <div className="space-y-6">
+                {comments.map((comment) => (
+                  <div key={comment._id} className="p-6 bg-white/5 rounded-xl border border-white/10">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-10 h-10 bg-gradient-icon-consistent rounded-full flex items-center justify-center text-white font-semibold">
+                        {comment.author.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <h4 className="font-semibold text-white">{comment.author}</h4>
+                          <span className="text-white/50 text-sm">
+                            {new Date(comment.createdAt).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </span>
+                        </div>
+                        <p className="text-white/90 leading-relaxed">{comment.content}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-white/70 text-center py-12">
+                <MessageCircle className="mx-auto mb-4 text-white/30" size={48} />
+                <p className="text-lg">No comments yet</p>
+                <p className="text-sm mt-2">Be the first to share your thoughts!</p>
+              </div>
+            )}
+
+            {/* Share Buttons */}
+            <div className="flex justify-center space-x-3 mt-8 pt-8 border-t border-white/10">
+              <button className="p-3 glass rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                <Facebook className="text-primary-400 group-hover:text-white transition-colors" size={20} />
+              </button>
+              <button className="p-3 glass rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                <Twitter className="text-secondary-400 group-hover:text-white transition-colors" size={20} />
+              </button>
+              <button className="p-3 glass rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                <Linkedin className="text-accent-400 group-hover:text-white transition-colors" size={20} />
+              </button>
+              <button className="p-3 glass rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                <Share2 className="text-white/70 group-hover:text-white transition-colors" size={20} />
+              </button>
             </div>
           </div>
         </div>

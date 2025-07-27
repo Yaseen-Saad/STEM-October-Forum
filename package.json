@@ -10,7 +10,11 @@
     "eject": "react-scripts eject",
     "server": "cd backend && node server.js",
     "server:dev": "cd backend && nodemon server.js",
-    "dev": "concurrently \"npm run server:dev\" \"npm start\""
+    "dev": "concurrently \"npm run server:dev\" \"npm start\"",
+    "deploy:backend": "cd backend && vercel --prod",
+    "deploy:frontend": "npm run build && vercel --prod",
+    "deploy": "npm run deploy:backend && npm run deploy:frontend",
+    "vercel-build": "npm run build"
   },
   "dependencies": {
     "framer-motion": "^10.16.4",

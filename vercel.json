@@ -21,8 +21,21 @@
       "dest": "/manifest.json"
     },
     {
+      "src": "/api/(.*)",
+      "dest": "https://your-backend-url.vercel.app/api/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://your-backend-url.vercel.app/api/$1"
+    }
+  ],
+  "env": {
+    "REACT_APP_API_URL": "https://your-backend-url.vercel.app"
+  }
 }
