@@ -148,6 +148,23 @@ const initializeArticles = async () => {
   }
 };
 
+// Middleware to ensure database is connected
+const ensureDbConnection = async (req, res, next) => {
+  try {
+    if (!isDbConnected) {
+      await initializeApp();
+    }
+    // Always continue to the route handler, which will handle DB unavailability
+    req.dbAvailable = isDbConnected;
+    next();
+  } catch (error) {
+    console.error('Database connection check failed:', error);
+    // Continue with DB unavailable flag
+    req.dbAvailable = false;
+    next();
+  }
+};
+
 // Routes
 
 // Root route for testing
@@ -204,6 +221,49 @@ app.get('/api/articles', (req, res) => {
   }
 });
 
+// Get all articles stats (for homepage)
+app.get('/api/articles/stats', ensureDbConnection, async (req, res) => {
+  try {
+    if (!req.dbAvailable) {
+      // Return empty stats when database is not available
+      console.log('Database not connected, returning empty stats');
+      return res.json({});
+    }
+    
+    const articles = await Article.find({});
+    const stats = {};
+
+    // Get comment counts for all articles
+    for (const article of articles) {
+      const commentCount = await Comment.countDocuments({ articleId: article.articleId });
+      stats[article.articleId] = {
+        views: article.views,
+        likes: article.likes.length,
+        comments: commentCount
+      };
+    }
+
+    // Add total counts for summary stats
+    const totalArticles = articles.length;
+    const totalComments = await Comment.countDocuments({});
+    const totalViews = articles.reduce((sum, article) => sum + article.views, 0);
+    const totalLikes = articles.reduce((sum, article) => sum + article.likes.length, 0);
+
+    stats._totals = {
+      articles: totalArticles,
+      comments: totalComments,
+      views: totalViews,
+      likes: totalLikes
+    };
+
+    res.json(stats);
+  } catch (error) {
+    console.error('Error fetching articles stats:', error);
+    // Return empty stats on error
+    res.json({});
+  }
+});
+
 // Get single article data
 app.get('/api/articles/:id', (req, res) => {
   try {
@@ -247,23 +307,6 @@ app.get('/api/articles/:id', (req, res) => {
     res.status(500).json({ error: 'Failed to load article' });
   }
 });
-
-// Middleware to ensure database is connected
-const ensureDbConnection = async (req, res, next) => {
-  try {
-    if (!isDbConnected) {
-      await initializeApp();
-    }
-    // Always continue to the route handler, which will handle DB unavailability
-    req.dbAvailable = isDbConnected;
-    next();
-  } catch (error) {
-    console.error('Database connection check failed:', error);
-    // Continue with DB unavailable flag
-    req.dbAvailable = false;
-    next();
-  }
-};
 
 // Get article stats
 app.get('/api/article/:id/stats', ensureDbConnection, async (req, res) => {
@@ -410,49 +453,6 @@ app.post('/api/article/:id/like', ensureDbConnection, async (req, res) => {
       hasLiked: req.body.action === 'like',
       message: `Article ${req.body.action}d successfully (offline mode)`
     });
-  }
-});
-
-// Get all articles stats (for homepage)
-app.get('/api/articles/stats', ensureDbConnection, async (req, res) => {
-  try {
-    if (!req.dbAvailable) {
-      // Return empty stats when database is not available
-      console.log('Database not connected, returning empty stats');
-      return res.json({});
-    }
-    
-    const articles = await Article.find({});
-    const stats = {};
-
-    // Get comment counts for all articles
-    for (const article of articles) {
-      const commentCount = await Comment.countDocuments({ articleId: article.articleId });
-      stats[article.articleId] = {
-        views: article.views,
-        likes: article.likes.length,
-        comments: commentCount
-      };
-    }
-
-    // Add total counts for summary stats
-    const totalArticles = articles.length;
-    const totalComments = await Comment.countDocuments({});
-    const totalViews = articles.reduce((sum, article) => sum + article.views, 0);
-    const totalLikes = articles.reduce((sum, article) => sum + article.likes.length, 0);
-
-    stats._totals = {
-      articles: totalArticles,
-      comments: totalComments,
-      views: totalViews,
-      likes: totalLikes
-    };
-
-    res.json(stats);
-  } catch (error) {
-    console.error('Error fetching articles stats:', error);
-    // Return empty stats on error
-    res.json({});
   }
 });
 
