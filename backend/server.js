@@ -251,27 +251,23 @@ app.post('/api/article/:id/view', ensureDbConnection, async (req, res) => {
 });
 
 // Toggle article like
-app.post('/api/article/:id/like', async (req, res) => {
+app.post('/api/article/:id/like', ensureDbConnection, async (req, res) => {
   try {
+    if (!req.dbAvailable) {
+      // Return mock response when database is not available
+      console.log('Database not connected, returning mock like response');
+      return res.json({
+        likes: 1,
+        hasLiked: req.body.action === 'like',
+        message: `Article ${req.body.action}d successfully`
+      });
+    }
+
     const articleId = parseInt(req.params.id);
     const { userId, action } = req.body;
 
     if (!userId) {
       return res.status(400).json({ error: 'User ID required' });
-    }
-
-    if (!isDbConnected) {
-      await initializeApp();
-    }
-    
-    if (!isDbConnected) {
-      // Return a mock response when database is not available
-      console.log('Database not connected, returning mock like response');
-      return res.json({
-        likes: action === 'like' ? 150 : 149,
-        hasLiked: action === 'like',
-        message: `Article ${action}d successfully (offline mode)`
-      });
     }
 
     let article = await Article.findOne({ articleId });
@@ -305,7 +301,7 @@ app.post('/api/article/:id/like', async (req, res) => {
     console.error('Error toggling like:', error);
     // Return a mock response on error
     res.json({
-      likes: 150,
+      likes: 1,
       hasLiked: req.body.action === 'like',
       message: `Article ${req.body.action}d successfully (offline mode)`
     });
