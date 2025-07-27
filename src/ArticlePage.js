@@ -23,7 +23,11 @@ import { getSessionId, getUserId, hasViewedInSession, markAsViewedInSession, for
 
 function ArticlePage() {
   const { id } = useParams();
-  const articleId = parseInt(id) || 1;
+  
+  // Validate the article ID - must be a valid positive integer
+  const parsedId = parseInt(id);
+  const isValidId = !isNaN(parsedId) && parsedId > 0 && parsedId.toString() === id;
+  const articleId = isValidId ? parsedId : null;
 
   // Articles data - this would typically come from a database or API
   const articles = {
@@ -46,8 +50,8 @@ function ArticlePage() {
     }
   };
 
-  const currentArticle = articles[articleId];
-  const articleExists = currentArticle !== undefined;
+  const currentArticle = articleId ? articles[articleId] : null;
+  const articleExists = articleId !== null && currentArticle !== undefined;
 
   // State for view and like counts from MongoDB
   const [viewCount, setViewCount] = useState(0);
