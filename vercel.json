@@ -10,10 +10,10 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://stem-october-forum-backend.vercel.app/api/$1"
+      "destination": "https://api.stemoctobermagazine.org/api/$1"
     }
   ],
   "env": {
-    "REACT_APP_API_URL": "https://stem-october-forum-backend.vercel.app"
+    "REACT_APP_API_URL": "https://api.stemoctobermagazine.org"
   }
 }
