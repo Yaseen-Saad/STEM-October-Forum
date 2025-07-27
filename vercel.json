@@ -11,6 +11,10 @@
     {
       "source": "/api/(.*)",
       "destination": "https://api.stemoctobermagazine.org/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "env": {
