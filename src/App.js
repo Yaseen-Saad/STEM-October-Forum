@@ -103,7 +103,7 @@ function App() {
   // Function to calculate total views from all articles
   const calculateTotalViews = () => {
     if (loading || Object.keys(articleStats).length === 0) {
-      return "12.4k"; // Fallback value
+      return "..."; // Fallback value
     }
 
     const totalViews = Object.values(articleStats).reduce((sum, stats) => sum + (stats.views || 0), 0);
