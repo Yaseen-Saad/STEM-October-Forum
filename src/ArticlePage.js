@@ -33,7 +33,7 @@ function ArticlePage() {
       date: "July 27, 2025",
       readTime: "15 min read",
       category: "Leadership",
-      image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop&crop=faces"
+      image: "https://pm1.aminoapps.com/7274/9e178fdd43ec8a8e4d690b7500e153fa708f9d88r1-571-472v2_hq.jpg"
     },
     2: {
       title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
@@ -708,6 +708,159 @@ function ArticlePage() {
       </div>
     );
   };
+
+  // Render 404 page if article doesn't exist
+  if (!articleExists) {
+    return (
+      <div className="min-h-screen bg-gradient-article text-white relative overflow-x-hidden">
+        {/* Modern Background Elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-primary-500 opacity-20 blur-3xl rounded-full animate-float"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-accent-500 opacity-20 blur-3xl rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary-500 opacity-10 blur-3xl rounded-full animate-float" style={{ animationDelay: '4s' }}></div>
+        </div>
+
+        {/* Modern Grid Background */}
+        <div className="absolute inset-0 opacity-10 z-0">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
+            backgroundSize: '60px 60px'
+          }} />
+        </div>
+
+        {/* 404 Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-8">
+          <div className="text-center max-w-2xl mx-auto">
+            {/* Back Button */}
+            <Link to="/" className="inline-flex items-center text-white/70 hover:text-primary-400 mb-12 group transition-all duration-300">
+              <ArrowLeft className="mr-3 group-hover:text-primary-400 transition-colors duration-300" size={20} />
+              <span className="text-lg font-medium group-hover:text-primary-400">Back to Articles</span>
+            </Link>
+
+            {/* 404 Icon */}
+            <div className="w-32 h-32 bg-gradient-icon-consistent rounded-full flex items-center justify-center mx-auto mb-8 shadow-glow">
+              <FileX className="text-white" size={64} />
+            </div>
+
+            {/* 404 Message */}
+            <h1 className="text-6xl lg:text-8xl font-black text-gradient mb-6">
+              404
+            </h1>
+            
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+              Article Not Found
+            </h2>
+            
+            <p className="text-xl text-white/80 mb-8 leading-relaxed">
+              Oops! The article you're looking for doesn't exist or may have been moved. 
+              Let's get you back to exploring our latest insights and discussions.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link 
+                to="/" 
+                className="bg-gradient-icon-consistent hover:shadow-glow text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 flex items-center"
+              >
+                <Home className="mr-2" size={20} />
+                Return Home
+              </Link>
+              
+              <Link 
+                to="/" 
+                className="glass border border-white/20 hover:bg-white/20 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300"
+              >
+                Browse Articles
+              </Link>
+            </div>
+
+            {/* Help Text */}
+            <div className="glass rounded-2xl p-6 border border-white/10 mt-12 max-w-lg mx-auto">
+              <h3 className="text-lg font-bold text-gradient mb-3">Looking for something specific?</h3>
+              <p className="text-white/70 text-sm">
+                Check out our latest articles on leadership, student life, and academic excellence. 
+                Our editorial team regularly publishes new insights from the STEM October community.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Enhanced Footer */}
+        <footer className="py-16 px-8 lg:px-16 bg-gradient-contribute-to-footer relative z-10">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+              {/* Brand Section */}
+              <div className="md:col-span-2">
+                <h3 className="text-3xl font-bold mb-4 flex items-center">
+                  <div className="p-2 bg-gradient-icon-consistent rounded-lg mr-3 shadow-glow">
+                    <BookOpen className="text-white" size={24} />
+                  </div>
+                  <span className="text-gradient">STEM</span>{' '}
+                  <span className="text-white">October</span>{' '}
+                  <span className="text-gradient-secondary">Forum</span>
+                </h3>
+                <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-lg">
+                  Empowering the next generation of critical thinkers through thoughtful discourse
+                  and authentic student voices.
+                </p>
+                <div className="flex space-x-4">
+                  <div className="p-2 glass rounded-lg hover:bg-white/20 transition-all duration-300 cursor-pointer group">
+                    <Facebook className="text-secondary-400 group-hover:text-primary-400 transition-colors" size={20} />
+                  </div>
+                  <div className="p-2 glass rounded-lg hover:bg-white/20 transition-all duration-300 cursor-pointer group">
+                    <Instagram className="text-secondary-400 group-hover:text-primary-400 transition-colors" size={20} />
+                  </div>
+                  <div className="p-2 glass rounded-lg hover:bg-white/20 transition-all duration-300 cursor-pointer group">
+                    <Linkedin className="text-secondary-400 group-hover:text-primary-400 transition-colors" size={20} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Links */}
+              <div>
+                <h4 className="text-xl font-bold text-gradient mb-6">Quick Links</h4>
+                <div className="space-y-3">
+                  {['About Us', 'Latest Articles', 'Submit Article', 'Guidelines', 'Contact'].map((link, index) => (
+                    <button key={index} className="block text-white/70 hover:text-primary-400 transition-colors duration-200">
+                      {link}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              <div>
+                <h4 className="text-xl font-bold text-gradient-secondary mb-6">Get in Touch</h4>
+                <div className="space-y-3 text-white/70">
+                  <p>stemoctoberforum@gmail.com</p>
+                  <p>STEM High School for Boys</p>
+                  <p>6th of October,</p>
+                  <p>Giza, Egypt</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between">
+              <div className="flex flex-col">
+                <p className="text-white/60 text-sm mb-2">
+                  &copy; 2025 STEM October Forum. All rights reserved. A Publication of STEM High School for Boys - 6th of October.
+                </p>
+                <p className="text-sm text-white/70 flex items-center font-medium">
+                  <AlertCircle size={14} className="mr-2 text-primary-400" />
+                  <span>Currently at <span className="text-primary-400">stemoctobermagazine.org</span> • Moving to <span className="text-secondary-400">stemoct.forum</span> soon</span>
+                </p>
+              </div>
+              <div className="flex items-center space-x-4 text-white/70 text-sm">
+                <span>Made with</span>
+                <Heart className="text-primary-400" size={16} />
+                <span>by students, for students</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-article text-white relative overflow-x-hidden">
