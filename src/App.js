@@ -794,15 +794,6 @@ function App() {
               </div>
             ))}
           </div>
-
-          {/* Load More Button */}
-          <div className="text-center mt-16">
-            <button className="btn-secondary text-xl px-12 py-4 flex items-center mx-auto group">
-              <TrendingUp className="mr-3" size={24} />
-              Load More Articles
-              <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={20} />
-            </button>
-          </div>
         </div>
       </section>
 
