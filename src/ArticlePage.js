@@ -39,15 +39,15 @@ function ArticlePage() {
       category: "Leadership",
       image: "https://pm1.aminoapps.com/7274/9e178fdd43ec8a8e4d690b7500e153fa708f9d88r1-571-472v2_hq.jpg"
     },
-    2: {
-      title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
-      author: "Yaseen Mohamed-Abdelal", 
-      date: "July 22, 2025",
-      readTime: "6 min read",
-      category: "Student Life",
-      excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
-    }
+    // 2: {
+    //   title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
+    //   author: "Yaseen Mohamed-Abdelal", 
+    //   date: "July 22, 2025",
+    //   readTime: "6 min read",
+    //   category: "Student Life",
+    //   excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
+    //   image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+    // }
   };
 
   const currentArticle = articleId ? articles[articleId] : null;
