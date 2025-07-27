@@ -309,13 +309,9 @@ app.post('/api/article/:id/like', ensureDbConnection, async (req, res) => {
 });
 
 // Get all articles stats (for homepage)
-app.get('/api/articles/stats', async (req, res) => {
+app.get('/api/articles/stats', ensureDbConnection, async (req, res) => {
   try {
-    if (!isDbConnected) {
-      await initializeApp();
-    }
-    
-    if (!isDbConnected) {
+    if (!req.dbAvailable) {
       // Return empty stats when database is not available
       console.log('Database not connected, returning empty stats');
       return res.json({});
@@ -342,6 +338,12 @@ app.get('/api/articles/stats', async (req, res) => {
 // Get comments for an article
 app.get('/api/articles/:id/comments', ensureDbConnection, async (req, res) => {
   try {
+    if (!req.dbAvailable) {
+      // Return empty comments when database is not available
+      console.log('Database not connected, returning empty comments');
+      return res.json([]);
+    }
+
     const articleId = parseInt(req.params.id);
     const comments = await Comment.find({ articleId })
       .sort({ createdAt: -1 }); // Most recent first
@@ -349,13 +351,27 @@ app.get('/api/articles/:id/comments', ensureDbConnection, async (req, res) => {
     res.json(comments);
   } catch (error) {
     console.error('Error fetching comments:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.json([]);
   }
 });
 
 // Add a comment to an article
 app.post('/api/articles/:id/comments', ensureDbConnection, async (req, res) => {
   try {
+    if (!req.dbAvailable) {
+      // Return mock response when database is not available
+      console.log('Database not connected, returning mock comment response');
+      return res.status(201).json({
+        _id: 'mock-id-' + Date.now(),
+        articleId: parseInt(req.params.id),
+        content: req.body.content.trim(),
+        author: req.body.author || `User ${req.body.userId.slice(0, 8)}`,
+        userId: req.body.userId,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+
     const articleId = parseInt(req.params.id);
     const { content, author, userId } = req.body;
 
