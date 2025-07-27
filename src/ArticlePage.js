@@ -28,6 +28,14 @@ function ArticlePage() {
       date: "July 25, 2025",
       readTime: "8 min read",
       category: "Philosophy"
+    },
+    2: {
+      title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
+      author: "Ahmed Hassan",
+      date: "July 22, 2025",
+      readTime: "6 min read",
+      category: "Student Life",
+      excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student."
     }
   };
 
@@ -168,6 +176,289 @@ function ArticlePage() {
     }
   };
 
+  // Function to render article content based on article ID
+  const renderArticleContent = () => {
+    if (articleId === 2) {
+      return (
+        <div className="space-y-8 text-white/90 leading-relaxed">
+          <p className="text-xl font-medium text-white leading-relaxed">
+            {currentArticle.excerpt}
+          </p>
+
+          <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
+
+          <p className="text-lg">
+            As I sit in my dorm room at 2 AM, surrounded by textbooks, empty coffee cups, and the soft glow of my laptop screen, I can't help but reflect on the journey that brought me here. Like many students, I entered university with grand ambitions and an unwavering determination to excel in every aspect of my academic life. What I didn't anticipate was how this pursuit of excellence would challenge not just my intellectual capacity, but my entire well-being.
+          </p>
+
+          <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+            The Weight of Expectations
+          </h2>
+
+          <p className="text-lg">
+            The pressure to excel academically comes from multiple sources: parents who have sacrificed for our education, professors who set high standards, peers who seem to effortlessly navigate complex concepts, and perhaps most critically, ourselves. We set benchmarks that often seem impossible to reach, yet we pursue them relentlessly.
+          </p>
+
+          <p className="text-lg">
+            In my first year, I believed that success meant achieving perfect grades, participating in every extracurricular activity, maintaining an active social life, and still finding time for personal interests. The reality hit hard when I realized that this was not just challenging—it was unsustainable.
+          </p>
+
+          <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+            <div className="border-l-4 border-primary-400 pl-6">
+              <p className="text-xl italic text-white mb-4">
+                "Excellence is not about being perfect; it's about being the best version of yourself while maintaining your humanity and well-being."
+              </p>
+              <cite className="text-primary-400 font-semibold">— Dr. Sarah Chen, Student Wellness Advisor</cite>
+            </div>
+          </div>
+
+          <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+            The Physical and Mental Toll
+          </h2>
+
+          <p className="text-lg">
+            The symptoms crept in gradually. First, it was just occasional fatigue—easily dismissed as the natural result of late-night studying. Then came the headaches, the difficulty concentrating during lectures I was once passionate about, and the growing sense of anxiety that accompanied every assignment deadline.
+          </p>
+
+          <p className="text-lg">
+            Sleep became a luxury I convinced myself I couldn't afford. Meals turned into hurried affairs, often consisting of whatever was quickest to grab between classes. Exercise, which had once been a source of joy and stress relief, disappeared entirely from my routine. I was achieving my academic goals, but at what cost?
+          </p>
+
+          <div className="bg-gradient-to-r from-accent-900/30 to-primary-900/30 rounded-2xl p-8 border border-white/10 my-8">
+            <h3 className="text-xl font-bold text-white mb-4">Warning Signs I Wish I Had Recognized Earlier:</h3>
+            <ul className="space-y-3 text-white">
+              <li className="flex items-start">
+                <span className="w-2 h-2 bg-accent-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                Chronic fatigue despite getting "enough" sleep
+              </li>
+              <li className="flex items-start">
+                <span className="w-2 h-2 bg-primary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                Increased irritability and mood swings
+              </li>
+              <li className="flex items-start">
+                <span className="w-2 h-2 bg-secondary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                Loss of interest in activities I once enjoyed
+              </li>
+              <li className="flex items-start">
+                <span className="w-2 h-2 bg-accent-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                Physical symptoms like headaches and stomach issues
+              </li>
+              <li className="flex items-start">
+                <span className="w-2 h-2 bg-primary-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+                Feeling overwhelmed by tasks that previously felt manageable
+              </li>
+            </ul>
+          </div>
+
+          <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+            Finding Balance: A Personal Revolution
+          </h2>
+
+          <p className="text-lg">
+            The turning point came during midterm season of my second year. After pulling three consecutive all-nighters, I found myself crying in the library—not from sadness, but from sheer exhaustion and the realization that I had lost sight of why I was pursuing education in the first place.
+          </p>
+
+          <p className="text-lg">
+            That moment of vulnerability led me to seek help from the student counseling center. Speaking with a counselor helped me understand that my worth as a person wasn't tied to my GPA, and that sustainable success required a fundamental shift in how I approached my academic life.
+          </p>
+
+          <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+            Strategies That Actually Work
+          </h2>
+
+          <p className="text-lg">
+            Recovery wasn't instant, but implementing these strategies gradually transformed my academic experience:
+          </p>
+
+          <div className="bg-gradient-to-r from-secondary-900/30 to-accent-900/30 rounded-2xl p-8 border border-white/10 my-8">
+            <h3 className="text-xl font-bold text-white mb-6">My Well-being Toolkit:</h3>
+            
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-lg font-semibold text-primary-400 mb-2">Time Blocking</h4>
+                <p className="text-white/90">Instead of studying until tasks were "perfect," I allocated specific time blocks for each subject. When time was up, I moved on.</p>
+              </div>
+              
+              <div>
+                <h4 className="text-lg font-semibold text-secondary-400 mb-2">Non-negotiable Self-care</h4>
+                <p className="text-white/90">I scheduled sleep, meals, and exercise like any other important appointment. These became non-negotiable commitments to myself.</p>
+              </div>
+              
+              <div>
+                <h4 className="text-lg font-semibold text-accent-400 mb-2">Progress Over Perfection</h4>
+                <p className="text-white/90">I learned to celebrate small wins and view mistakes as learning opportunities rather than failures.</p>
+              </div>
+              
+              <div>
+                <h4 className="text-lg font-semibold text-primary-500 mb-2">Community Support</h4>
+                <p className="text-white/90">I built a support network of friends who understood the importance of balance and could offer perspective during stressful times.</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+            Redefining Success
+          </h2>
+
+          <p className="text-lg">
+            Today, I define success differently. It's not just about the grades on my transcript—though I still strive for academic excellence. Success is waking up feeling rested, approaching challenges with curiosity rather than dread, maintaining meaningful relationships, and feeling confident that I'm developing both intellectually and personally.
+          </p>
+
+          <p className="text-lg">
+            My GPA might not be the perfect 4.0 I once obsessed over, but my learning is deeper, my relationships are stronger, and my mental health is substantially better. I've discovered that when I take care of my well-being, my academic performance actually improves because I can think more clearly and approach problems with greater creativity.
+          </p>
+
+          <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+            A Message to Fellow Students
+          </h2>
+
+          <p className="text-lg">
+            If you're reading this while feeling overwhelmed by academic pressure, please know that you're not alone. The culture of academic perfectionism affects countless students, and recognizing this struggle is the first step toward creating positive change.
+          </p>
+
+          <p className="text-lg mb-12">
+            Excellence and well-being are not mutually exclusive. In fact, they complement each other in ways that make both more achievable and sustainable. Your education is important, but you—your health, happiness, and humanity—are irreplaceable.
+          </p>
+
+          <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
+            <div className="flex items-center mb-4">
+              <div className="w-12 h-12 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4">
+                <User className="text-white" size={24} />
+              </div>
+              <div>
+                <p className="font-bold text-white text-lg">{currentArticle.author}</p>
+                <p className="text-white/70">Third-year Psychology Student</p>
+              </div>
+            </div>
+            <p className="text-white/90 italic">
+              "Through sharing my story, I hope to contribute to a conversation about creating healthier academic environments where students can thrive without sacrificing their well-being."
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // Default content for article 1 (Leadership article)
+    return (
+      <div className="space-y-8 text-white/90 leading-relaxed">
+        <p className="text-xl font-medium text-white leading-relaxed">
+          In the tapestry of human ambition, the pursuit of leadership positions has been both glorified and scrutinized. Within educational institutions especially, the race for student leadership roles often reveals deeper psychological and social dynamics that extend beyond the simple desire to serve.
+        </p>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
+
+        <p className="text-lg">
+          In the tapestry of human ambition, the pursuit of leadership positions has been both glorified and scrutinized. Within educational institutions especially, the race for student leadership roles often reveals deeper psychological and social dynamics that extend beyond the simple desire to serve.
+        </p>
+
+        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+          Understanding the Pursuit of Leadership
+        </h2>
+
+        <p className="text-lg">
+          The crown—whether literal or metaphorical—has long symbolized authority, respect, and influence. In academic environments, student leadership positions like student council president, club leader, or team captain represent microcosmic versions of these societal power structures. These roles offer students the opportunity to develop crucial skills: organization, communication, delegation, and decision-making.
+        </p>
+
+        <p className="text-lg">
+          However, beneath this surface-level understanding lies a complex web of motivations. For some students, leadership positions represent a genuine desire to contribute positively to their community. For others, these positions become vehicles for personal validation, resume enhancement, or social status elevation.
+        </p>
+
+        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+          The Psychology Behind Leadership Aspirations
+        </h2>
+
+        <p className="text-lg">
+          Research in educational psychology suggests that leadership aspirations often correlate with identity formation during adolescence and young adulthood. As students navigate the complex process of self-definition, leadership roles can provide external validation and a sense of purpose. The recognition from peers and authority figures satisfies fundamental human needs for belonging and esteem.
+        </p>
+
+        <p className="text-lg">
+          This psychological dimension explains why rejection from leadership positions can feel deeply personal—it's not merely a practical disappointment but can be perceived as a rejection of one's core identity and capabilities.
+        </p>
+
+        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+          <div className="border-l-4 border-primary-400 pl-6">
+            <p className="text-xl italic text-white mb-4">
+              "The true test of leadership is not found in the acquisition of titles, but in the impact one makes regardless of position. Leadership is a service, not a status symbol."
+            </p>
+            <cite className="text-primary-400 font-semibold">— Dr. Maya Richards, Educational Psychologist</cite>
+          </div>
+        </div>
+
+        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+          When the Pursuit Becomes Problematic
+        </h2>
+
+        <p className="text-lg">
+          Leadership aspirations become concerning when the focus shifts entirely to the acquisition of the position rather than the responsibilities it entails. Signs of this shift include:
+        </p>
+
+        <div className="bg-gradient-to-r from-accent-900/30 to-primary-900/30 rounded-2xl p-8 border border-white/10 my-8">
+          <ul className="space-y-4 text-white">
+            <li className="flex items-start">
+              <span className="w-2 h-2 bg-accent-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+              Viewing leadership positions primarily as resume credentials rather than opportunities for community impact
+            </li>
+            <li className="flex items-start">
+              <span className="w-2 h-2 bg-primary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+              Experiencing disproportionate emotional distress when not selected for roles
+            </li>
+            <li className="flex items-start">
+              <span className="w-2 h-2 bg-secondary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+              Pursuing positions in areas where one lacks genuine interest or expertise
+            </li>
+            <li className="flex items-start">
+              <span className="w-2 h-2 bg-accent-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
+              Measuring self-worth predominantly through acquired titles and positions
+            </li>
+          </ul>
+        </div>
+
+        <p className="text-lg">
+          This misalignment between motivation and purpose often results in ineffective leadership and personal frustration. Leaders driven purely by status may find the actual work unfulfilling, while their constituents experience the disconnect between promise and performance.
+        </p>
+
+        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+          Reframing Our Understanding of Leadership
+        </h2>
+
+        <p className="text-lg">
+          Authentic leadership transcends titles and positions. It manifests in daily actions, ethical choices, and genuine interactions. Educational institutions have a responsibility to promote this broader understanding of leadership—one that values impact over recognition and service over status.
+        </p>
+
+        <p className="text-lg">
+          Students would benefit from opportunities to develop leadership skills outside the confines of traditional positions. Collaborative projects, community service initiatives, and peer mentoring programs can foster leadership qualities without the competitive element that often accompanies formal leadership roles.
+        </p>
+
+        <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
+          Conclusion: Beyond the Crown
+        </h2>
+
+        <p className="text-lg">
+          The allure of the crown—of leadership positions and titles—is understandable in our achievement-oriented society. However, true leadership transcends these external markers. As students and educators, we must work to cultivate an environment where leadership is recognized in its many forms, where contribution is valued over position, and where service becomes its own reward.
+        </p>
+
+        <p className="text-lg mb-12">
+          By shifting our focus from acquiring leadership titles to developing leadership qualities, we create space for more authentic expressions of leadership to emerge—ones that benefit both the individual and the community they serve.
+        </p>
+
+        <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
+          <div className="flex items-center mb-4">
+            <div className="w-12 h-12 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4">
+              <User className="text-white" size={24} />
+            </div>
+            <div>
+              <p className="font-bold text-white text-lg">{currentArticle.author}</p>
+              <p className="text-white/70">Educational Leadership Researcher</p>
+            </div>
+          </div>
+          <p className="text-white/90 italic">
+            "Through years of research in educational psychology, I've seen how authentic leadership development transforms not just individuals, but entire communities."
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-hero text-white relative overflow-x-hidden">
       {/* Modern Background Elements */}
@@ -290,122 +581,7 @@ function ArticlePage() {
             </div>
 
             {/* Content */}
-            <div className="space-y-8 text-white/90 leading-relaxed">
-              <p className="text-xl font-medium text-white leading-relaxed">
-                {currentArticle.excerpt}
-              </p>
-
-              <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
-
-              <p className="text-lg">
-                In the tapestry of human ambition, the pursuit of leadership positions has been both glorified and scrutinized. Within educational institutions especially, the race for student leadership roles often reveals deeper psychological and social dynamics that extend beyond the simple desire to serve.
-              </p>
-
-              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                Understanding the Pursuit of Leadership
-              </h2>
-
-              <p className="text-lg">
-                The crown—whether literal or metaphorical—has long symbolized authority, respect, and influence. In academic environments, student leadership positions like student council president, club leader, or team captain represent microcosmic versions of these societal power structures. These roles offer students the opportunity to develop crucial skills: organization, communication, delegation, and decision-making.
-              </p>
-
-              <p className="text-lg">
-                However, beneath this surface-level understanding lies a complex web of motivations. For some students, leadership positions represent a genuine desire to contribute positively to their community. For others, these positions become vehicles for personal validation, resume enhancement, or social status elevation.
-              </p>
-
-              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                The Psychology Behind Leadership Aspirations
-              </h2>
-
-              <p className="text-lg">
-                Research in educational psychology suggests that leadership aspirations often correlate with identity formation during adolescence and young adulthood. As students navigate the complex process of self-definition, leadership roles can provide external validation and a sense of purpose. The recognition from peers and authority figures satisfies fundamental human needs for belonging and esteem.
-              </p>
-
-              <p className="text-lg">
-                This psychological dimension explains why rejection from leadership positions can feel deeply personal—it's not merely a practical disappointment but can be perceived as a rejection of one's core identity and capabilities.
-              </p>
-
-              <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
-                <div className="border-l-4 border-primary-400 pl-6">
-                  <p className="text-xl italic text-white mb-4">
-                    "The true test of leadership is not found in the acquisition of titles, but in the impact one makes regardless of position. Leadership is a service, not a status symbol."
-                  </p>
-                  <cite className="text-primary-400 font-semibold">— Dr. Maya Richards, Educational Psychologist</cite>
-                </div>
-              </div>
-
-              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                When the Pursuit Becomes Problematic
-              </h2>
-
-              <p className="text-lg">
-                Leadership aspirations become concerning when the focus shifts entirely to the acquisition of the position rather than the responsibilities it entails. Signs of this shift include:
-              </p>
-
-              <div className="bg-gradient-to-r from-accent-900/30 to-primary-900/30 rounded-2xl p-8 border border-white/10 my-8">
-                <ul className="space-y-4 text-white">
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-accent-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    Viewing leadership positions primarily as resume credentials rather than opportunities for community impact
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-primary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    Experiencing disproportionate emotional distress when not selected for roles
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-secondary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    Pursuing positions in areas where one lacks genuine interest or expertise
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-accent-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    Measuring self-worth predominantly through acquired titles and positions
-                  </li>
-                </ul>
-              </div>
-
-              <p className="text-lg">
-                This misalignment between motivation and purpose often results in ineffective leadership and personal frustration. Leaders driven purely by status may find the actual work unfulfilling, while their constituents experience the disconnect between promise and performance.
-              </p>
-
-              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                Reframing Our Understanding of Leadership
-              </h2>
-
-              <p className="text-lg">
-                Authentic leadership transcends titles and positions. It manifests in daily actions, ethical choices, and genuine interactions. Educational institutions have a responsibility to promote this broader understanding of leadership—one that values impact over recognition and service over status.
-              </p>
-
-              <p className="text-lg">
-                Students would benefit from opportunities to develop leadership skills outside the confines of traditional positions. Collaborative projects, community service initiatives, and peer mentoring programs can foster leadership qualities without the competitive element that often accompanies formal leadership roles.
-              </p>
-
-              <h2 className="text-3xl font-bold text-gradient mt-12 mb-6">
-                Conclusion: Beyond the Crown
-              </h2>
-
-              <p className="text-lg">
-                The allure of the crown—of leadership positions and titles—is understandable in our achievement-oriented society. However, true leadership transcends these external markers. As students and educators, we must work to cultivate an environment where leadership is recognized in its many forms, where contribution is valued over position, and where service becomes its own reward.
-              </p>
-
-              <p className="text-lg mb-12">
-                By shifting our focus from acquiring leadership titles to developing leadership qualities, we create space for more authentic expressions of leadership to emerge—ones that benefit both the individual and the community they serve.
-              </p>
-
-              <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4">
-                    <User className="text-white" size={24} />
-                  </div>
-                  <div>
-                    <p className="font-bold text-white text-lg">{currentArticle.author}</p>
-                    <p className="text-white/70">Educational Leadership Researcher</p>
-                  </div>
-                </div>
-                <p className="text-white/90 italic">
-                  "Through years of research in educational psychology, I've seen how authentic leadership development transforms not just individuals, but entire communities."
-                </p>
-              </div>
-            </div>
+            {renderArticleContent()}
           </div>        </article>
       </main>
 
