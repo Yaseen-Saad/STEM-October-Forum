@@ -31,7 +31,7 @@ function ArticlePage() {
       date: "July 27, 2025",
       readTime: "15 min read",
       category: "Leadership",
-      image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop&crop=faces"
+      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Faminoapps.com%2Fc%2Fhunter-x-hunter%2Fpage%2Fblog%2Fdear-hisoka-morow%2FvdYe_DJVtnuwEa6a2v7X3kYr351MwJ0QmJX&psig=AOvVaw2hBMyr873yVkVi-kAw2LLL&ust=1753713971383000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCLConOaj3Y4DFQAAAAAdAAAAABAE"
     },
     // 2: {
     //   title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
