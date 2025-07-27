@@ -35,11 +35,21 @@ app.use(limiter);
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/stem-forum');
+    if (mongoose.connection.readyState === 1) {
+      console.log('MongoDB already connected');
+      return;
+    }
+    
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/stem-forum';
+    if (!mongoUri.includes('mongodb')) {
+      throw new Error('Invalid MongoDB URI');
+    }
+    
+    await mongoose.connect(mongoUri);
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
-    process.exit(1);
+    throw error; // Don't exit process in serverless environment
   }
 };
 
@@ -140,8 +150,30 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
+// Middleware to ensure database is connected
+const ensureDbConnection = async (req, res, next) => {
+  try {
+    if (!isDbConnected) {
+      await initializeApp();
+    }
+    if (!isDbConnected) {
+      return res.status(503).json({ 
+        error: 'Database not available',
+        message: 'Please try again in a moment'
+      });
+    }
+    next();
+  } catch (error) {
+    console.error('Database connection check failed:', error);
+    res.status(503).json({ 
+      error: 'Database connection failed',
+      message: 'Please try again in a moment'
+    });
+  }
+};
+
 // Get article stats
-app.get('/api/article/:id/stats', async (req, res) => {
+app.get('/api/article/:id/stats', ensureDbConnection, async (req, res) => {
   try {
     const articleId = parseInt(req.params.id);
     let article = await Article.findOne({ articleId });
@@ -171,7 +203,7 @@ app.get('/api/article/:id/stats', async (req, res) => {
 });
 
 // Increment article views (once per session)
-app.post('/api/article/:id/view', async (req, res) => {
+app.post('/api/article/:id/view', ensureDbConnection, async (req, res) => {
   try {
     const articleId = parseInt(req.params.id);
     const { sessionId } = req.body;
@@ -208,7 +240,7 @@ app.post('/api/article/:id/view', async (req, res) => {
 });
 
 // Toggle article like
-app.post('/api/article/:id/like', async (req, res) => {
+app.post('/api/article/:id/like', ensureDbConnection, async (req, res) => {
   try {
     const articleId = parseInt(req.params.id);
     const { userId, action } = req.body; // action: 'like' or 'unlike'
@@ -253,7 +285,7 @@ app.post('/api/article/:id/like', async (req, res) => {
 });
 
 // Get all articles stats (for homepage)
-app.get('/api/articles/stats', async (req, res) => {
+app.get('/api/articles/stats', ensureDbConnection, async (req, res) => {
   try {
     const articles = await Article.find({});
     const stats = {};
@@ -273,7 +305,7 @@ app.get('/api/articles/stats', async (req, res) => {
 });
 
 // Get comments for an article
-app.get('/api/articles/:id/comments', async (req, res) => {
+app.get('/api/articles/:id/comments', ensureDbConnection, async (req, res) => {
   try {
     const articleId = parseInt(req.params.id);
     const comments = await Comment.find({ articleId })
@@ -287,7 +319,7 @@ app.get('/api/articles/:id/comments', async (req, res) => {
 });
 
 // Add a comment to an article
-app.post('/api/articles/:id/comments', async (req, res) => {
+app.post('/api/articles/:id/comments', ensureDbConnection, async (req, res) => {
   try {
     const articleId = parseInt(req.params.id);
     const { content, author, userId } = req.body;
@@ -337,9 +369,24 @@ app.use((req, res) => {
 });
 
 // Initialize database connection and data
+let isDbConnected = false;
+let dbConnectionPromise = null;
+
 const initializeApp = async () => {
-  await connectDB();
-  await initializeArticles();
+  if (!dbConnectionPromise) {
+    dbConnectionPromise = (async () => {
+      try {
+        await connectDB();
+        await initializeArticles();
+        isDbConnected = true;
+        console.log('Database initialized successfully');
+      } catch (error) {
+        console.error('Database initialization failed:', error);
+        isDbConnected = false;
+      }
+    })();
+  }
+  return dbConnectionPromise;
 };
 
 // Initialize the app
