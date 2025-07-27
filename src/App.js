@@ -889,7 +889,7 @@ function App() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <a
-                href="mailto:contribute@stemoctoberforum.org"
+                href="https://forms.gle/5qPToJ2XDLptFFTx8"
                 className="btn-primary text-xl px-12 py-4 flex items-center space-x-3 group"
               >
                 <Feather size={24} />
