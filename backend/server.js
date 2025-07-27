@@ -147,7 +147,12 @@ app.get('/', (req, res) => {
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Server is running' });
+  res.json({ 
+    status: 'OK', 
+    message: 'Server is running',
+    database: isDbConnected ? 'Connected' : 'Disconnected',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Middleware to ensure database is connected
@@ -159,7 +164,8 @@ const ensureDbConnection = async (req, res, next) => {
     if (!isDbConnected) {
       return res.status(503).json({ 
         error: 'Database not available',
-        message: 'Please try again in a moment'
+        message: 'Database connection failed. Please check MongoDB Atlas configuration.',
+        debug: 'Make sure your MongoDB Atlas cluster allows connections from all IPs (0.0.0.0/0) for Vercel deployments'
       });
     }
     next();
@@ -167,7 +173,8 @@ const ensureDbConnection = async (req, res, next) => {
     console.error('Database connection check failed:', error);
     res.status(503).json({ 
       error: 'Database connection failed',
-      message: 'Please try again in a moment'
+      message: 'Please try again in a moment',
+      debug: error.message
     });
   }
 };
