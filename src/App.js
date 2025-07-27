@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getAllArticlesStats, toggleArticleLike } from './api';
+import { getUserId, formatViewCount } from './utils/session';
 import {
   Lightbulb,
   Users,
@@ -43,16 +45,9 @@ function App() {
   const statsRef = useRef(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [articleViews, setArticleViews] = useState(() => {
-    // Try to load view counts from localStorage, or initialize with default values
-    const savedViews = localStorage.getItem('articleViews');
-    return savedViews ? JSON.parse(savedViews) : {};
-  });
-  const [articleLikes, setArticleLikes] = useState(() => {
-    // Try to load like counts from localStorage, or initialize with default values
-    const savedLikes = localStorage.getItem('articleLikes');
-    return savedLikes ? JSON.parse(savedLikes) : {};
-  });
+  const [articleStats, setArticleStats] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Articles data
   const featuredArticles = [
@@ -136,20 +131,31 @@ function App() {
     }
   ];
 
-  // Function to calculate total views and format it
-  const calculateTotalViews = () => {
-    // Start with the base view count
-    let baseViews = 12400; // 12.4k
-
-    // Add dynamic views from localStorage
-    const totalAdditionalViews = Object.values(articleViews).reduce((sum, views) => sum + views, 0);
-    const total = baseViews + totalAdditionalViews;
-
-    // Format as kilo format if >= 1000
-    if (total >= 1000) {
-      return (total / 1000).toFixed(1) + 'k';
+  // Function to load article stats from MongoDB
+  const loadArticleStats = async () => {
+    try {
+      setLoading(true);
+      const stats = await getAllArticlesStats();
+      setArticleStats(stats);
+      setError(null);
+    } catch (err) {
+      console.error('Failed to load article stats:', err);
+      setError('Failed to load article data');
+      // Fallback to static data if API fails
+      setArticleStats({});
+    } finally {
+      setLoading(false);
     }
-    return total.toString();
+  };
+
+  // Function to calculate total views from all articles
+  const calculateTotalViews = () => {
+    if (loading || Object.keys(articleStats).length === 0) {
+      return "12.4k"; // Fallback value
+    }
+    
+    const totalViews = Object.values(articleStats).reduce((sum, stats) => sum + (stats.views || 0), 0);
+    return formatViewCount(totalViews);
   };
 
   const forumStats = [
@@ -189,17 +195,8 @@ function App() {
       setCurrentTime(new Date());
     }, 1000);
 
-    // Load views and likes from localStorage when component mounts
-    const savedViews = localStorage.getItem('articleViews');
-    const savedLikes = localStorage.getItem('articleLikes');
-
-    if (savedViews) {
-      setArticleViews(JSON.parse(savedViews));
-    }
-
-    if (savedLikes) {
-      setArticleLikes(JSON.parse(savedLikes));
-    }
+    // Load article stats from MongoDB
+    loadArticleStats();
 
     // Initialize scroll animations
     const scrollObserver = initScrollAnimations();
@@ -273,57 +270,60 @@ function App() {
     });
   };
 
-  // Function to handle article view count
-  const handleArticleView = (articleId) => {
-    setArticleViews(prevViews => {
-      const newViews = {
-        ...prevViews,
-        [articleId]: (prevViews[articleId] || 0) + 1
-      };
-      // Store updated views in localStorage
-      localStorage.setItem('articleViews', JSON.stringify(newViews));
-      return newViews;
-    });
-  };
+  // Function to handle article like/unlike using MongoDB
+  const handleArticleLike = async (articleId) => {
+    try {
+      const userId = getUserId();
+      const currentLikeStatus = isArticleLiked(articleId);
+      const action = currentLikeStatus ? 'unlike' : 'like';
+      
+      const result = await toggleArticleLike(articleId, userId, action);
+      
+      // Update local state
+      setArticleStats(prev => ({
+        ...prev,
+        [articleId]: {
+          ...prev[articleId],
+          likes: result.likes
+        }
+      }));
 
-  // Function to handle article like/unlike
-  const handleArticleLike = (articleId) => {
-    setArticleLikes(prevLikes => {
-      const isLiked = prevLikes[articleId];
-      const newLikes = {
-        ...prevLikes,
-        [articleId]: !isLiked
-      };
-      // Store updated likes in localStorage
-      localStorage.setItem('articleLikes', JSON.stringify(newLikes));
-      return newLikes;
-    });
-  };
-
-  // Function to get display view count (combining initial with dynamic counts)
-  const getViewCount = (article) => {
-    const baseViews = parseInt(article.views.replace(/[^0-9]/g, '')) || 0;
-    const additionalViews = articleViews[article.id] || 0;
-    const totalViews = baseViews + additionalViews;
-
-    // Format view count similar to original format (e.g., "2.4k")
-    if (totalViews >= 1000) {
-      return (totalViews / 1000).toFixed(1) + 'k';
+      // Update localStorage for immediate UI feedback
+      const savedLikes = localStorage.getItem('userLikes') || '{}';
+      const userLikes = JSON.parse(savedLikes);
+      userLikes[articleId] = !currentLikeStatus;
+      localStorage.setItem('userLikes', JSON.stringify(userLikes));
+      
+    } catch (error) {
+      console.error('Failed to toggle like:', error);
     }
-    return totalViews.toString();
   };
 
-  // Function to get display like count (combining initial with dynamic counts)
+  // Function to get display view count from MongoDB
+  const getViewCount = (article) => {
+    const stats = articleStats[article.id];
+    if (stats && stats.views !== undefined) {
+      return formatViewCount(stats.views);
+    }
+    // Fallback to article's static view count
+    return article.views;
+  };
+
+  // Function to get display like count from MongoDB
   const getLikeCount = (article) => {
-    const baseLikes = parseInt(article.likes) || 0;
-    const isLiked = articleLikes[article.id];
-    const additionalLikes = isLiked ? 1 : 0;
-    return (baseLikes + additionalLikes).toString();
+    const stats = articleStats[article.id];
+    if (stats && stats.likes !== undefined) {
+      return stats.likes.toString();
+    }
+    // Fallback to article's static like count
+    return article.likes;
   };
 
   // Function to check if an article is liked
   const isArticleLiked = (articleId) => {
-    return !!articleLikes[articleId];
+    const savedLikes = localStorage.getItem('userLikes') || '{}';
+    const userLikes = JSON.parse(savedLikes);
+    return !!userLikes[articleId];
   };
 
   return (
@@ -665,14 +665,8 @@ function App() {
                       </div>
                     </div>
                     <a
-                      href="/article/1"
+                      href={`/article/${featuredArticles[0].id}`}
                       className="w-full btn-primary text-lg py-4 flex items-center justify-center group/btn"
-                      onClick={(e) => {
-                        // Prevent navigating away in this demo
-                        e.preventDefault();
-                        handleArticleView(featuredArticles[0].id);
-                        alert(`Viewed article: ${featuredArticles[0].title}`);
-                      }}
                     >
                       Read Full Article
                       <ArrowRight className="ml-3 group-hover/btn:translate-x-1 transition-transform" size={20} />
@@ -746,12 +740,6 @@ function App() {
                   <a
                     href={`/article/${article.id}`}
                     className="w-full btn-secondary text-md py-3 flex items-center justify-center group/btn"
-                    onClick={(e) => {
-                      // Prevent navigating away in this demo
-                      e.preventDefault();
-                      handleArticleView(article.id);
-                      alert(`Viewed article: ${article.title}`);
-                    }}
                   >
                     Read Article
                     <ArrowRight className="ml-2 group-hover/btn:translate-x-1 transition-transform" size={16} />
