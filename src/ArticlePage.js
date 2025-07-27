@@ -13,7 +13,9 @@ import {
   AlertCircle,
   Linkedin,
   Instagram,
-  Feather
+  Feather,
+  FileX,
+  Home
 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { getArticleStats, incrementArticleView, toggleArticleLike } from './api';
@@ -31,20 +33,21 @@ function ArticlePage() {
       date: "July 27, 2025",
       readTime: "15 min read",
       category: "Leadership",
-      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Faminoapps.com%2Fc%2Fhunter-x-hunter%2Fpage%2Fblog%2Fdear-hisoka-morow%2FvdYe_DJVtnuwEa6a2v7X3kYr351MwJ0QmJX&psig=AOvVaw2hBMyr873yVkVi-kAw2LLL&ust=1753713971383000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCLConOaj3Y4DFQAAAAAdAAAAABAE"
+      image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop&crop=faces"
     },
-    // 2: {
-    //   title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
-    //   author: "Yaseen Mohamed-Abdelal",
-    //   date: "July 22, 2025",
-    //   readTime: "6 min read",
-    //   category: "Student Life",
-    //   excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
-    //   image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
-    // }
+    2: {
+      title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
+      author: "Yaseen Mohamed-Abdelal", 
+      date: "July 22, 2025",
+      readTime: "6 min read",
+      category: "Student Life",
+      excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+    }
   };
 
-  const currentArticle = articles[articleId] || articles[1];
+  const currentArticle = articles[articleId];
+  const articleExists = currentArticle !== undefined;
 
   // State for view and like counts from MongoDB
   const [viewCount, setViewCount] = useState(0);
@@ -65,6 +68,12 @@ function ArticlePage() {
 
   // Load article stats from MongoDB and handle view counting
   useEffect(() => {
+    // Only load data if article exists
+    if (!articleExists) {
+      setLoading(false);
+      return;
+    }
+
     const loadArticleData = async () => {
       try {
         setLoading(true);
@@ -101,7 +110,7 @@ function ArticlePage() {
 
     loadArticleData();
     loadComments();
-  }, [articleId]);
+  }, [articleId, articleExists]);
 
   // Function to handle article like/unlike using MongoDB
   const handleLikeArticle = async () => {
@@ -810,7 +819,7 @@ function ArticlePage() {
       {/* Article Content */}
       <main className="px-8 lg:px-16 pb-24 relative z-10">
         {/* Main Content */}
-        <article className="lg:col-span-8">
+        <article className="lg:col-span-8 max-w-6xl mx-auto">
           {/* Editorial Letter */}
           <div className="glass rounded-2xl p-8 border border-white/10 mt-8 mb-8 bg-gradient-to-br from-primary-900/20 to-secondary-900/20">
             <div className="flex items-center mb-6">
