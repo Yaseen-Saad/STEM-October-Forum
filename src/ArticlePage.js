@@ -932,7 +932,7 @@ function ArticlePage() {
                 <div className="flex items-center">
                   <Eye className="mr-2 text-primary-400" size={20} />
                   <span className="text-white font-semibold">
-                    {loading ? "..." : formatViewCount(viewCount)} views
+                    {loading ? "0" : formatViewCount(viewCount)} views
                   </span>
                 </div>
                 <div
@@ -945,7 +945,7 @@ function ArticlePage() {
                     fill={isLiked ? "currentColor" : "none"}
                   />
                   <span className="font-semibold">
-                    {loading ? "..." : likeCount} likes
+                    {loading ? "0" : likeCount} likes
                   </span>
                 </div>
                 <div className="flex items-center">
@@ -1098,7 +1098,7 @@ function ArticlePage() {
                 </div>
                 <div className="flex items-center">
                   <Heart className="mr-2 text-primary-400" size={20} />
-                  <span className="text-white font-semibold">{loading ? "..." : likeCount} Likes</span>
+                  <span className="text-white font-semibold">{loading ? "0" : likeCount} Likes</span>
                 </div>
               </div>
 
