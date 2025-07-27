@@ -22,7 +22,8 @@ app.use(cors({
   ].filter(Boolean),
   credentials: true
 }));
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -314,11 +315,6 @@ app.post('/api/articles/:id/comments', async (req, res) => {
     console.error('Error adding comment:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-});
-
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Server is running' });
 });
 
 // Initialize database connection and data
