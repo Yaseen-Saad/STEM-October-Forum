@@ -68,19 +68,19 @@ function App() {
       featured: true,
       color: "accent-purple"
     },
-    {
-      id: 2,
-      title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
-      excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
-      author: "Ahmed Hassan",
-      date: "July 22, 2025",
-      readTime: "6 min read",
-      category: "Student Life",
-      views: "0",
-      likes: "0",
-      featured: false,
-      color: "primary-blue"
-    }
+    // {
+    //   id: 2,
+    //   title: "Navigating Academic Pressure: A Student's Perspective on Excellence vs. Well-being",
+    //   excerpt: "In the relentless pursuit of academic excellence, many students find themselves caught between the desire to succeed and the need to maintain their mental and physical well-being. This personal reflection explores the delicate balance between high achievement and sustainable living as a student.",
+    //   author: "Ahmed Hassan",
+    //   date: "July 22, 2025",
+    //   readTime: "6 min read",
+    //   category: "Student Life",
+    //   views: "0",
+    //   likes: "0",
+    //   featured: false,
+    //   color: "primary-blue"
+    // }
   ];
 
   // Function to load article stats from MongoDB
