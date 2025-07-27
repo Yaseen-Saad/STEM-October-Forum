@@ -132,12 +132,7 @@ const Newsletter = mongoose.model('Newsletter', newsletterSchema);
 // Initialize articles with base data
 const initializeArticles = async () => {
   const articlesData = [
-    { articleId: 1 },
-    { articleId: 2 },
-    { articleId: 3 },
-    { articleId: 4 },
-    { articleId: 5 },
-    { articleId: 6 }
+    { articleId: 1 }
   ];
 
   for (const articleData of articlesData) {
