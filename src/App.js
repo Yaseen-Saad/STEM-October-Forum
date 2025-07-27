@@ -93,11 +93,42 @@ function App() {
     return formatViewCount(totalViews);
   };
 
+  // Function to calculate total comments from all articles
+  const calculateTotalComments = () => {
+    if (loading || Object.keys(articleStats).length === 0) {
+      return "0"; // Fallback value
+    }
+    
+    // Use totals from backend if available
+    if (articleStats._totals) {
+      return articleStats._totals.comments.toString();
+    }
+    
+    const totalComments = Object.values(articleStats).reduce((sum, stats) => sum + (stats.comments || 0), 0);
+    return totalComments.toString();
+  };
+
+  // Function to get dynamic article count
+  const getArticleCount = () => {
+    if (loading || Object.keys(articleStats).length === 0) {
+      return "6"; // Fallback value
+    }
+    
+    // Use totals from backend if available
+    if (articleStats._totals) {
+      return articleStats._totals.articles.toString();
+    }
+    
+    // Count the articles from stats (excluding _totals)
+    const articleCount = Object.keys(articleStats).filter(key => key !== '_totals').length;
+    return articleCount.toString();
+  };
+
   const forumStats = [
-    { label: "Articles", value: "1", icon: BookOpen },
+    { label: "Articles", value: getArticleCount(), icon: BookOpen },
     { label: "Contributors", value: "5", icon: Users },
     { label: "Views", value: calculateTotalViews(), icon: Eye },
-    { label: "Discussions", value: "1", icon: MessageCircle }
+    { label: "Discussions", value: calculateTotalComments(), icon: MessageCircle }
   ];
 
   // Function to initialize scroll observers for animation
@@ -132,6 +163,15 @@ function App() {
 
     // Load article stats from MongoDB
     loadArticleStats();
+
+    // Add page visibility listener to refresh stats when user returns
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        loadArticleStats();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // Initialize scroll animations
     const scrollObserver = initScrollAnimations();
@@ -175,6 +215,7 @@ function App() {
 
     return () => {
       clearInterval(timer);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       if (scrollObserver) {
         scrollObserver.disconnect();
@@ -252,6 +293,16 @@ function App() {
     }
     // Fallback to article's static like count
     return article.likes;
+  };
+
+  // Function to get comment count from MongoDB
+  const getCommentCount = (article) => {
+    const stats = articleStats[article.id];
+    if (stats && stats.comments !== undefined) {
+      return stats.comments.toString();
+    }
+    // Fallback to 0 if no data available
+    return "0";
   };
 
   // Function to check if an article is liked
@@ -598,6 +649,10 @@ function App() {
                         <Heart className="mr-2" size={16} fill={isArticleLiked(featuredArticles[0].id) ? "currentColor" : "none"} />
                         {getLikeCount(featuredArticles[0])} likes
                       </div>
+                      <div className="flex items-center text-white/70">
+                        <MessageCircle className="mr-2 text-accent-400" size={16} />
+                        {getCommentCount(featuredArticles[0])} comments
+                      </div>
                     </div>
                     <a
                       href={`/article/${featuredArticles[0].id}`}
@@ -664,6 +719,10 @@ function App() {
                           fill={isArticleLiked(article.id) ? "currentColor" : "none"}
                         />
                         {getLikeCount(article)}
+                      </div>
+                      <div className="flex items-center">
+                        <MessageCircle className="mr-1 text-accent-400" size={14} />
+                        {getCommentCount(article)}
                       </div>
                       <div className="flex items-center">
                         <BookOpen className="mr-1 text-accent-400" size={14} />

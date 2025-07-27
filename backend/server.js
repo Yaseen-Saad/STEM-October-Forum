@@ -173,6 +173,7 @@ app.get('/api/article/:id/stats', ensureDbConnection, async (req, res) => {
       return res.json({
         views: 0,
         likes: 0,
+        comments: 0,
         hasLiked: false
       });
     }
@@ -190,10 +191,12 @@ app.get('/api/article/:id/stats', ensureDbConnection, async (req, res) => {
 
     const totalViews = article.views;
     const totalLikes = article.likes.length;
+    const commentCount = await Comment.countDocuments({ articleId });
 
     res.json({
       views: totalViews,
       likes: totalLikes,
+      comments: commentCount,
       hasLiked: false // We'll determine this on the frontend based on localStorage
     });
   } catch (error) {
@@ -201,6 +204,7 @@ app.get('/api/article/:id/stats', ensureDbConnection, async (req, res) => {
     res.json({
       views: 0,
       likes: 0,
+      comments: 0,
       hasLiked: false
     });
   }
@@ -320,12 +324,28 @@ app.get('/api/articles/stats', ensureDbConnection, async (req, res) => {
     const articles = await Article.find({});
     const stats = {};
 
-    articles.forEach(article => {
+    // Get comment counts for all articles
+    for (const article of articles) {
+      const commentCount = await Comment.countDocuments({ articleId: article.articleId });
       stats[article.articleId] = {
         views: article.views,
-        likes: article.likes.length
+        likes: article.likes.length,
+        comments: commentCount
       };
-    });
+    }
+
+    // Add total counts for summary stats
+    const totalArticles = articles.length;
+    const totalComments = await Comment.countDocuments({});
+    const totalViews = articles.reduce((sum, article) => sum + article.views, 0);
+    const totalLikes = articles.reduce((sum, article) => sum + article.likes.length, 0);
+
+    stats._totals = {
+      articles: totalArticles,
+      comments: totalComments,
+      views: totalViews,
+      likes: totalLikes
+    };
 
     res.json(stats);
   } catch (error) {

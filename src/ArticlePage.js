@@ -151,6 +151,15 @@ function ArticlePage() {
         setComments(prev => [comment, ...prev]);
         setNewComment('');
         setShowCommentForm(false);
+        
+        // Refresh article stats to get updated comment count
+        try {
+          const stats = await getArticleStats(articleId);
+          setViewCount(stats.views);
+          setLikeCount(stats.likes);
+        } catch (error) {
+          console.error('Failed to refresh stats after comment:', error);
+        }
       } else {
         console.error('Failed to post comment:', response.status);
       }
