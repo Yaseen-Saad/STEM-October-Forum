@@ -1,0 +1,38 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://stemoctobermagazine.org/sitemap.xml
+
+# Crawl-delay to be respectful
+Crawl-delay: 1
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Block unnecessary crawling of static assets
+User-agent: *
+Disallow: /static/js/
+Disallow: /static/css/
+Disallow: /*.map$
+
+# Allow crawling of main content
+Allow: /
+Allow: /article/
+Allow: /static/media/

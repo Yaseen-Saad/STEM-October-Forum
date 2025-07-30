@@ -233,8 +233,89 @@ function ArticlePage() {
     }
   };
 
-  // Function to render article content based on article ID
+  // Dynamic content renderer that processes markdown-like text from JSON
+  const renderDynamicContent = (content) => {
+    if (!content) return null;
+
+    const lines = content.split('\n').filter(line => line.trim() !== '');
+    const elements = [];
+    
+    lines.forEach((line, index) => {
+      const trimmedLine = line.trim();
+      
+      // Handle headers
+      if (trimmedLine.startsWith('## ')) {
+        elements.push(
+          <h2 key={index} className="text-3xl font-bold text-gradient mt-12 mb-6">
+            {trimmedLine.substring(3)}
+          </h2>
+        );
+      }
+      // Handle quoted text (starting and ending with *)
+      else if (trimmedLine.startsWith('*"') && trimmedLine.endsWith('"*')) {
+        elements.push(
+          <div key={index} className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+            <div className="border-l-4 border-primary-400 pl-6">
+              <p className="text-xl italic text-white">
+                {trimmedLine.substring(2, trimmedLine.length - 2)}
+              </p>
+            </div>
+          </div>
+        );
+      }
+      // Handle regular paragraphs
+      else if (trimmedLine.length > 0 && !trimmedLine.startsWith('#')) {
+        elements.push(
+          <p key={index} className="text-lg" dangerouslySetInnerHTML={{
+            __html: formatTextContent(trimmedLine)
+          }} />
+        );
+      }
+    });
+
+    return elements;
+  };
+
+  // Format text content with markdown-like styling
+  const formatTextContent = (text) => {
+    return text
+      // Bold text **text**
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-red-400">$1</strong>')
+      // Italic text *text*
+      .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em class="text-primary-400">$1</em>')
+      // Underlined text (for emphasis)
+      .replace(/\b([A-Z][A-Z\s]+)\b/g, '<u class="decoration-secondary-400 decoration-2">$1</u>');
+  };
+
+  // Function to render article content based on article data
   const renderArticleContent = () => {
+    // If current article has content field, render it dynamically
+    if (currentArticle && currentArticle.content) {
+      return (
+        <div className="space-y-8 text-white/90 leading-relaxed">
+          <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
+          {renderDynamicContent(currentArticle.content)}
+          
+          {/* Author Bio */}
+          <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
+            <div className="flex items-center mb-4">
+              <div className="w-12 h-12 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4">
+                <User className="text-white" size={24} />
+              </div>
+              <div>
+                <p className="font-bold text-white text-lg">{currentArticle.author}</p>
+                <p className="text-white/70">Senior at STEM High School for Boys - 6th of October</p>
+              </div>
+            </div>
+            <p className="text-white/90 italic">
+              "Through thoughtful exploration of ideas and experiences, we contribute to meaningful conversations within our school community."
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // Fallback for articles without content field or legacy hardcoded content
     if (articleId === 2) {
       return (
         <div className="space-y-8 text-white/90 leading-relaxed">
