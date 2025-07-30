@@ -79,7 +79,8 @@ function App() {
     try {
       setArticlesLoading(true);
       const articles = await getAllArticles();
-      setFeaturedArticles(articles);
+      // Reverse the articles array so newest appears first
+      setFeaturedArticles(articles.reverse());
     } catch (err) {
       console.error('Failed to load articles:', err);
       // Fallback to default article if API fails
