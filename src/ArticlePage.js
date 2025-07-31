@@ -1076,7 +1076,7 @@ function ArticlePage() {
               </p>
 
               <p>
-                Welcome to the very first article of the <span className="font-bold text-primary-400">STEM October Forum !</span>
+                Welcome to the a new article from the <span className="font-bold text-primary-400">STEM October Forum !</span>
               </p>
               <p>
                 Here at <em>STEM High School for Boys - 6th of October</em>, we're surrounded by opinions, ideas and thoughts. We truly do believe that every voice is worth hearing, and that words have an amazing ability to mold ideas, transform perspectives, and spark growth. That's why the <em>STEM October Forum</em> is more than a collection of essays. It's a place where you can speak your minds freely, debate thoughtfully, and help build a stronger, more thoughtful community. Our hope for these essays is to get us all talking to find new insights here in our community.
@@ -1089,7 +1089,7 @@ function ArticlePage() {
                 Beyond the mere sharing of ideas, we're dedicated to encourage deeper thinking, boost awareness, and help all students grow in maturity. We wholeheartedly believe that real development takes place when we engage other perspectives, question the world we inhabit, and develop the wisdom to think logically. By exploring multiple points of view, debating matters of significance, and reflecting on the bigger picture, we seek to help shape students who are not just knowledgeable but also thoughtful and open-minded.
               </p>
               <p>
-                his Forum truly is for all of us. So, <em>read, reflect, contribute, discuss, debate, respect, learn, and most of all—enjoy!</em></p>
+                This Forum truly is for all of us. So, <em>read, reflect, contribute, discuss, debate, respect, learn, and most of all—enjoy!</em></p>
 
               <div className="border-t border-white/20 pt-4 mt-6">
                 <p className="text-white font-semibold">Warmly,</p>
