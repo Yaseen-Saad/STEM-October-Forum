@@ -289,32 +289,6 @@ function ArticlePage() {
 
   // Function to render article content based on article data
   const renderArticleContent = () => {
-    // If current article has content field, render it dynamically
-    if (currentArticle && currentArticle.content) {
-      return (
-        <div className="space-y-8 text-white/90 leading-relaxed">
-          <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
-          {renderDynamicContent(currentArticle.content)}
-          
-          {/* Author Bio */}
-          <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4">
-                <User className="text-white" size={24} />
-              </div>
-              <div>
-                <p className="font-bold text-white text-lg">{currentArticle.author}</p>
-                <p className="text-white/70">Senior at STEM High School for Boys - 6th of October</p>
-              </div>
-            </div>
-            <p className="text-white/90 italic">
-              "Through thoughtful exploration of ideas and experiences, we contribute to meaningful conversations within our school community."
-            </p>
-          </div>
-        </div>
-      );
-    }
-
     // Fallback for articles without content field or legacy hardcoded content
     if (articleId === 2) {
       return (
