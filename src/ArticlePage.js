@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   User,
   Calendar,
@@ -51,6 +51,9 @@ function ArticlePage() {
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState(''); // '', 'loading', 'success', 'error'
 
+  // Ref to track if view has been incremented to prevent double counting
+  const viewIncrementedRef = useRef(false);
+
   // Load article and stats from backend
   useEffect(() => {
     const loadArticleData = async () => {
@@ -84,7 +87,6 @@ function ArticlePage() {
 
         // First, get current stats
         const stats = await getArticleStats(articleId);
-        setViewCount(stats.views);
         setLikeCount(stats.likes);
 
         // Check if user has liked this article
@@ -92,12 +94,16 @@ function ArticlePage() {
         const userLikes = JSON.parse(savedLikes);
         setIsLiked(!!userLikes[articleId]);
 
-        // Increment view count if not viewed in this session
-        if (!hasViewedInSession(articleId)) {
+        // Increment view count if not viewed in this session and not already incremented
+        if (!hasViewedInSession(articleId) && !viewIncrementedRef.current) {
+          viewIncrementedRef.current = true;
           const sessionId = getSessionId();
           const viewResult = await incrementArticleView(articleId, sessionId);
           setViewCount(viewResult.views);
           markAsViewedInSession(articleId);
+        } else {
+          // If already viewed in this session, just use the current stats
+          setViewCount(stats.views);
         }
 
         setError(null);
@@ -185,8 +191,8 @@ function ArticlePage() {
         // Refresh article stats to get updated comment count
         try {
           const stats = await getArticleStats(articleId);
-          setViewCount(stats.views);
           setLikeCount(stats.likes);
+          // Don't update view count when adding comments
         } catch (error) {
           console.error('Failed to refresh stats after comment:', error);
         }
