@@ -289,324 +289,48 @@ function ArticlePage() {
 
   // Function to render article content based on article data
   const renderArticleContent = () => {
+    if (!currentArticle) return null;
 
+    // If the article has dynamic content from backend, render it
+    if (currentArticle.content) {
+      return (
+        <div className="space-y-8 text-white/90 leading-relaxed">
+          <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
+          
+          <div className="prose prose-lg prose-invert max-w-none">
+            {renderDynamicContent(currentArticle.content)}
+          </div>
+          
+          <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
+        </div>
+      );
+    }
+
+    // Fallback to static content for articles without structured content
     return (
       <div className="space-y-8 text-white/90 leading-relaxed">
         <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
+        
         <p className="text-lg">
-          In any community, especially our own at <em>STEM High School for Boys – 6th of October </em>, leadership is a powerful force. We see students aspiring to lead
-          everywhere – in non-profit teams, in clubs, on student councils, or even in
-          capstone teams, whether to make a real impact, stand out. Some are drawn
-          to the <em className="text-primary-400">idea</em> of leadership, seeking its <em className="text-primary-400">aura</em> without necessarily embracing its
-          responsibilities, others see it as a strategic step for boosting college
-          applications. Yet, beneath these varied aspirations,  a critical question
-          remains unasked: <em>
-            <u className="decoration-secondary-400 decoration-2">How do we truly understand and value leadership? What hidden needs does it sometimes
-              fill within us?  How does one's perception of themselves and others shift when they gain influence, seemingly
-              convinced they are now at the center of the universe? </u></em> </p>
-
-        <h2 className="text-3xl font-bold mt-12 mb-6">
-          The CHARACTER:        </h2>
-
-        <p className="text-lg">
-          For this discussion, we'll explore these
-          dynamics through the lens of <strong>Hisoka Morow</strong>—a
-          fictional character from HunterxHunter, chosen
-          to embody certain qualities and behaviors
-          associated with leadership.        </p>
-
-
-        <h2 className="text-3xl font-bold mt-12 mb-6">
-          The MASK:
-        </h2>
-
-        <p className="text-lg">
-          Hisoka, at first, was simply another student among his peers—talkative, witty, but all
-          in all, just an ordinary guy, yet deep down; beneath that charm, there’s more.
-          Deep inside, Hisoka was uncertain of himself.
-          They might feel good, but never truly the best; smart, but never the smartest. Gifted, but never truly
-          exceptional. They felt like they were always
-          one step behind
-          the people who naturally stood out,
-          and that feeling kept eating him from the inside out.
+          This article is loading content from our backend. If you're seeing this message, 
+          the article may not have structured content available yet.
         </p>
-        <p className="text-lg">
-          Hisoka, despite his achievements, constantly feels overlooked or not quite <em>enough</em> in academic discussions. They might crave recognition, not for the joy of contribution, but to silence that nagging doubt. So, when a leadership opportunity arises–perhaps a club presidency or a project lead–they see it as their golden ticket, believing the title itself will finally make them feel secure and respected.
-        </p>
-        <p className="text-lg">
-          For them, leadership becomes more than just a role; it's a <strong className="text-red-400">mask</strong>. It's a way to hide his insecurities, to compensate for perceived weaknesses, and to project an illusion of competence. They truly believe that if others see them as powerful, they will finally feel secure.
-          <em> <u className="decoration-secondary-400 decoration-2"> But does this external power, this title, ever truly fill that internal void?</u></em>
-        </p>
-
-        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
-          <div className="border-l-4 border-primary-400 pl-6">
-            <p className="text-xl italic text-white">
-              “This approach treats leadership as a facade, a means to cover internal doubts rather  than a genuine commitment to service.”             </p>
-          </div>
-        </div>
-
-        <h2 className="text-3xl font-bold mt-12 mb-6">
-          The LEADERBOARD:
-        </h2>
-
-        <p className="text-lg">
-          Hisoka views school life as a grand,
-          competitive <strong className="text-red-400">leaderboard</strong>. Every club, every
-          committee, every position wasn't just an
-          opportunity to serve, but a rank to be climbed, a
-          score to be displayed. He saw the entire student
-          body as a hierarchy where a title signifies
-          success. For them, leadership isn't about the
-          work; it's about the <em>win</em>, about having the
-          highest score. They might see the President of
-          the Student Council not as a facilitator of
-          student voice, but as the player with the most
-          points. They <em>believe</em> that being at the top of this
-          perceived leaderboard is the ultimate measure
-          of worth.        </p>
-
-        <p className="text-lg">
-          This mentality shifted his entire
-          worldview. The moment he stepped into a
-          leadership position, it was as if something
-          inside him switched. The way he spoke
-          changed. The way he looked at people shifted.
-          Those who were once his equals were now
-          beneath him, and he made sure they felt it. One
-          day, when asked if he was attending an event,
-          Hisoka smiled and declared, "I am going, but
-          not like you. I will go as an upper hand, as a
-          leader." His tone made it clear—he saw us as
-          beneath him now. This wasn’t about attending
-          an event; it was about proving that he was
-          different, that he was somehow above the rest of
-          us on the "board."
-
-        </p>
-
-        <p className="text-lg">
-          Another time, when friends needed
-          information about an upcoming school
-          initiative that Hisoka, now in the "leadership
-          circle," had access to, he smirked and said, "This
-          info is for the leaders only. You guys don’t really
-          need to know, and if you need, you will know
-          with the rest of the people." It wasn’t just about
-          withholding information—it was the way he
-          said it, as if those without a title weren't worth
-          his consideration. For Hisoka, control over
-          information was another badge on his personal
-          leaderboard, a demonstration of his elevated
-          status, as if you need to have a higher score in
-          his virtual leaderboard to access such
-          information.
-        </p>
-        <p className="text-lg">
-          These were not isolated incidents.
-          Hisoka’s conversations became self-centered,
-          only engaging if the topic involved his personal
-          achievements, his leadership role, or his
-          "importance." If the discussion didn't revolve
-          around his perceived successes, he was
-          disinterested. His ego inflated, not from
-          genuine growth or contribution, but from the
-          mere acquisition of a title. The leadership
-          position, in his mind, had boosted his rank,
-          solidifying an illusion of superiority. The same
-          people he used to hang out with now felt like
-          extras in a story where he was the main
-          character. He wasn’t exactly chasing power for
-          its own sake, but once he got it, he treated
-          people differently—only respecting those who
-          could potentially benefit his own climb up the
-          metaphorical leaderboard. <em> <u className="decoration-secondary-400 decoration-2">But will Hisoka
-            finally reach the top of his leaderboard?</u></em>
-        </p>
-
-        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
-          <div className="border-l-4 border-primary-400 pl-6">
-            <p className="text-xl italic text-white">
-              “This approach mirrors a ‘leaderboard’ mentality, where the goal is to climb
-              the ranks and gain status, much like in an app or
-              game, rather than to genuinely contribute.” </p>          </div>
-        </div>
-
-
-        {/* 
-        <div className="bg-gradient-to-r from-accent-900/30 to-primary-900/30 rounded-2xl p-8 border border-white/10 my-8">
-          <ul className="space-y-4 text-white">
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-accent-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-              Viewing leadership positions primarily as resume credentials rather than opportunities for community impact
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-primary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-              Experiencing disproportionate emotional distress when not selected for roles
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-secondary-400 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-              Pursuing positions in areas where one lacks genuine interest or expertise
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-accent-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-              Measuring self-worth predominantly through acquired titles and positions
-            </li>
-          </ul>
-        </div> */}
-
-
-
-        <h2 className="text-3xl font-bold mt-12 mb-6">
-          The SPOTLIGHT:         </h2>
-
-        <p className="text-lg">
-          Hisoka was always drawn to the loudest
-          applause, the brightest lights. Even as a regular
-          student, he found ways to make sure his voice
-          was heard, his ideas acknowledged, often
-          dominating group discussions or volunteering
-          for public presentations. They thrived on the
-          attention, the fleeting moments when all eyes
-          were on them. But it was never truly about the
-          project; it was about the audience. When a
-          leadership role became available, like leading
-          the school's summer camp, Hisoka didn't see it
-          as a chance to organize a great event for his
-          peers. He saw it as the ultimate stage. He
-          imagined himself at the flag and all the
-          sophomores circling around him asking him
-          for help, he saw it as the chance to put him
-          inside the <strong className="text-red-400">spotlight</strong>.        </p>
-
-        <p className="text-lg">
-          For them, leadership wasn't about
-          guiding; it was about <strong>being seen</strong>, about being
-          admired, about having all eyes on them. The
-          title was merely the spotlight operator, ensuring
-          they were always illuminated. They would
-          volunteer for tasks that offered maximum
-          visibility, even if they weren't the most
-          impactful or necessary. During meetings, they
-          would steer conversations back to their
-          contributions, ensuring their name was
-          associated with every success. If someone else
-          received praise, they would subtly interject with
-          their own role in the achievement, diverting the
-          attention back to themself. This constant need
-          for validation, for the glow of the spotlight, meant that the true purpose of leadership—serving others—was overshadowed
-          by their insatiable hunger for personal
-          recognition. <em><u className="decoration-secondary-400 decoration-2">But can true leadership ever
-            flourish when its primary motivation is the
-            applause of the crowd?  </u></em>       </p>
-        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
-          <div className="border-l-4 border-primary-400 pl-6">
-            <p className="text-xl italic text-white">
-              “This perspective views leadership as a stage for personal acclaim, where the desire for attention eclipses the actual work of guiding and serving.” </p>          </div>
-        </div>
-
-        <h2 className="text-3xl font-bold mt-12 mb-6">
-          The MINISTER:</h2>
-
-        <p className="text-lg">There was a time when a group project was spiraling out of control, and Hisoka, though not the actual leader, quickly stepped in. But his "help" wasn't collaborative. He didn't ask for ideas; he dictated tasks. He didn't facilitate discussion; he issued commands. If someone suggested an alternative, he would dismiss it with a dismissive wave or a sharp retort, asserting his way as the only way. He believed that only through his strict guidance could chaos be averted.</p>
-        <p className="text-lg">
-          When he finally gained an official
-          leadership position, this tendency intensified.
-          For Hisoka, leadership wasn't about empowering a team; it was about
-          <strong> exerting absolute control, like being the <strong className="text-red-400">minister</strong> ,</strong>
-          about ensuring that every piece moved exactly
-          as he commanded. He micro-managed every
-          detail, insisted on approving every decision, and
-          grew visibly agitated if anyone deviated from
-          his precise instructions. He viewed delegation
-          not as trust, but as a necessary evil to be
-          managed with an iron fist. He would withhold
-          information he deemed "unnecessary" for
-          others to know, or change plans at the last
-          minute without consultation, all to maintain his
-          grip on every aspect of the project. He believed
-          that if he could control everything, he could
-          control his own anxieties and the unpredictable
-          nature of the world around him. But in doing so,
-          he stifled creativity, eroded trust, and
-          ultimately, alienated those he was supposed to
-          lead. But does his approach of controlling
-          everyone and everything actually expand the
-          impact or just limit it more?
-        </p>
-        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
-          <div className="border-l-4 border-primary-400 pl-6">
-            <p className="text-xl italic text-white">
-              “This mentality transforms leadership into a tool for dominance, prioritizing rigid control over collaboration and empowerment, ultimately hindering true progress.”
-            </p>
-          </div>
-        </div>
-
-
-
-
-        <h2 className="text-3xl font-bold mt-12 mb-6">
-          Leadership as an Outcast's Pursuit
-          :</h2>
-        <p className="text-lg">
-          But here's the fundamental flaw, the specific "bug" in Hisoka's understanding that mocks the
-          actual meaning of leadership: even after securing his leadership position, <em><u className="decoration-secondary-400 decoration-2">did he feel truly fulfilled? Did
-            he finally feel like he had proven himself? Or did he just keep chasing more, because deep down, the
-            insecurity never left, the leaderboard always had another higher rank to achieve, the spotlight could
-            always shine brighter, and there was always something more to control?</u></em>
-        </p>
-        <p className="text-lg">
-          This is the heartbreaking truth: <strong>leadership, when seen as a mask for insecurity, a game for
-            status, a stage for personal glory, or a means of absolute control, inevitably makes the "leader" an
-            <strong className="text-red-400"> outcast</strong></strong>. Hisoka, in his relentless pursuit of titles, validation, attention, and dominance, distanced
-          himself from genuine connection. He alienated those who once cared for him, transforming
-          friendships into transactional relationships based on perceived utility. His focus on self-importance,
-          his need for control, and his hunger for the spotlight made him incapable of truly listening,
-          empathizing, or collaborating—the very cornerstones of effective leadership. He became isolated on his
-          self-constructed pedestal, respected (if at all) for his position, but not for his character or his true
-          impact
-        </p>
-        <p className="text-lg">
-          True leaders don’t need titles to feel worthy. They don’t need to prove their value by stepping on
-          others or holding information. They don't see their peers as competitors or rungs on a ladder. Instead,
-          they lead because they want to help, to empower others, to contribute to something larger than
-          themselves. They understand that leadership isn't a solitary ascent to the top of an "apps leadership
-          board," nor is it a personal performance or a means to dominate. It is a shared journey where genuine
-          connection, service, and collaboration create lasting impact. When leadership becomes about
-          self-gratification —whether to hide insecurities, climb a social ladder, bask in the spotligh </p>
-        <p className="text-lg">
-          So, the question for us, and for characters like Hisoka, remains:
-
-        </p>
-
-
-
-        <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
-          <div className="border-l-4 border-primary-400 pl-6">
-            <p className="text-xl italic text-white">
-              Does one lead because they are truly capable and committed to a cause, or do they lead
-              because, without the title, they feel like they are not enough?            </p>
-          </div>
-        </div>
-
-
-        <div className="glass rounded-2xl p-8 border border-white/10 mt-12">
-          <div className="flex items-center mb-4">
-            <div className="w-12 h-12 bg-gradient-icon-consistent rounded-full flex items-center justify-center mr-4">
-              <User className="text-white" size={24} />
-            </div>
-            <div>
-              <p className="font-bold text-white text-lg">{currentArticle.author}</p>
-              <p className="text-white/70">Senior at STEM High School for Boys - 6th of October </p>
+        
+        {/* Display excerpt if available */}
+        {currentArticle.excerpt && (
+          <div className="bg-gradient-to-r from-primary-900/50 to-secondary-900/50 rounded-2xl p-8 border border-white/10 my-12">
+            <div className="border-l-4 border-primary-400 pl-6">
+              <p className="text-xl italic text-white">
+                {currentArticle.excerpt}
+              </p>
             </div>
           </div>
-          <p className="text-white/90 italic">
-            "Through my years at the school, I've seen how leadership transforms not just individuals, but entire communities."
-          </p>
-        </div>
+        )}
+        
+        <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
       </div>
     );
   };
-
   // Render 404 page if article doesn't exist
   if (!articleExists) {
     return (
